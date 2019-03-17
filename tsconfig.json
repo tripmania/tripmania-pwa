@@ -16,6 +16,23 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@shared/*": [
+        "../src/shared/*"
+      ],
+      "@store/*": [
+        "../src/store/*"
+      ],
+      "@models/*": [
+        "../src/models/*"
+      ],
+      "@enums/*": [
+        "../src/enums/*"
+      ],
+      "@consts/*": [
+        "../src/consts/*"
+      ]
+    }
   }
 }

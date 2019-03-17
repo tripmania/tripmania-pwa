@@ -1,0 +1,10 @@
+@import '../node_modules/@angular/material/theming';
+@include mat-core();
+
+$tripmania-light-theme-primary: mat-palette($mat-light-blue, 600, 400, 700);
+$tripmania-light-theme-accent: mat-palette($mat-purple);
+$tripmania-light-theme-warn: mat-palette($mat-red);
+
+$tripmania-light-theme: mat-light-theme($tripmania-light-theme-primary, $tripmania-light-theme-accent, $tripmania-light-theme-warn);
+
+@include angular-material-theme($tripmania-light-theme);
