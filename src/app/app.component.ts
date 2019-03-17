@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {SwUpdate} from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'tripmania';
+  title = 'TripMania!!';
+
+  constructor(private updates: SwUpdate) {
+    updates.available.subscribe(() => {
+      updates.activateUpdate().then(() => document.location.reload());
+    });
+  }
 }
