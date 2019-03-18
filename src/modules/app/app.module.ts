@@ -9,9 +9,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
-import {appEffects} from '../../store/effects/index';
 import {StoreModule} from '@ngrx/store';
-import {appReducers} from '../../store/reducers';
+import {appReducers} from '@store/reducers';
+import {appEffects} from '@store/effects';
 
 const storeDevTools = [];
 
