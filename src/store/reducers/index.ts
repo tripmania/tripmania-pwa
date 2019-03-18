@@ -1,6 +1,16 @@
+import {APP_STATE} from '../states/app.state';
 import {ActionReducerMap} from '@ngrx/store';
-import {IAppState} from '../states/app.state';
+import {InjectionToken} from '@angular/core';
+import {appReducer} from '@store/reducers/app.reducer';
 
-export const appReducers: ActionReducerMap<IAppState> = {
-  appOptions: null
+export const reducers: ActionReducerMap<any> = {
+  // Change on APP_STATE
+  appState: appReducer
 };
+
+// For AoT compatibility
+export const reducersToken = new InjectionToken<ActionReducerMap<any>>('Reducers');
+
+export const reducersProvider = [
+  {provide: reducersToken, useValue: reducers}
+];
