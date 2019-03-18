@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRouting } from './app.routing';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../../environments/environment';
@@ -10,8 +10,11 @@ import {MatButtonModule} from '@angular/material';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
-import {appReducers} from '@store/reducers';
 import {appEffects} from '@store/effects';
+import {AccountModule} from '../account/account.module';
+import {AccountGuard} from '../account/account.guard';
+import {reducers, reducersProvider} from '@store/reducers/index';
+import {StoreFacadeService} from '@shared/services/storeFacade.service';
 
 const storeDevTools = [];
 
@@ -27,13 +30,18 @@ if (!environment.production) {
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    AppRoutingModule,
-    StoreModule.forRoot(appReducers),
+    AppRouting,
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot(appEffects),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ...storeDevTools
+    ...storeDevTools,
+    AccountModule
   ],
-  providers: [],
+  providers: [
+    AccountGuard,
+    reducersProvider,
+    StoreFacadeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,8 +7,6 @@ import {SwUpdate} from '@angular/service-worker';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'TripMania!!';
-
   constructor(private updates: SwUpdate) {
     updates.available.subscribe(() => {
       updates.activateUpdate().then(() => document.location.reload());
