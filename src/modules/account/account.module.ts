@@ -5,7 +5,7 @@ import {BottomNavModule} from '../bottom-nav/bottom-nav.module';
 import {HomeModule} from '../home/home.module';
 import {SearchModule} from '../search/search.module';
 import {SettingsModule} from '../settings/settings.module';
-import {TravelsModule} from '../travels/travels.module';
+import {TripsModule} from '../trips/trips.module';
 import {ProfileModule} from '../profile/profile.module';
 
 @NgModule({
@@ -16,7 +16,7 @@ import {ProfileModule} from '../profile/profile.module';
     HomeModule,
     SearchModule,
     SettingsModule,
-    TravelsModule,
+    TripsModule,
     ProfileModule
   ],
   exports: [AccountComponent]

@@ -1,21 +1,23 @@
-<div [class.isHidden]="(activeState | async) !== 'home'">
-  <home></home>
-</div>
+<div class="account-root">
+  <div [class.isHidden]="(activeState | async) !== 'home'">
+    <home></home>
+  </div>
 
-<div [class.isHidden]="(activeState | async) !== 'profile'">
-  <profile></profile>
-</div>
+  <div [class.isHidden]="(activeState | async) !== 'profile'">
+    <profile></profile>
+  </div>
 
-<div [class.isHidden]="(activeState | async) !== 'search'">
-  <search></search>
-</div>
+  <div [class.isHidden]="(activeState | async) !== 'search'">
+    <search></search>
+  </div>
 
-<div [class.isHidden]="(activeState | async) !== 'settings'">
-  <settings></settings>
-</div>
+  <div [class.isHidden]="(activeState | async) !== 'settings'">
+    <settings></settings>
+  </div>
 
-<div [class.isHidden]="(activeState | async) !== 'travels'">
-  <travels></travels>
+  <div [class.isHidden]="(activeState | async) !== 'travels'">
+    <travels></travels>
+  </div>
 </div>
 
 <bottom-nav></bottom-nav>

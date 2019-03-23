@@ -1,8 +1,8 @@
 import {UserModel} from '@models/User.model';
 
 export interface CommentModel {
-  id?: string;
-  publishId: string;
+  id?: number;
+  publishId: number;
   user: UserModel;
   date: number;
   comment: string;

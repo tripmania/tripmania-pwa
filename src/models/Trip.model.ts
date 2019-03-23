@@ -1,8 +1,8 @@
 import {PlaceModel} from '@models/Place.model';
 
 export interface TripModel {
-  id?: string;
-  userId: string;
+  id?: number;
+  userId: number;
   title: string;
   photoUrl?: string;
   startDate?: number;

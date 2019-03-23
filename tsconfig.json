@@ -32,6 +32,9 @@
       ],
       "@consts/*": [
         "../src/consts/*"
+      ],
+      "@mocks/*": [
+        "../src/mocks/*"
       ]
     }
   }

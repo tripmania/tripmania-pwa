@@ -7,5 +7,5 @@ export interface IAppState {
 export const APP_STATE = 'appState';
 
 export const appStateInitial: IAppState = {
-  activeState: AppState.HOME
+  activeState: AppState.TRAVELS
 };

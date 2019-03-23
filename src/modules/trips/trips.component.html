@@ -1,0 +1,10 @@
+<div class="trip-root">
+  <div class="trip-wrapper">
+    <div class="trip-card"
+         *ngFor="let trip of trips; let tripIndex = index">
+      <img [hidden]="!imageLoads[tripIndex]" class="trip-card__img" [src]="trip.photoUrl">
+      <!--<mat-icon class="trip-card__icon">home</mat-icon>-->
+      <img *ngIf="!imageLoads[tripIndex]" class="trip-card__icon" src="assets/images/mountain.svg">
+    </div>
+  </div>
+</div>
