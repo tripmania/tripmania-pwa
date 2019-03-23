@@ -50,7 +50,12 @@
               "src/styles.less",
               "src/themes.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/shared/sharedStyles"
+              ]
+            }
           },
           "configurations": {
             "production": {

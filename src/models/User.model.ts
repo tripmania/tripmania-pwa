@@ -1,7 +1,7 @@
 import {AchievementModel} from '@models/Achievement.model';
 
 export interface UserModel {
-  id?: string;
+  id?: number;
   photoUrl?: string;
   name: string;
   login: string;

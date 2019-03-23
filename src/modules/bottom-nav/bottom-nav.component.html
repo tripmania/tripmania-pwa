@@ -4,7 +4,7 @@
           class="bottom-nav__button"
           [color]="(activeState | async) === 'search' ? 'primary': ''"
           (click)="changeAppState('search')">
-    <mat-icon>search</mat-icon>
+    <mat-icon [class.bottom-nav__button-gray]="(activeState | async) !== 'search'">search</mat-icon>
   </button>
 
   <button mat-button
@@ -12,7 +12,7 @@
           class="bottom-nav__button"
           [color]="(activeState | async) === 'travels' ? 'primary': ''"
           (click)="changeAppState('travels')">
-    <mat-icon>card_travel</mat-icon>
+    <mat-icon [class.bottom-nav__button-gray]="(activeState | async) !== 'travels'">card_travel</mat-icon>
   </button>
 
   <button mat-button
@@ -20,7 +20,7 @@
           class="bottom-nav__button"
           [color]="(activeState | async) === 'home' ? 'primary': ''"
           (click)="changeAppState('home')">
-    <mat-icon>home</mat-icon>
+    <mat-icon [class.bottom-nav__button-gray]="(activeState | async) !== 'home'">home</mat-icon>
   </button>
 
   <button mat-button
@@ -28,7 +28,7 @@
           class="bottom-nav__button"
           [color]="(activeState | async) === 'profile' ? 'primary': ''"
           (click)="changeAppState('profile')">
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon [class.bottom-nav__button-gray]="(activeState | async) !== 'profile'">account_circle</mat-icon>
   </button>
 
   <button mat-button
@@ -36,6 +36,6 @@
           class="bottom-nav__button"
           [color]="(activeState | async) === 'settings' ? 'primary': ''"
           (click)="changeAppState('settings')">
-    <mat-icon>settings</mat-icon>
+    <mat-icon [class.bottom-nav__button-gray]="(activeState | async) !== 'settings'">settings</mat-icon>
   </button>
 </div>

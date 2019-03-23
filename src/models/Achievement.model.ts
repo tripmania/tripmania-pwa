@@ -1,5 +1,5 @@
 export interface AchievementModel {
-  id: string;
+  id: number;
   name: string;
   iconUrl: string;
 }

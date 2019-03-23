@@ -1,7 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-html, body {
-  position: fixed;
-  height: 100%; /* Needed for container's min-height  */
+@import "shared/sharedStyles/global";
+
+html {
+  position: relative;
+  height: 100%;
   width: 100%;
   z-index: -2;
   font-family: 'Montserrat', sans-serif;
@@ -9,12 +10,12 @@ html, body {
   margin: 0;
 }
 
-@for-roots: {
+body {
   position: relative;
-  z-index: -1;
-  background: transparent;
-  height: calc(~"100vh - @{footer-size}");
+  height: calc(~"100% - @{bottom-nav-height} - 2px");
+  width: 100%;
+  z-index: -2;
+  font-family: 'Montserrat', sans-serif;
+  padding: 0;
   margin: 0;
-};
-@footer-size: 50px;
-@icon-size: 35px;
+}

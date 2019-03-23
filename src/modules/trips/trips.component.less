@@ -1,0 +1,30 @@
+@import "card";
+@import "global";
+
+.trip-root {
+  @root();
+}
+
+.trip-wrapper {
+  @card-list();
+  overflow-y: scroll;
+}
+
+.trip-card {
+  @card();
+  display:flex;
+  height: 150px;
+  min-height: 150px;
+}
+
+.trip-card__img {
+  object-fit: cover;
+  width: 100%;
+  filter: brightness(50%);
+}
+
+.trip-card__icon {
+  height: 80%;
+  align-self: center;
+  margin: 0 auto;
+}
