@@ -21,22 +21,25 @@
           </div>
 
           <div class="trip-card__info-content">
-            <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast">
+            <mat-icon class="trip-card__info-icon">place</mat-icon>
+            <div class="trip-card__info-places">
+              <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast">
 
-              <ng-container *ngIf="!!place.country && !!place.city">
-                <p *ngIf="place.country" class="trip-card__places-text">{{place.country}},&nbsp;{{place.city}}</p>
-                <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
-              </ng-container>
+                <ng-container *ngIf="!!place.country && !!place.city">
+                  <p *ngIf="place.country" class="trip-card__places-text">{{place.country}},&nbsp;{{place.city}}</p>
+                  <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+                </ng-container>
 
-              <ng-container *ngIf="!!place.country && !place.city">
-                <p *ngIf="place.country" class="trip-card__places-text">{{place.country}}</p>
-                <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
-              </ng-container>
+                <ng-container *ngIf="!!place.country && !place.city">
+                  <p *ngIf="place.country" class="trip-card__places-text">{{place.country}}</p>
+                  <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+                </ng-container>
 
-              <ng-container *ngIf="!place.country && !!place.city">
-                <p *ngIf="place.country" class="trip-card__places-text">{{place.city}}</p>
-                <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
-              </ng-container>
+                <ng-container *ngIf="!place.country && !!place.city">
+                  <p *ngIf="place.country" class="trip-card__places-text">{{place.city}}</p>
+                  <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+                </ng-container>
+              </div>
             </div>
           </div>
         </div>
