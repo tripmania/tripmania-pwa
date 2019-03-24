@@ -1,30 +1,23 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {TripModel} from '@models/Trip.model';
 import {getTrips} from '@mocks/trips.mock';
+import {transformImageToContainer} from '@shared/helpers/image.helper';
 
 @Component({
   selector: 'travels',
   templateUrl: './trips.component.html',
   styleUrls: ['./trips.component.less']
 })
-export class TripsComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class TripsComponent implements OnInit, AfterViewInit {
   trips: TripModel[] = getTrips();
-  imageLoads = new Array<boolean>(this.trips.length);
-  private images: HTMLImageElement[];
+  imageLoads: boolean[] = [];
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  ngAfterContentInit() {
-  }
-
   ngAfterViewInit() {
-    this.images = [].slice.call(document.querySelectorAll('.trip-card__img'));
-
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].onload = () => setTimeout(() => this.imageLoads[i] = true, 500);
-    }
+    this.imageLoads = transformImageToContainer('.trip-card', '.trip-card__img');
   }
 }
