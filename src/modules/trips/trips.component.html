@@ -2,8 +2,46 @@
   <div class="trip-wrapper">
     <div class="trip-card"
          *ngFor="let trip of trips; let tripIndex = index">
-      <img [hidden]="!imageLoads[tripIndex]" class="trip-card__img" [src]="trip.photoUrl">
-      <!--<mat-icon class="trip-card__icon">home</mat-icon>-->
+
+      <img class="trip-card__img" [hidden]="!imageLoads[tripIndex]" [src]="trip.photoUrl">
+
+      <div class="trip-card__content" *ngIf="imageLoads[tripIndex]">
+        <p class="trip-card__title">{{trip.title}}</p>
+
+        <div class="trip-card__info">
+
+          <div class="trip-card__info-content">
+            <mat-icon *ngIf="trip.startDate" class="trip-card__info-icon">flight_takeoff</mat-icon>
+            <p *ngIf="trip.startDate" class="trip-card__info-text">{{trip.startDate | date: 'longDate'}}</p>
+          </div>
+
+          <div class="trip-card__info-content">
+            <mat-icon *ngIf="trip.endDate" class="trip-card__info-icon">flight_land</mat-icon>
+            <p *ngIf="trip.endDate" class="trip-card__info-text">{{trip.endDate | date: 'longDate'}}</p>
+          </div>
+
+          <div class="trip-card__info-content">
+            <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast">
+
+              <ng-container *ngIf="!!place.country && !!place.city">
+                <p *ngIf="place.country" class="trip-card__places-text">{{place.country}},&nbsp;{{place.city}}</p>
+                <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+              </ng-container>
+
+              <ng-container *ngIf="!!place.country && !place.city">
+                <p *ngIf="place.country" class="trip-card__places-text">{{place.country}}</p>
+                <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+              </ng-container>
+
+              <ng-container *ngIf="!place.country && !!place.city">
+                <p *ngIf="place.country" class="trip-card__places-text">{{place.city}}</p>
+                <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <img *ngIf="!imageLoads[tripIndex]" class="trip-card__icon" src="assets/images/mountain.svg">
     </div>
   </div>
