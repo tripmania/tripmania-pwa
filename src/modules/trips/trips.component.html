@@ -10,19 +10,19 @@
 
         <div class="trip-card__info">
 
-          <div class="trip-card__info-content">
-            <mat-icon *ngIf="trip.startDate" class="trip-card__info-icon">flight_takeoff</mat-icon>
-            <p *ngIf="trip.startDate" class="trip-card__info-text">{{trip.startDate | date: 'longDate'}}</p>
+          <div *ngIf="trip.startDate" class="trip-card__info-content">
+            <mat-icon class="trip-card__info-icon">flight_takeoff</mat-icon>
+            <p class="trip-card__info-text">{{trip.startDate | date: 'longDate'}}</p>
           </div>
 
-          <div class="trip-card__info-content">
-            <mat-icon *ngIf="trip.endDate" class="trip-card__info-icon">flight_land</mat-icon>
-            <p *ngIf="trip.endDate" class="trip-card__info-text">{{trip.endDate | date: 'longDate'}}</p>
+          <div *ngIf="trip.endDate" class="trip-card__info-content">
+            <mat-icon class="trip-card__info-icon">flight_land</mat-icon>
+            <p class="trip-card__info-text">{{trip.endDate | date: 'longDate'}}</p>
           </div>
 
-          <div class="trip-card__info-content">
+          <div *ngIf="trip.path" class="trip-card__info-content">
             <mat-icon class="trip-card__info-icon">place</mat-icon>
-            <div *ngIf="trip.path" class="trip-card__info-places">
+            <div class="trip-card__info-places">
               <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast">
 
                 <ng-container *ngIf="!!place.country && !!place.city">
