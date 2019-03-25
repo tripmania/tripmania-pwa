@@ -1,11 +1,11 @@
 <div class="trip-root">
-  <div class="trip-wrapper">
+  <cdk-virtual-scroll-viewport class="trip-wrapper" itemSize="5" minBufferPx="800" maxBufferPx="1000">
     <div class="trip-card"
-         *ngFor="let trip of trips; let tripIndex = index">
+         *cdkVirtualFor="let trip of trips; templateCacheSize: 0">
 
-      <img class="trip-card__img" [hidden]="!imageLoads[tripIndex]" [src]="trip.photoUrl">
+      <img class="trip-card__img" [src]="trip.photoUrl">
 
-      <div class="trip-card__content" *ngIf="imageLoads[tripIndex]">
+      <div class="trip-card__content">
         <p class="trip-card__title">{{trip.title}}</p>
 
         <div class="trip-card__info">
@@ -22,7 +22,7 @@
 
           <div class="trip-card__info-content">
             <mat-icon class="trip-card__info-icon">place</mat-icon>
-            <div class="trip-card__info-places">
+            <div *ngIf="trip.path" class="trip-card__info-places">
               <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast">
 
                 <ng-container *ngIf="!!place.country && !!place.city">
@@ -44,8 +44,6 @@
           </div>
         </div>
       </div>
-
-      <img *ngIf="!imageLoads[tripIndex]" class="trip-card__icon" src="assets/images/mountain.svg">
     </div>
-  </div>
+  </cdk-virtual-scroll-viewport>
 </div>
