@@ -5,7 +5,7 @@ import {BottomNavModule} from '../bottom-nav/bottom-nav.module';
 import {HomeModule} from '../home/home.module';
 import {SearchModule} from '../search/search.module';
 import {SettingsModule} from '../settings/settings.module';
-import {TripsModule} from '../trips/trips.module';
+import {TripsListModule} from '../trips/tripsList/tripsList.module';
 import {ProfileModule} from '../profile/profile.module';
 import {HeaderModule} from '../header/header.module';
 
@@ -17,7 +17,7 @@ import {HeaderModule} from '../header/header.module';
     HomeModule,
     SearchModule,
     SettingsModule,
-    TripsModule,
+    TripsListModule,
     ProfileModule,
     HeaderModule
   ],
