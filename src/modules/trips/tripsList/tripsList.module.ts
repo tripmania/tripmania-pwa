@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TripsComponent } from './trips.component';
+import { TripsListComponent } from './tripsList.component';
 import {MatIconModule} from '@angular/material';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
-  declarations: [TripsComponent],
+  declarations: [TripsListComponent],
   imports: [
     CommonModule,
     MatIconModule,
     ScrollingModule
   ],
-  exports: [TripsComponent]
+  exports: [TripsListComponent]
 })
-export class TripsModule { }
+export class TripsListModule { }

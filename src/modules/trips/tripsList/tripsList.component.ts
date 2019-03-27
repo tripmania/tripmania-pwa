@@ -3,12 +3,12 @@ import {TripModel} from '@models/Trip.model';
 import {getTrips} from '@mocks/trips.mock';
 
 @Component({
-  selector: 'trips',
-  templateUrl: './trips.component.html',
-  styleUrls: ['./trips.component.less'],
+  selector: 'trips-list',
+  templateUrl: './tripsList.component.html',
+  styleUrls: ['./tripsList.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripsComponent implements OnInit {
+export class TripsListComponent implements OnInit {
   trips: TripModel[] = getTrips();
 
   constructor() { }
