@@ -3,10 +3,6 @@
 
 .trip-root {
   @root();
-}
-
-.trip-wrapper {
-  @card-list();
   overflow-y: scroll;
   overflow-scrolling: touch;
   scroll-behavior: smooth;
@@ -19,6 +15,9 @@
   height: 200px;
   min-height: 200px;
   color: white;
+  &:first-child {
+    margin-top: calc(~"10px + @{header-height}");
+  }
 
   &__content {
     width: 100%;

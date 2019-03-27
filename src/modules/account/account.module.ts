@@ -7,6 +7,7 @@ import {SearchModule} from '../search/search.module';
 import {SettingsModule} from '../settings/settings.module';
 import {TripsModule} from '../trips/trips.module';
 import {ProfileModule} from '../profile/profile.module';
+import {HeaderModule} from '../header/header.module';
 
 @NgModule({
   declarations: [AccountComponent],
@@ -17,7 +18,8 @@ import {ProfileModule} from '../profile/profile.module';
     SearchModule,
     SettingsModule,
     TripsModule,
-    ProfileModule
+    ProfileModule,
+    HeaderModule
   ],
   exports: [AccountComponent]
 })

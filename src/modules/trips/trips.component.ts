@@ -3,7 +3,7 @@ import {TripModel} from '@models/Trip.model';
 import {getTrips} from '@mocks/trips.mock';
 
 @Component({
-  selector: 'travels',
+  selector: 'trips',
   templateUrl: './trips.component.html',
   styleUrls: ['./trips.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush

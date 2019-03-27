@@ -1,3 +1,5 @@
+<header></header>
+
 <div class="account-root">
   <div [class.isHidden]="(activeState | async) !== 'home'">
     <home></home>
@@ -16,7 +18,7 @@
   </div>
 
   <div [class.isHidden]="(activeState | async) !== 'travels'">
-    <travels></travels>
+    <trips></trips>
   </div>
 </div>
 
