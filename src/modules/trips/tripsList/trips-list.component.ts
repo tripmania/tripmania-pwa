@@ -4,8 +4,8 @@ import {getTrips} from '@mocks/trips.mock';
 
 @Component({
   selector: 'trips-list',
-  templateUrl: './tripsList.component.html',
-  styleUrls: ['./tripsList.component.less'],
+  templateUrl: './trips-list.component.html',
+  styleUrls: ['./trips-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TripsListComponent implements OnInit {

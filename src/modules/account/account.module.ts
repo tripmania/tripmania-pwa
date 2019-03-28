@@ -5,9 +5,10 @@ import {BottomNavModule} from '../bottom-nav/bottom-nav.module';
 import {HomeModule} from '../home/home.module';
 import {SearchModule} from '../search/search.module';
 import {SettingsModule} from '../settings/settings.module';
-import {TripsListModule} from '../trips/tripsList/tripsList.module';
+import {TripsListModule} from '../trips/tripsList/trips-list.module';
 import {ProfileModule} from '../profile/profile.module';
 import {HeaderModule} from '../header/header.module';
+import {CreatorModule} from '../creator/creator.module';
 
 @NgModule({
   declarations: [AccountComponent],
@@ -19,6 +20,7 @@ import {HeaderModule} from '../header/header.module';
     SettingsModule,
     TripsListModule,
     ProfileModule,
+    CreatorModule,
     HeaderModule
   ],
   exports: [AccountComponent]
