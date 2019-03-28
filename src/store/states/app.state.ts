@@ -7,5 +7,5 @@ export interface IAppState {
 export const APP_STATE = 'appState';
 
 export const appStateInitial: IAppState = {
-  activeState: AppState.TRAVELS
+  activeState: AppState.CREATOR
 };

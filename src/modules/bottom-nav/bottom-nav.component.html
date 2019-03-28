@@ -1,11 +1,11 @@
 <div class="bottom-nav">
-  <button mat-button
-          mat-icon-button
-          class="bottom-nav__button"
-          [color]="(activeState$ | async) === 'search' ? 'primary': ''"
-          (click)="changeAppState('search')">
-    <mat-icon [class.bottom-nav__button-gray]="(activeState$ | async) !== 'search'">search</mat-icon>
-  </button>
+  <!--<button mat-button-->
+          <!--mat-icon-button-->
+          <!--class="bottom-nav__button"-->
+          <!--[color]="(activeState$ | async) === 'search' ? 'primary': ''"-->
+          <!--(click)="changeAppState('search')">-->
+    <!--<mat-icon [class.bottom-nav__button-gray]="(activeState$ | async) !== 'search'">search</mat-icon>-->
+  <!--</button>-->
 
   <button mat-button
           mat-icon-button
@@ -18,10 +18,18 @@
   <button mat-button
           mat-icon-button
           class="bottom-nav__button"
-          [color]="(activeState$ | async) === 'home' ? 'primary': ''"
-          (click)="changeAppState('home')">
-    <mat-icon [class.bottom-nav__button-gray]="(activeState$ | async) !== 'home'">home</mat-icon>
+          [color]="(activeState$ | async) === 'creator' ? 'primary': ''"
+          (click)="changeAppState('creator')">
+    <mat-icon [class.bottom-nav__button-gray]="(activeState$ | async) !== 'creator'">add_circle_outline</mat-icon>
   </button>
+
+  <!--<button mat-button-->
+          <!--mat-icon-button-->
+          <!--class="bottom-nav__button"-->
+          <!--[color]="(activeState$ | async) === 'home' ? 'primary': ''"-->
+          <!--(click)="changeAppState('home')">-->
+    <!--<mat-icon [class.bottom-nav__button-gray]="(activeState$ | async) !== 'home'">home</mat-icon>-->
+  <!--</button>-->
 
   <button mat-button
           mat-icon-button

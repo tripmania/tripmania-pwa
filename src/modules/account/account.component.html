@@ -1,24 +1,28 @@
 <header></header>
 
 <div class="account-root">
-  <div [class.isHidden]="(activeState | async) !== 'home'">
-    <home></home>
+  <!--<div [class.isHidden]="(activeState | async) !== 'home'">-->
+    <!--<home></home>-->
+  <!--</div>-->
+
+  <div [class.isHidden]="(activeState | async) !== 'travels'">
+    <trips-list></trips-list>
+  </div>
+
+  <div [class.isHidden]="(activeState | async) !== 'creator'">
+    <creator></creator>
   </div>
 
   <div [class.isHidden]="(activeState | async) !== 'profile'">
     <profile></profile>
   </div>
 
-  <div [class.isHidden]="(activeState | async) !== 'search'">
-    <search></search>
-  </div>
+  <!--<div [class.isHidden]="(activeState | async) !== 'search'">-->
+    <!--<search></search>-->
+  <!--</div>-->
 
   <div [class.isHidden]="(activeState | async) !== 'settings'">
     <settings></settings>
-  </div>
-
-  <div [class.isHidden]="(activeState | async) !== 'travels'">
-    <trips-list></trips-list>
   </div>
 </div>
 

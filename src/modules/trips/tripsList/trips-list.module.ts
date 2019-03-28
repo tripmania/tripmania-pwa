@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TripsListComponent } from './tripsList.component';
+import { TripsListComponent } from './trips-list.component';
 import {MatIconModule} from '@angular/material';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 
