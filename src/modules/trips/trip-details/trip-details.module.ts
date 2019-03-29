@@ -13,6 +13,7 @@ import {
   MatNativeDateModule
 } from '@angular/material';
 import {DatepickerSettings, MY_DATE_FORMATS} from '@shared/helpers/datepickerSettings';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [TripDetailsComponent],
@@ -25,7 +26,9 @@ import {DatepickerSettings, MY_DATE_FORMATS} from '@shared/helpers/datepickerSet
     MatFormFieldModule,
     MatCardModule,
     MatButtonModule,
-    MatDividerModule
+    MatDividerModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [TripDetailsComponent],
   providers: [
