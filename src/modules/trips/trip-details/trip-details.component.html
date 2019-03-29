@@ -1,50 +1,99 @@
 <div class="trip-detail-root">
-  <mat-form-field class="detail-info" appearance="outline">
-    <mat-label>Trip title</mat-label>
-    <input matInput class="detail-info__title">
-  </mat-form-field>
+  <form [formGroup]="form">
+    <mat-form-field class="detail-info detail-info__title" appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
 
-  <mat-card class="detail-info detail-info__card">
-    <mat-card-header>
-      <mat-card-title>Image</mat-card-title>
-    </mat-card-header>
-    <img class="detail-info__card-img" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-    <mat-card-actions>
-      <button mat-button>CHANGE</button>
-    </mat-card-actions>
-  </mat-card>
+    <mat-card class="detail-info detail-info__card">
+      <mat-card-header>
+        <mat-card-title>Image</mat-card-title>
+      </mat-card-header>
+      <img *ngIf="!forTripCreation && trip.photoUrl"
+           class="detail-info__card-img"
+           mat-card-image
+           [src]="trip.photoUrl"
+           alt="Trip image">
+      <div *ngIf="forTripCreation || (trip && !trip.photoUrl)"
+           class="detail-info__card-placeholder">
+        <mat-icon class="detail-info__card-placeholder-icon">add_a_photo</mat-icon>
+      </div>
+      <mat-card-actions>
+        <button mat-button
+                color="primary"
+                [textContent]="!forTripCreation && trip.photoUrl ? 'CHANGE' : 'ADD'"></button>
+      </mat-card-actions>
+    </mat-card>
 
-  <mat-card class="detail-info detail-info__dates">
-    <mat-card-header>
-      <mat-card-title>Dates</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="detail-info__dates-content">
-      <mat-form-field class="detail-info__dates-item">
-        <input matInput [matDatepicker]="startPicker" placeholder="Start" readonly (click)="startPicker.open()">
-        <mat-datepicker-toggle matPrefix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker touchUi #startPicker disabled="false"></mat-datepicker>
-      </mat-form-field>
+    <mat-card class="detail-info detail-info__dates">
+      <mat-card-header>
+        <mat-card-title>Dates</mat-card-title>
+      </mat-card-header>
+      <div class="detail-info__dates-content">
+        <mat-form-field class="detail-info__dates-item">
+          <input matInput
+                 formControlName="startDate"
+                 [matDatepicker]="startPicker"
+                 placeholder="Start"
+                 readonly
+                 (click)="startPicker.open()">
+          <mat-datepicker-toggle matPrefix
+                                 [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi
+                          #startPicker
+                          disabled="false"></mat-datepicker>
+        </mat-form-field>
 
-      <mat-form-field class="detail-info__dates-item">
-        <input matInput [matDatepicker]="endPicker" placeholder="Finish" readonly (click)="endPicker.open()">
-        <mat-datepicker-toggle matPrefix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker touchUi #endPicker disabled="false"></mat-datepicker>
-      </mat-form-field>
-    </mat-card-content>
-  </mat-card>
+        <mat-form-field class="detail-info__dates-item">
+          <input matInput
+                 formControlName="endDate"
+                 [matDatepicker]="endPicker"
+                 placeholder="Finish"
+                 readonly
+                 (click)="endPicker.open()">
+          <mat-datepicker-toggle matPrefix
+                                 [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi
+                          #endPicker
+                          disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </mat-card>
 
-  <mat-card class="detail-info detail-info__places">
-    <mat-card-header>
-      <mat-card-title>Visited places</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="detail-info__places-content">
-      <mat-form-field class="detail-info__places-item">
-        <input matInput placeholder="Place">
-      </mat-form-field>
+    <mat-card class="detail-info detail-info__places">
+      <mat-card-header>
+        <mat-card-title>Visited places</mat-card-title>
+      </mat-card-header>
+      <div class="detail-info__places-content">
+        <div *ngFor="let path of tripPaths; let indx = index; first as isFirst"
+             class="detail-info__places-items">
+          <mat-form-field class="detail-info__places-item">
+            <input matInput
+                   name="from-{{indx}}"
+                   [placeholder]="isFirst ? 'From' : ''"
+                   [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="path.from">
+          </mat-form-field>
 
-      <mat-form-field class="detail-info__places-item">
-        <input matInput placeholder="Place">
-      </mat-form-field>
-    </mat-card-content>
-  </mat-card>
+          <mat-icon class="detail-info__places-icon">arrow_forward</mat-icon>
+
+          <mat-form-field class="detail-info__places-item">
+            <input matInput
+                   name="to-{{indx}}"
+                   [placeholder]="isFirst ? 'To' : ''"
+                   [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="path.to">
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-card-actions>
+        <button mat-button
+                color="primary"
+                (click)="onAddPathRow()">ADD</button>
+        <button mat-button
+                color="warn"
+                (click)="onDeletePathRow()">REMOVE</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
 </div>

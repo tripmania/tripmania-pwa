@@ -9,30 +9,12 @@ export function getTrip(photoUrl: string = DEFAULT_IMAGE):  TripModel {
     startDate: 1553391844305,
     endDate: 1573391890901,
     path: [
-      {
-        id: 1,
-        country: 'Russia',
-        city: 'Moscow'
-      },
-      {
-        id: 2,
-        country: 'Cyprus'
-      },
-      {
-        id: 3,
-        country: 'Georgia',
-        city: 'Tbilisi'
-      },
-      {
-        id: 4,
-        country: 'Georgia',
-        city: 'Batumi'
-      },
-      {
-        id: 1,
-        country: 'Russia',
-        city: 'Moscow'
-      }
+      'Russia',
+      'Berlin',
+      'Larnaca',
+      'Tbilisi',
+      'Batumi',
+      'Russia'
     ],
     title: 'Best trip in Georgia!',
     photoUrl
