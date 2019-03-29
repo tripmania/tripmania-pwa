@@ -1,7 +1,50 @@
 <div class="trip-detail-root">
-  <mat-form-field>
-    <input matInput [matDatepicker]="picker" placeholder="Choose a start date">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker touchUi #picker></mat-datepicker>
+  <mat-form-field class="detail-info" appearance="outline">
+    <mat-label>Trip title</mat-label>
+    <input matInput class="detail-info__title">
   </mat-form-field>
+
+  <mat-card class="detail-info detail-info__card">
+    <mat-card-header>
+      <mat-card-title>Image</mat-card-title>
+    </mat-card-header>
+    <img class="detail-info__card-img" mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-actions>
+      <button mat-button>CHANGE</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="detail-info detail-info__dates">
+    <mat-card-header>
+      <mat-card-title>Dates</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="detail-info__dates-content">
+      <mat-form-field class="detail-info__dates-item">
+        <input matInput [matDatepicker]="startPicker" placeholder="Start" readonly (click)="startPicker.open()">
+        <mat-datepicker-toggle matPrefix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #startPicker disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="detail-info__dates-item">
+        <input matInput [matDatepicker]="endPicker" placeholder="Finish" readonly (click)="endPicker.open()">
+        <mat-datepicker-toggle matPrefix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #endPicker disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="detail-info detail-info__places">
+    <mat-card-header>
+      <mat-card-title>Visited places</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="detail-info__places-content">
+      <mat-form-field class="detail-info__places-item">
+        <input matInput placeholder="Place">
+      </mat-form-field>
+
+      <mat-form-field class="detail-info__places-item">
+        <input matInput placeholder="Place">
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
 </div>
