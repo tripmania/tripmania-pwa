@@ -1,10 +1,14 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class AccountGuard implements CanActivate {
+  constructor(private router: Router) {
+  }
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return true;
+    this.router.navigate(['auth/sign-in']);
+    return of(false);
   }
 }

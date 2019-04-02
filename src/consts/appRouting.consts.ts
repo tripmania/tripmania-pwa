@@ -1,4 +1,6 @@
 export const appRoutePaths = {
   ACCOUNT: 'account',
-  AUTH: 'auth'
+  AUTH: 'auth',
+  SIGN_IN: 'sign-in',
+  SIGN_UP: 'sign-up'
 };

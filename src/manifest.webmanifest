@@ -1,7 +1,7 @@
 {
   "name": "TripMania | World Trip Service",
   "short_name": "TripMania",
-  "theme_color": "#039be5",
+  "theme_color": "#0277bd",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
