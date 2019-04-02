@@ -12,12 +12,12 @@ const routes: Routes = [
   {
     path: '',
     component: AccountComponent,
-    canActivate: [AccountGuard]
+    canActivate: [AccountGuard],
+    pathMatch: 'full'
   },
   {
     path: '**',
-    component: AccountComponent,
-    canActivate: [AccountGuard]
+    redirectTo: ''
   }
 ];
 

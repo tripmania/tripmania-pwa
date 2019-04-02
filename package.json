@@ -9,10 +9,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "prod:build": "ng build --prod",
-    "prod:start": "npm run prod:clean && npm run prod:build && npm run server:start",
+    "prod:start": "npm run prod:clean && npm run prod:build && npm run server:start:local",
     "prod:start:ssl": "npm run prod:build && npm run server:start:ssl",
     "prod:clean": "rm -rf ./dist",
     "server:start": "cd ./dist/tripmania && http-server",
+    "server:start:local": "cd ./dist/tripmania && lite-server",
     "server:start:ssl": "cd ./dist/tripmania && http-server -S -C ./assets/ssl/server.crt -K ./assets/ssl/server.key"
   },
   "private": true,

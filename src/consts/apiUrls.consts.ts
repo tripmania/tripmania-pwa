@@ -1,6 +1,9 @@
 import {environment} from '../environments/environment';
 
-export const USER_URL = `${environment}/api/v1/user`;
-export const PUBLICATIONS_URL = `${environment}/api/v1/publications`;
-export const COMMENTS_URL = `${environment}/api/v1/comments`;
-export const TRIPS_URL = `${environment}/api/v1/trips`;
+export const apiUrls = {
+  USER_URL: `${environment.baseUrl}/users`,
+  PUBLICATIONS_URL: `${environment.baseUrl}/publications`,
+  COMMENTS_URL: `${environment.baseUrl}/comments`,
+  TRIPS_URL: `${environment.baseUrl}/trips`
+};
+

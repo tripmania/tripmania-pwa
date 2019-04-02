@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SignUpComponent } from './sign-up.component';
 import {MatButtonModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [SignUpComponent],
@@ -11,7 +12,9 @@ import {RouterModule} from '@angular/router';
     RouterModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [SignUpComponent]
 })
