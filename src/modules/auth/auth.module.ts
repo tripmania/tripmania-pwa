@@ -4,6 +4,8 @@ import { AuthComponent } from './auth.component';
 import {SignInModule} from './sign-in/sign-in.module';
 import {SignUpModule} from './sign-up/sign-up.module';
 import {AuthRouting} from './auth.routing';
+import {AuthService} from './auth.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [AuthComponent],
@@ -11,8 +13,10 @@ import {AuthRouting} from './auth.routing';
     CommonModule,
     SignInModule,
     SignUpModule,
-    AuthRouting
+    AuthRouting,
+    HttpClientModule
   ],
-  exports: [AuthComponent]
+  exports: [AuthComponent],
+  providers: [AuthService]
 })
 export class AuthModule { }

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://tripmania.site'
+  baseUrl: 'http://api.tripmania.site'
 };

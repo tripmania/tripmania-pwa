@@ -1,30 +1,30 @@
-<div class="sign-up-root">
+<form class="sign-up-root" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field class="item" appearance="outline">
     <mat-label>Name</mat-label>
-    <input matInput>
+    <input matInput formControlName="name">
   </mat-form-field>
 
   <mat-form-field class="item" appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput>
+    <input matInput formControlName="email">
   </mat-form-field>
 
   <mat-form-field class="item" appearance="outline">
     <mat-label>Login</mat-label>
-    <input matInput>
+    <input matInput formControlName="login">
   </mat-form-field>
 
   <mat-form-field class="item" appearance="outline">
     <mat-label>Password</mat-label>
-    <input matInput>
+    <input matInput type="password" formControlName="password">
   </mat-form-field>
 
   <mat-form-field class="item" appearance="outline">
     <mat-label>Repeat password</mat-label>
-    <input matInput>
+    <input matInput type="password" formControlName="repeatPassword">
   </mat-form-field>
 
-  <button class="item" mat-raised-button color="primary">Sign up</button>
+  <button type="submit" class="item" mat-raised-button color="primary">Sign up</button>
 
   <p class="info">Have account already? <span routerLink="/auth/sign-in" class="info-btn">Sign in</span></p>
-</div>
+</form>
