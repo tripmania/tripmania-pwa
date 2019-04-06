@@ -24,6 +24,7 @@ export class AuthService {
           this.router.navigate(['/']);
         },
         error => {
+          console.log('error1: ', error);
           this.errorService.showErrorMessage(error);
         }
       );
