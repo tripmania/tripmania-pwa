@@ -13,7 +13,7 @@ export class AccountGuard implements CanActivate {
     const refresh = getRefreshToken();
 
     if (!access || !refresh) {
-      this.router.navigate(['auth/sign-in']);
+      this.router.navigate(['/auth/sign-in']);
       return of(false);
     }
 

@@ -10,3 +10,8 @@ export function getAccessToken(): string {
 export function getRefreshToken(): string {
   return localStorage.getItem('refreshToken');
 }
+
+export function removeTokens() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+}
