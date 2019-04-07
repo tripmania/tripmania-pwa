@@ -16,10 +16,10 @@ export class TripsListComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.http.get(apiUrls.TRIPS_URL)
-      .subscribe(
-        res => console.log('res: ', res),
-        error => console.log('error: ', error)
-      );
+    // this.http.get(apiUrls.TRIPS_URL)
+    //   .subscribe(
+    //     res => console.log('res: ', res),
+    //     error => console.log('error: ', error)
+    //   );
   }
 }
