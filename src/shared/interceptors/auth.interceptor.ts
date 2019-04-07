@@ -11,7 +11,7 @@ import {
 import {Observable, of, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {getAccessToken, getRefreshToken, removeTokens, setTokens} from '@shared/helpers/tokens.helpers';
-import {catchError, switchMap, tap} from 'rxjs/operators';
+import {catchError, filter, switchMap, tap} from 'rxjs/operators';
 import {apiUrls} from '@consts/apiUrls.consts';
 
 @Injectable()
@@ -22,6 +22,10 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (request.url === `${apiUrls.USER_URL}/refresh`) {
+      return this.doRequest(request, next);
+    }
+
     return this.doRequest(request, next)
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -56,6 +60,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
           return of(null);
         }),
+        filter(result => result !== null),
         tap((response: HttpResponse<{accessToken: string, refreshToken: string}>) => {
           setTokens(response.body.accessToken, response.body.refreshToken);
         }),
