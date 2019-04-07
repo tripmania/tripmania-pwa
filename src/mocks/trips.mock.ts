@@ -30,15 +30,11 @@ export function getTrips(): TripModel[] {
     getTrip('http://alliswall.com/file/5608/1920x1200/16:9/new_york_at_early_morning.jpg'),
     getTrip('http://www.itaniumsolutions.org/pics/max/100/1007135_laptop-background-hd-wallpaper.jpg'),
     getTrip('https://www.pixelstalk.net/wp-content/uploads/2016/09/HD-Adventure-Wallpaper.jpg'),
-    getTrip(),
-    getTrip(),
-    getTrip(),
-    getTrip(),
-    getTrip(),
-    getTrip(),
-    getTrip(),
-    getTrip(),
-    getTrip(),
-    getTrip()
+    getTrip('https://images.unsplash.com/photo-1470290282174-30ea78123183?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80'),
+    getTrip('https://hdqwalls.com/download/travel-hd-1366x768.jpg'),
+    getTrip('https://gizmodiva.com/wp-content/uploads/2017/10/SCOTT-A-WOODWARD_1SW1943-1170x689.jpg'),
+    getTrip('https://wallpapercave.com/wp/wp2047792.jpg'),
+    getTrip('http://shafir.info/shafir_images/10Album/24Japan~02Tokyo~70Odaiba~26Rainbow_Bridge%5E1920x.jpg'),
+    getTrip('http://www.heritagetravelonline.com/images/wallpapers/Travel_wallpaper_07_1280.jpg')
   ];
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {TripModel} from '@models/Trip.model';
 import {getTrips} from '@mocks/trips.mock';
 import {HttpClient} from '@angular/common/http';
@@ -10,7 +10,8 @@ import {apiUrls} from '@consts/apiUrls.consts';
   styleUrls: ['./trips-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripsListComponent implements OnInit {
+export class TripsListComponent implements OnInit, AfterViewInit {
+  container: any;
   trips: TripModel[] = getTrips();
 
   constructor(private http: HttpClient) { }
@@ -21,5 +22,9 @@ export class TripsListComponent implements OnInit {
     //     res => console.log('res: ', res),
     //     error => console.log('error: ', error)
     //   );
+  }
+
+  ngAfterViewInit() {
+    this.container = document.querySelector('cdk-virtual-scroll-viewport');
   }
 }
