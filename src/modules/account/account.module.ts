@@ -12,6 +12,9 @@ import {CreatorModule} from '../creator/creator.module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptor} from '@shared/interceptors/auth.interceptor';
 import {ErrorInterceptor} from '@shared/interceptors/error.interceptor';
+import {DynamicLoaderModule} from '../dynamic-loader/dynamic-loader.module';
+import {DynamicLoaderService} from '../dynamic-loader/dynamic-loader.service';
+import {TripDetailsComponent} from '../trips/trip-details/trip-details.component';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -31,12 +34,15 @@ const interceptors = [
     ProfileModule,
     CreatorModule,
     HeaderModule,
-    HttpClientModule
+    HttpClientModule,
+    DynamicLoaderModule
   ],
   exports: [AccountComponent],
   providers: [
+    DynamicLoaderService,
     ...interceptors
-  ]
+  ],
+  entryComponents: [TripDetailsComponent]
 })
 export class AccountModule {
 }

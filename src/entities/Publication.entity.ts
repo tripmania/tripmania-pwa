@@ -1,10 +1,10 @@
-import {UserModel} from '@models/User.model';
+import {UserEntity} from '@entities/User.entity';
 
-export interface PublicationModel {
+export interface PublicationEntity {
   id?: number;
   tripId: number;
   tripName: string;
-  publisher: UserModel;
+  publisher: UserEntity;
   publishDate: number;
   userComment?: string;
   photoUrl?: string;

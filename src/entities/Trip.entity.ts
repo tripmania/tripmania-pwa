@@ -1,4 +1,4 @@
-export interface TripModel {
+export interface TripEntity {
   id?: number;
   userId: number;
   title: string;

@@ -1,7 +1,7 @@
-<div class="creator-root">
+<div class="creator-root" [class.isHidden]="(activeState$ | async) !== 'creator'">
   <mat-tab-group class="creator-tabs" mat-stretch-tabs animationDuration="0ms">
     <mat-tab label="Create trip">
-      <trip-details [forTripCreation]="true"></trip-details>
+      <trip-details></trip-details>
     </mat-tab>
     <mat-tab class="creator-tab" label="Create publish">
       Publications

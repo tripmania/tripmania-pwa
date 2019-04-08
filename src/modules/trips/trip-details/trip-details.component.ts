@@ -1,6 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {TripModel} from '@models/Trip.model';
+import {TripEntity} from '@entities/Trip.entity';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DynamicComponent} from '@entities/DynamicComponent.entity';
+import {DynamicLoaderService} from '../../dynamic-loader/dynamic-loader.service';
+
+interface DynamicInputs {
+  forTripCreation: boolean;
+  trip: TripEntity;
+}
 
 @Component({
   selector: 'trip-details',
@@ -8,9 +15,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./trip-details.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripDetailsComponent implements OnInit {
-  @Input() forTripCreation: boolean;
-  @Input() trip: TripModel;
+export class TripDetailsComponent implements OnInit, DynamicComponent {
+  @Input() inputs: DynamicInputs;
+  @Input() componentIndex: number;
+
+  forTripCreation: boolean;
+  trip: TripEntity;
   form: FormGroup;
   private _tripPaths = [{from: '', to: ''}];
 
@@ -18,9 +28,16 @@ export class TripDetailsComponent implements OnInit {
     return this._tripPaths;
   }
 
+  get isComponentHidden(): boolean {
+    return DynamicLoaderService.IsComponentHidden(this);
+  }
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.forTripCreation = this.inputs.forTripCreation;
+    this.trip = this.inputs.trip;
+
     this.form = this.formBuilder.group({
       title: [(this.forTripCreation ? '' : this.trip.title), [Validators.required, Validators.maxLength(150)]],
       startDate: [(!this.forTripCreation && this.trip.startDate ? new Date(this.trip.startDate) : '')],

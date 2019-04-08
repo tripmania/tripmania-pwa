@@ -13,5 +13,6 @@ export class AccountComponent implements OnInit {
   constructor(private storeFacade: StoreFacadeService) { }
 
   ngOnInit() {
+    console.log(AccountComponent.name);
   }
 }
