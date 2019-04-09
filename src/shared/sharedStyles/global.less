@@ -32,6 +32,10 @@
   ::ng-deep .mat-card {
     padding: 10px;
   }
+  ::ng-deep .mat-card-image {
+    width: calc(~"100% + 2 * @{main-margin}");
+    margin: 0 -@main-margin;
+  }
 };
 @bottom-nav-height: 50px;
 @header-height: 50px;

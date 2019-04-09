@@ -1,6 +1,6 @@
 export enum AppState {
   SEARCH = 'search',
-  TRAVELS = 'travels',
+  TRIPS = 'trips',
   CREATOR = 'creator',
   HOME = 'home',
   PROFILE = 'profile',

@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {StoreFacadeService} from '@shared/services/storeFacade.service';
 import {AppState} from '@enums/AppState.enum';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'bottom-nav',
@@ -9,8 +10,6 @@ import {AppState} from '@enums/AppState.enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BottomNavComponent implements OnInit {
-  activeState$ = this.storeFacade.activeAppState$;
-
   constructor(private storeFacade: StoreFacadeService) { }
 
   ngOnInit() {
@@ -18,5 +17,12 @@ export class BottomNavComponent implements OnInit {
 
   changeAppState(appState: string) {
     this.storeFacade.changeActiveState(appState as AppState);
+  }
+
+  isStateSelected(appState: string) {
+    return this.storeFacade.isMainComponentHidden(appState as AppState)
+      .pipe(
+        map(isHidden => !isHidden)
+      );
   }
 }

@@ -10,8 +10,8 @@
         <mat-card-title>Image</mat-card-title>
       </mat-card-header>
       <img *ngIf="!forTripCreation && trip.photoUrl"
-           class="detail-info__card-img"
            mat-card-image
+           class="detail-info__card-img"
            [src]="trip.photoUrl"
            alt="Trip image">
       <div *ngIf="forTripCreation || (trip && !trip.photoUrl)"

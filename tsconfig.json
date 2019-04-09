@@ -30,6 +30,9 @@
       "@models/*": [
         "../src/models/*"
       ],
+      "@modules/*": [
+        "../src/modules/*"
+      ],
       "@enums/*": [
         "../src/enums/*"
       ],

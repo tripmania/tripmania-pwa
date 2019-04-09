@@ -23,6 +23,7 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
 
     this.initAddComponentSubscription();
     this.initRemoveComponentSubscription();
+    this.initRemoveAllSubscription();
   }
 
   ngOnDestroy() {
@@ -45,7 +46,19 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
     this.dynamicLoaderService.removeComponent$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.adHost.viewContainerRef.remove();
+        if (this.adHost.viewContainerRef.length) {
+          this.adHost.viewContainerRef.remove();
+        }
+      });
+  }
+
+  initRemoveAllSubscription() {
+    this.dynamicLoaderService.removeAllComponents$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (this.adHost.viewContainerRef.length) {
+          this.adHost.viewContainerRef.clear();
+        }
       });
   }
 }

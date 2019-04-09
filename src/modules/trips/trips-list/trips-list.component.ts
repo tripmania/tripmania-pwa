@@ -2,10 +2,11 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit} from '@angula
 import {TripEntity} from '@entities/Trip.entity';
 import {getTrips} from '@mocks/trips.mock';
 import {HttpClient} from '@angular/common/http';
-import {apiUrls} from '@consts/apiUrls.consts';
 import {StoreFacadeService} from '@shared/services/storeFacade.service';
-import {DynamicLoaderService} from '../../dynamic-loader/dynamic-loader.service';
-import {TripDetailsComponent} from '../trip-details/trip-details.component';
+import {Observable} from 'rxjs';
+import {AppState} from '@enums/AppState.enum';
+import {HideableComponent} from '@entities/HideableComponent.entity';
+import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 
 @Component({
   selector: 'trips-list',
@@ -13,14 +14,17 @@ import {TripDetailsComponent} from '../trip-details/trip-details.component';
   styleUrls: ['./trips-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripsListComponent implements OnInit, AfterViewInit {
-  activeState$ = this.storeFacade.activeAppState$;
+export class TripsListComponent implements OnInit, AfterViewInit, HideableComponent {
   container: any;
   trips: TripEntity[] = getTrips();
 
   constructor(private http: HttpClient,
-              private storeFacade: StoreFacadeService,
-              private dynamicLoaderService: DynamicLoaderService) { }
+              private storeFacade: StoreFacadeService) {
+  }
+
+  get isComponentHidden(): Observable<boolean> {
+    return this.storeFacade.isMainComponentHidden(AppState.TRIPS);
+  }
 
   ngOnInit() {
     // this.http.get(apiUrls.TRIPS_URL)
@@ -35,12 +39,13 @@ export class TripsListComponent implements OnInit, AfterViewInit {
   }
 
   openTrip(trip: TripEntity) {
-    this.dynamicLoaderService.addDynamicComponent(
+    this.storeFacade.openComponent(
       TripDetailsComponent,
       {
         forTripCreation: false,
         trip
-      }
+      },
+      trip.title
     );
   }
 }
