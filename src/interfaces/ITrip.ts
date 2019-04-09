@@ -1,4 +1,4 @@
-export interface TripEntity {
+export interface ITrip {
   id?: number;
   userId: number;
   title: string;

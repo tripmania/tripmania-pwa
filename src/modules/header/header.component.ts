@@ -12,6 +12,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private storeFacade: StoreFacadeService) { }
 
+  get isBackButtonVisible(): boolean {
+    return false;
+  }
+
   ngOnInit() {
   }
 

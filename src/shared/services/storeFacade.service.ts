@@ -3,20 +3,21 @@ import {combineLatest, Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {map, take} from 'rxjs/operators';
 import {AppState} from '@enums/AppState.enum';
-import {selectActiveAppState, selectHeaderTitle} from '@store/selectors/app.selector';
-import {AddDynamicComponent, ChangeActiveState, GoToBackComponent} from '@store/actions/app.actions';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
+import {selectHeaderTitle, selectStaticAppState} from '@store/selectors/app.selector';
+import {AddDynamicComponent, ChangeStaticState, GoToBackComponent} from '@store/actions/app.actions';
+import {IDynamicComponent} from '@interfaces/IDynamicComponent';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 
 @Injectable()
 export class StoreFacadeService {
-  readonly activeAppState$ = this.store$.select<AppState>(selectActiveAppState);
+  readonly staticAppState$ = this.store$.select<AppState>(selectStaticAppState);
   readonly headerTitle$ = this.store$.select<string>(selectHeaderTitle);
 
   constructor(private store$: Store<any>) {
   }
 
-  openComponent(component: Type<DynamicComponent>, inputs: any, headerTitle: string) {
+  openComponent(component: Type<IDynamicComponent>, inputs: any, headerTitle: string) {
+    console.log('component.name: ', component.name);
     this.store$.dispatch(new AddDynamicComponent(component, inputs, headerTitle));
   }
 
@@ -24,22 +25,22 @@ export class StoreFacadeService {
     this.store$.dispatch(new GoToBackComponent());
   }
 
-  changeActiveState(appState: AppState) {
+  changeStaticState(appState: AppState) {
     combineLatest(
-      this.activeAppState$,
+      this.staticAppState$,
       DynamicLoaderService.isDynamicComponentLoaded()
     )
       .pipe(take(1))
       .subscribe(([state, isDynamicLoaded]) => {
         if (state !== appState || isDynamicLoaded) {
-          this.store$.dispatch(new ChangeActiveState(appState));
+          this.store$.dispatch(new ChangeStaticState(appState));
         }
       });
   }
 
-  isMainComponentHidden(state: AppState): Observable<boolean> {
+  isStaticComponentHidden(state: AppState): Observable<boolean> {
     return combineLatest(
-      this.activeAppState$,
+      this.staticAppState$,
       DynamicLoaderService.isDynamicComponentLoaded()
     )
       .pipe(

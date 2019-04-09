@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {TripEntity} from '@entities/Trip.entity';
+import {ITrip} from '@interfaces/ITrip';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
+import {IDynamicComponent} from '@interfaces/IDynamicComponent';
 import {DynamicLoaderService} from '../../dynamic-loader/dynamic-loader.service';
-import {HideableComponent} from '@entities/HideableComponent.entity';
+import {IHideableComponent} from '@interfaces/IHideableComponent';
 
 interface DynamicInputs {
   forTripCreation: boolean;
-  trip: TripEntity;
+  trip: ITrip;
 }
 
 @Component({
@@ -16,12 +16,12 @@ interface DynamicInputs {
   styleUrls: ['./trip-details.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripDetailsComponent implements OnInit, DynamicComponent, HideableComponent {
+export class TripDetailsComponent implements OnInit, IDynamicComponent, IHideableComponent {
   @Input() inputs: DynamicInputs;
   @Input() componentIndex: number;
 
   @Input() forTripCreation: boolean;
-  @Input() trip: TripEntity;
+  @Input() trip: ITrip;
   form: FormGroup;
   private _tripPaths = [{from: '', to: ''}];
 

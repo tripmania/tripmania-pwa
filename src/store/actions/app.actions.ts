@@ -1,25 +1,25 @@
 import {Action} from '@ngrx/store';
 import {AppState} from '@enums/AppState.enum';
 import {Type} from '@angular/core';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
+import {IDynamicComponent} from '@interfaces/IDynamicComponent';
 
 export enum AppActionTypes {
-  CHANGE_ACTIVE_STATE = '[App Action] Change active state',
+  CHANGE_STATIC_STATE = '[App Action] Change static state',
   ADD_DYNAMIC_COMPONENT = '[App Action] Add dynamic component',
   GO_TO_BACK_COMPONENT = '[App Action] Go to back component'
 }
 
-export class ChangeActiveState implements Action {
-  readonly type = AppActionTypes.CHANGE_ACTIVE_STATE;
+export class ChangeStaticState implements Action {
+  readonly type = AppActionTypes.CHANGE_STATIC_STATE;
 
-  constructor(public activeState: AppState) {
+  constructor(public staticState: AppState) {
   }
 }
 
 export class AddDynamicComponent implements Action {
   readonly type = AppActionTypes.ADD_DYNAMIC_COMPONENT;
 
-  constructor(public component: Type<DynamicComponent>,
+  constructor(public component: Type<IDynamicComponent>,
               public inputs: any,
               public headerTitle: string) {
   }
@@ -32,6 +32,6 @@ export class GoToBackComponent implements Action {
   }
 }
 
-export type AppActions = ChangeActiveState
+export type AppActions = ChangeStaticState
   | AddDynamicComponent
   | GoToBackComponent;

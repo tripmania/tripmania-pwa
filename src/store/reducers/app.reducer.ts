@@ -4,10 +4,10 @@ import {AppActions, AppActionTypes} from '@store/actions/app.actions';
 export function appReducer(state: IAppState = appStateInitial,
                            action: AppActions): IAppState {
   switch (action.type) {
-    case (AppActionTypes.CHANGE_ACTIVE_STATE):
+    case (AppActionTypes.CHANGE_STATIC_STATE):
       return {
         ...state,
-        activeState: action.activeState,
+        staticState: action.staticState,
         headerTitles: []
       };
     case (AppActionTypes.ADD_DYNAMIC_COMPONENT):

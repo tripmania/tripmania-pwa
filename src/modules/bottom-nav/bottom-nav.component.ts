@@ -16,11 +16,11 @@ export class BottomNavComponent implements OnInit {
   }
 
   changeAppState(appState: string) {
-    this.storeFacade.changeActiveState(appState as AppState);
+    this.storeFacade.changeStaticState(appState as AppState);
   }
 
   isStateSelected(appState: string) {
-    return this.storeFacade.isMainComponentHidden(appState as AppState)
+    return this.storeFacade.isStaticComponentHidden(appState as AppState)
       .pipe(
         map(isHidden => !isHidden)
       );

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
-import {AddDynamicComponent, AppActionTypes, ChangeActiveState, GoToBackComponent} from '@store/actions/app.actions';
+import {AddDynamicComponent, AppActionTypes, ChangeStaticState, GoToBackComponent} from '@store/actions/app.actions';
 import {tap} from 'rxjs/operators';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class AppEffects {
   @Effect({dispatch: false})
   onChangeActiveState$ = this.actions$
     .pipe(
-      ofType<ChangeActiveState>(AppActionTypes.CHANGE_ACTIVE_STATE),
+      ofType<ChangeStaticState>(AppActionTypes.CHANGE_STATIC_STATE),
       tap(() => this.dynamicLoaderService.removeAllDynamicComponents())
     );
 

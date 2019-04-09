@@ -4,9 +4,9 @@ import {mainHeaderTitles} from '@consts/mainHeaderTitles.consts';
 
 export const selectAppState = createFeatureSelector<IAppState>(APP_STATE);
 
-export const selectActiveAppState = createSelector(
+export const selectStaticAppState = createSelector(
   selectAppState,
-  (state: IAppState) => state.activeState
+  (state: IAppState) => state.staticState
 );
 
 export const selectHeaderTitle = createSelector(
@@ -15,7 +15,7 @@ export const selectHeaderTitle = createSelector(
     const titlesCount = state.headerTitles.length;
 
     if (titlesCount === 0) {
-      return mainHeaderTitles[state.activeState];
+      return mainHeaderTitles[state.staticState];
     }
 
     return state.headerTitles[titlesCount - 1];

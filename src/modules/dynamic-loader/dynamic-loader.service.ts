@@ -1,7 +1,7 @@
 import {Injectable, Type} from '@angular/core';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
+import {IDynamicComponent} from '@interfaces/IDynamicComponent';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {DynamicItem} from '@models/dynamic-item.model';
+import {DynamicItem} from '@models/dynamic-item';
 import {map} from 'rxjs/operators';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class DynamicLoaderService {
   removeComponent$ = new Subject<void>();
   removeAllComponents$ = new Subject<void>();
 
-  static IsComponentHidden({componentIndex}: DynamicComponent): boolean {
+  static IsComponentHidden({componentIndex}: IDynamicComponent): boolean {
     return componentIndex !== DynamicLoaderService._currentDynamicComponentIndex;
   }
 
@@ -24,7 +24,7 @@ export class DynamicLoaderService {
       );
   }
 
-  addDynamicComponent(component: Type<DynamicComponent>, inputs: any) {
+  addDynamicComponent(component: Type<IDynamicComponent>, inputs: any) {
     DynamicLoaderService._currentDynamicComponentIndex += 1;
     DynamicLoaderService._isDynamicLoaded.next(DynamicLoaderService._currentDynamicComponentIndex);
     this.addComponent$.next(new DynamicItem(component, DynamicLoaderService._currentDynamicComponentIndex, inputs));

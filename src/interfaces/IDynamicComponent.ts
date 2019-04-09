@@ -1,4 +1,4 @@
-export interface DynamicComponent {
+export interface IDynamicComponent {
   componentIndex: number;
   inputs?: any;
 }

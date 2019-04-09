@@ -1,10 +1,10 @@
 import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DynamicLoaderDirective} from '@shared/directives/dynamic-loader.directive';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
+import {IDynamicComponent} from '@interfaces/IDynamicComponent';
 import {DynamicLoaderService} from './dynamic-loader.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {DynamicItem} from '@models/dynamic-item.model';
+import {DynamicItem} from '@models/dynamic-item';
 
 @Component({
   selector: 'dynamic-loader',
@@ -37,8 +37,8 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(item.component);
         const componentRef = this.adHost.viewContainerRef.createComponent(componentFactory);
 
-        (<DynamicComponent>componentRef.instance).inputs = item.inputs;
-        (<DynamicComponent>componentRef.instance).componentIndex = item.componentIndex;
+        (<IDynamicComponent>componentRef.instance).inputs = item.inputs;
+        (<IDynamicComponent>componentRef.instance).componentIndex = item.componentIndex;
       });
   }
 

@@ -1,11 +1,11 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {TripEntity} from '@entities/Trip.entity';
+import {ITrip} from '@interfaces/ITrip';
 import {getTrips} from '@mocks/trips.mock';
 import {HttpClient} from '@angular/common/http';
 import {StoreFacadeService} from '@shared/services/storeFacade.service';
 import {Observable} from 'rxjs';
 import {AppState} from '@enums/AppState.enum';
-import {HideableComponent} from '@entities/HideableComponent.entity';
+import {IHideableComponent} from '@interfaces/IHideableComponent';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 
 @Component({
@@ -14,16 +14,16 @@ import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.com
   styleUrls: ['./trips-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripsListComponent implements OnInit, AfterViewInit, HideableComponent {
+export class TripsListComponent implements OnInit, AfterViewInit, IHideableComponent {
   container: any;
-  trips: TripEntity[] = getTrips();
+  trips: ITrip[] = getTrips();
 
   constructor(private http: HttpClient,
               private storeFacade: StoreFacadeService) {
   }
 
   get isComponentHidden(): Observable<boolean> {
-    return this.storeFacade.isMainComponentHidden(AppState.TRIPS);
+    return this.storeFacade.isStaticComponentHidden(AppState.TRIPS);
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class TripsListComponent implements OnInit, AfterViewInit, HideableCompon
     this.container = document.querySelector('cdk-virtual-scroll-viewport');
   }
 
-  openTrip(trip: TripEntity) {
+  openTrip(trip: ITrip) {
     this.storeFacade.openComponent(
       TripDetailsComponent,
       {
