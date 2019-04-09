@@ -7,7 +7,18 @@ export function appReducer(state: IAppState = appStateInitial,
     case (AppActionTypes.CHANGE_ACTIVE_STATE):
       return {
         ...state,
-        activeState: action.activeState
+        activeState: action.activeState,
+        headerTitles: []
+      };
+    case (AppActionTypes.ADD_DYNAMIC_COMPONENT):
+      return {
+        ...state,
+        headerTitles: state.headerTitles.concat(action.headerTitle)
+      };
+    case (AppActionTypes.GO_TO_BACK_COMPONENT):
+      return {
+        ...state,
+        headerTitles: state.headerTitles.slice(0, -1)
       };
     default:
       return state;

@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
 
 @Component({
   selector: 'account',
@@ -8,10 +7,6 @@ import {StoreFacadeService} from '@shared/services/storeFacade.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountComponent implements OnInit {
-  activeState = this.storeFacade.activeAppState$;
-
-  constructor(private storeFacade: StoreFacadeService) { }
-
   ngOnInit() {
   }
 }

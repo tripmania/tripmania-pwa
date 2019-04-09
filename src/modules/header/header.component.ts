@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {StoreFacadeService} from '@shared/services/storeFacade.service';
 
 @Component({
   selector: 'header',
@@ -7,8 +8,9 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  title = this.storeFacade.headerTitle$;
 
-  constructor() { }
+  constructor(private storeFacade: StoreFacadeService) { }
 
   ngOnInit() {
   }

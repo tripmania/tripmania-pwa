@@ -1,8 +1,9 @@
-<cdk-virtual-scroll-viewport class="trip-root" itemSize="5" minBufferPx="800" maxBufferPx="1000">
+<cdk-virtual-scroll-viewport [class.isHidden]="(isComponentHidden | async)" class="trip-root" itemSize="5" minBufferPx="800" maxBufferPx="1000">
   <div class="trip-card"
        *cdkVirtualFor="let trip of trips; templateCacheSize: 0"
        [scrollableContainer]="container"
-       (deferLoad)="trip.isImageShown = true">
+       (deferLoad)="trip.isImageShown = true"
+       (click)="openTrip(trip)">
 
     <ng-container *ngIf="!!trip.isImageShown">
       <img class="trip-card__img" [src]="trip.photoUrl">

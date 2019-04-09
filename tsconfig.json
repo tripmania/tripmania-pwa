@@ -24,8 +24,14 @@
       "@store/*": [
         "../src/store/*"
       ],
+      "@entities/*": [
+        "../src/entities/*"
+      ],
       "@models/*": [
         "../src/models/*"
+      ],
+      "@modules/*": [
+        "../src/modules/*"
       ],
       "@enums/*": [
         "../src/enums/*"

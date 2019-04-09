@@ -5,25 +5,19 @@
     <!--<home></home>-->
   <!--</div>-->
 
-  <div [class.isHidden]="(activeState | async) !== 'travels'">
-    <trips-list></trips-list>
-  </div>
+  <trips-list></trips-list>
 
-  <div [class.isHidden]="(activeState | async) !== 'creator'">
-    <creator></creator>
-  </div>
+  <creator></creator>
 
-  <div [class.isHidden]="(activeState | async) !== 'profile'">
-    <profile></profile>
-  </div>
+  <profile></profile>
 
   <!--<div [class.isHidden]="(activeState | async) !== 'search'">-->
     <!--<search></search>-->
   <!--</div>-->
 
-  <div [class.isHidden]="(activeState | async) !== 'settings'">
-    <settings></settings>
-  </div>
+  <settings></settings>
+
+  <dynamic-loader></dynamic-loader>
 </div>
 
 <bottom-nav></bottom-nav>

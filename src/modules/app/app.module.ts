@@ -11,11 +11,12 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {appEffects} from '@store/effects';
-import {AccountModule} from '../account/account.module';
-import {AccountGuard} from '../account/account.guard';
 import {reducers, reducersProvider} from '@store/reducers/index';
 import {StoreFacadeService} from '@shared/services/storeFacade.service';
 import {ErrorService} from '@shared/services/error.service';
+import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
+import {AccountModule} from '@modules/account/account.module';
+import {AccountGuard} from '@modules/account/account.guard';
 
 const storeDevTools = [];
 
@@ -41,6 +42,7 @@ if (!environment.production) {
   ],
   providers: [
     AccountGuard,
+    DynamicLoaderService,
     reducersProvider,
     StoreFacadeService,
     ErrorService
