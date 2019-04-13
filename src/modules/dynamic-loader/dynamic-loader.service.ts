@@ -7,7 +7,7 @@ import {map} from 'rxjs/operators';
 @Injectable()
 export class DynamicLoaderService {
   private static _currentDynamicComponentIndex = 0;
-  private static _currentDynamicComponentIndex$ = new BehaviorSubject<number>(0);
+  static _currentDynamicComponentIndex$ = new BehaviorSubject<number>(0);
 
   addComponent$ = new Subject<DynamicItem>();
   removeComponent$ = new Subject<void>();
@@ -18,6 +18,10 @@ export class DynamicLoaderService {
       .pipe(
         map(currentComponentIndex => componentIndex !== currentComponentIndex)
       );
+  }
+
+  static isDynamicComponentLoadedSync(): boolean {
+    return DynamicLoaderService._currentDynamicComponentIndex > 0;
   }
 
   static isDynamicComponentLoaded(): Observable<boolean> {

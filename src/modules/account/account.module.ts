@@ -22,6 +22,7 @@ import {SearchComponent} from '@modules/search/search.component';
 import {HomeComponent} from '@modules/home/home.component';
 import {SettingsComponent} from '@modules/settings/settings.component';
 import {CreatorComponent} from '@modules/creator/creator.component';
+import {PreventHistoryBackService} from '@shared/services/prevent-history-back.service';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -57,7 +58,8 @@ const interceptors = [
     CreatorComponent
   ],
   providers: [
-    ...interceptors
+    ...interceptors,
+    PreventHistoryBackService
   ]
 })
 export class AccountModule {
