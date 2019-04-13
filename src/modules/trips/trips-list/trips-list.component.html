@@ -9,9 +9,10 @@
        (deferLoad)="trip.isImageShown = true"
        (click)="openTrip(trip)">
 
-    <ng-container *ngIf="!!trip.isImageShown">
-      <img class="trip-card__img" [src]="trip.photoUrl">
-    </ng-container>
+    <img class="trip-card__img"
+         [src]="trip.isImageShown ? trip.photoUrl : ''"
+         (load)="loadedImage(trip)"
+         [hidden]="!trip.isImageLoaded">
 
     <div class="trip-card__content">
       <p class="trip-card__title">{{trip.title}}</p>

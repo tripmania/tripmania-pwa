@@ -51,4 +51,8 @@ export class TripsListComponent implements OnInit, AfterViewInit, IStaticCompone
   trackByFn(index) {
     return index;
   }
+
+  loadedImage(trip: any) {
+    trip.isImageLoaded = true;
+  }
 }
