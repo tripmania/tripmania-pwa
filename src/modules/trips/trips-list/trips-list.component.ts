@@ -48,7 +48,7 @@ export class TripsListComponent implements OnInit, AfterViewInit, IStaticCompone
       });
   }
 
-  trackByFn(item, index) {
+  trackByFn(index) {
     return index;
   }
 }

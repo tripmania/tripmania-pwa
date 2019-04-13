@@ -1,6 +1,6 @@
 <cdk-virtual-scroll-viewport class="trip-root"
                              [class.isHidden]="(isComponentHidden$ | async)"
-                             itemSize="5"
+                             itemSize="50"
                              minBufferPx="800"
                              maxBufferPx="1000">
   <div class="trip-card"
@@ -31,24 +31,9 @@
         <div *ngIf="trip.path" class="trip-card__info-content">
           <mat-icon class="trip-card__info-icon">place</mat-icon>
           <div class="trip-card__info-places">
-            <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast">
+            <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast; trackBy: trackByFn">
               <p class="trip-card__places-text">{{place}}</p>
               <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
-
-              <!--<ng-container *ngIf="!!place.country && !!place.city">-->
-                <!--<p *ngIf="place.country" class="trip-card__places-text">{{place.country}},&nbsp;{{place.city}}</p>-->
-                <!--<mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>-->
-              <!--</ng-container>-->
-
-              <!--<ng-container *ngIf="!!place.country && !place.city">-->
-                <!--<p *ngIf="place.country" class="trip-card__places-text">{{place.country}}</p>-->
-                <!--<mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>-->
-              <!--</ng-container>-->
-
-              <!--<ng-container *ngIf="!place.country && !!place.city">-->
-                <!--<p *ngIf="place.country" class="trip-card__places-text">{{place.city}}</p>-->
-                <!--<mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>-->
-              <!--</ng-container>-->
             </div>
           </div>
         </div>
