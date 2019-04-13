@@ -1,8 +1,8 @@
-import {TripEntity} from '@entities/Trip.entity';
+import {ITrip} from '@interfaces/dto/ITrip';
 
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1504964148034-86ded740d1e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80';
 
-export function getTrip(photoUrl: string = DEFAULT_IMAGE):  TripEntity {
+export function getTrip(photoUrl: string = DEFAULT_IMAGE):  ITrip {
   return {
     id: 123,
     userId: 123,
@@ -21,7 +21,7 @@ export function getTrip(photoUrl: string = DEFAULT_IMAGE):  TripEntity {
   };
 }
 
-export function getTrips(): TripEntity[] {
+export function getTrips(): ITrip[] {
   return [
     getTrip(),
     getTrip('https://www.wallpaperup.com/uploads/wallpapers/2014/02/14/255795/0b6ccd76932e1746e7e3b4645784653c-700.jpg'),

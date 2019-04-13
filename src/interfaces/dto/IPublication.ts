@@ -1,10 +1,10 @@
-import {UserEntity} from '@entities/User.entity';
+import {IUser} from '@interfaces/dto/IUser';
 
-export interface PublicationEntity {
+export interface IPublication {
   id?: number;
   tripId: number;
   tripName: string;
-  publisher: UserEntity;
+  publisher: IUser;
   publishDate: number;
   userComment?: string;
   photoUrl?: string;

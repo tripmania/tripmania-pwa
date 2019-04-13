@@ -21,7 +21,7 @@ export class AuthService {
         (result: {accessToken: string, refreshToken: string}) => {
           setTokens(result.accessToken, result.refreshToken);
 
-          this.router.navigate(['/']);
+          this.router.navigate(['/'], {replaceUrl: true});
         },
         error => {
           this.errorService.showErrorMessage(error);
@@ -40,7 +40,7 @@ export class AuthService {
         (result: {accessToken: string, refreshToken: string}) => {
           setTokens(result.accessToken, result.refreshToken);
 
-          this.router.navigate(['/']);
+          this.router.navigate(['/'], {replaceUrl: true});
         },
         error => {
           this.errorService.showErrorMessage(error);

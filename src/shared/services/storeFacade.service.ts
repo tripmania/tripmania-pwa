@@ -1,49 +1,40 @@
 import {Injectable, Type} from '@angular/core';
-import {combineLatest, Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {map, take} from 'rxjs/operators';
-import {AppState} from '@enums/AppState.enum';
-import {selectActiveAppState, selectHeaderTitle} from '@store/selectors/app.selector';
-import {AddDynamicComponent, ChangeActiveState, GoToBackComponent} from '@store/actions/app.actions';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
-import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
+import {selectHeaderTitle} from '@store/selectors/app.selector';
+import {
+  GoToBackView,
+  OpenDynamicView,
+  OpenStaticView,
+  SetHeaderAction,
+  SetHeaderTitle
+} from '@store/actions/app.actions';
+import {IViewState, IStaticViewState} from '@interfaces/IViewState';
+import {IDynamicComponent} from '@interfaces/IComponent';
 
 @Injectable()
 export class StoreFacadeService {
-  readonly activeAppState$ = this.store$.select<AppState>(selectActiveAppState);
   readonly headerTitle$ = this.store$.select<string>(selectHeaderTitle);
 
   constructor(private store$: Store<any>) {
   }
 
-  openComponent(component: Type<DynamicComponent>, inputs: any, headerTitle: string) {
-    this.store$.dispatch(new AddDynamicComponent(component, inputs, headerTitle));
+  openStaticView(staticView: IStaticViewState) {
+    this.store$.dispatch(new OpenStaticView(staticView));
   }
 
-  goToBackComponent() {
-    this.store$.dispatch(new GoToBackComponent());
+  openDynamicView(component: Type<IDynamicComponent>, dynamicView: IViewState) {
+    this.store$.dispatch(new OpenDynamicView(component, dynamicView));
   }
 
-  changeActiveState(appState: AppState) {
-    combineLatest(
-      this.activeAppState$,
-      DynamicLoaderService.isDynamicComponentLoaded()
-    )
-      .pipe(take(1))
-      .subscribe(([state, isDynamicLoaded]) => {
-        if (state !== appState || isDynamicLoaded) {
-          this.store$.dispatch(new ChangeActiveState(appState));
-        }
-      });
+  goToBackView() {
+    this.store$.dispatch(new GoToBackView());
   }
 
-  isMainComponentHidden(state: AppState): Observable<boolean> {
-    return combineLatest(
-      this.activeAppState$,
-      DynamicLoaderService.isDynamicComponentLoaded()
-    )
-      .pipe(
-        map(([activeState, isDynamicLoaded]) => activeState !== state || isDynamicLoaded)
-      );
+  setHeaderTitle(title: string) {
+    this.store$.dispatch(new SetHeaderTitle(title));
+  }
+
+  setHeaderAction(actionName: string, action: () => void) {
+    this.store$.dispatch(new SetHeaderAction(actionName, action));
   }
 }

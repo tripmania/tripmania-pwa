@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AccountGuard} from '../account/account.guard';
-import {AccountComponent} from '../account/account.component';
 import {appRoutePaths} from '@consts/appRouting.consts';
+import {AccountComponent} from '@modules/account/account.component';
+import {AccountGuard} from '@modules/account/account.guard';
 
 const routes: Routes = [
   {

@@ -1,13 +1,16 @@
-import {AppState} from '@enums/AppState.enum';
+import {IViewState, IStaticViewState} from '@interfaces/IViewState';
+import {staticViews} from '@consts/staticViews';
 
 export interface IAppState {
-  activeState: AppState;
-  headerTitles: string[];
+  activeStaticState: IStaticViewState;
+  activeDynamicState: IViewState;
+  dynamicStates: IViewState[];
 }
 
 export const APP_STATE = 'appState';
 
 export const appStateInitial: IAppState = {
-  activeState: AppState.TRIPS,
-  headerTitles: []
+  activeStaticState: staticViews[0],
+  activeDynamicState: null,
+  dynamicStates: []
 };

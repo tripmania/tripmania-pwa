@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {TripEntity} from '@entities/Trip.entity';
+import {ITrip} from '@interfaces/dto/ITrip';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
-import {DynamicLoaderService} from '../../dynamic-loader/dynamic-loader.service';
-import {HideableComponent} from '@entities/HideableComponent.entity';
+import {IDynamicComponent} from '@interfaces/IComponent';
+import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
+import {Observable} from 'rxjs';
 
 interface DynamicInputs {
   forTripCreation: boolean;
-  trip: TripEntity;
+  trip: ITrip;
 }
 
 @Component({
@@ -16,12 +16,14 @@ interface DynamicInputs {
   styleUrls: ['./trip-details.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripDetailsComponent implements OnInit, DynamicComponent, HideableComponent {
+export class TripDetailsComponent implements OnInit, IDynamicComponent {
+  static ComponentName = 'TripDetailsComponent';
+
   @Input() inputs: DynamicInputs;
   @Input() componentIndex: number;
 
   @Input() forTripCreation: boolean;
-  @Input() trip: TripEntity;
+  @Input() trip: ITrip;
   form: FormGroup;
   private _tripPaths = [{from: '', to: ''}];
 
@@ -29,29 +31,16 @@ export class TripDetailsComponent implements OnInit, DynamicComponent, HideableC
     return this._tripPaths;
   }
 
-  get isComponentHidden(): boolean {
+  get isComponentHidden$(): Observable<boolean> {
     return DynamicLoaderService.IsComponentHidden(this);
   }
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.forTripCreation = this.inputs.forTripCreation || this.forTripCreation;
-    this.trip = this.inputs.trip || this.trip;
-
-    this.form = this.formBuilder.group({
-      title: [(this.forTripCreation ? '' : this.trip.title), [Validators.required, Validators.maxLength(150)]],
-      startDate: [(!this.forTripCreation && this.trip.startDate ? new Date(this.trip.startDate) : '')],
-      endDate: [(!this.forTripCreation && this.trip.endDate ? new Date(this.trip.endDate) : '')]
-    });
-
-    if (!this.forTripCreation && this.trip.path) {
-      this._tripPaths = [];
-      for (let i = 0; i < this.trip.path.length - 1; i++) {
-        const path = {from: this.trip.path[i], to: this.trip.path[i + 1]};
-        this._tripPaths.push(path);
-      }
-    }
+    this.initComponentInputs();
+    this.initForm();
+    this.initTripPaths();
   }
 
   onAddPathRow() {
@@ -73,6 +62,35 @@ export class TripDetailsComponent implements OnInit, DynamicComponent, HideableC
 
     if (this._tripPaths.length === 0) {
       this._tripPaths.push({from: '', to: ''});
+    }
+  }
+
+  private initComponentInputs() {
+    if (this.inputs) {
+      this.forTripCreation = this.inputs.forTripCreation || this.forTripCreation;
+      this.trip = this.inputs.trip || this.trip;
+    }
+  }
+
+  private initForm() {
+    const title = this.forTripCreation ? '' : this.trip.title;
+    const startDate = (!this.forTripCreation && this.trip.startDate) ? new Date(this.trip.startDate) : '';
+    const endDate = (!this.forTripCreation && this.trip.endDate) ? new Date(this.trip.endDate) : '';
+
+    this.form = this.formBuilder.group({
+      title: [title, [Validators.required, Validators.maxLength(150)]],
+      startDate: [startDate],
+      endDate: [endDate]
+    });
+  }
+
+  private initTripPaths() {
+    if (!this.forTripCreation && this.trip.path) {
+      this._tripPaths = [];
+      for (let i = 0; i < this.trip.path.length - 1; i++) {
+        const path = {from: this.trip.path[i], to: this.trip.path[i + 1]};
+        this._tripPaths.push(path);
+      }
     }
   }
 }

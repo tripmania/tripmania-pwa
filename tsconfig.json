@@ -24,8 +24,8 @@
       "@store/*": [
         "../src/store/*"
       ],
-      "@entities/*": [
-        "../src/entities/*"
+      "@interfaces/*": [
+        "../src/interfaces/*"
       ],
       "@models/*": [
         "../src/models/*"

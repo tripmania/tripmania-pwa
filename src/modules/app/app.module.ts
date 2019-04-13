@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatSnackBarModule} from '@angular/material';
+import {MatSnackBarModule} from '@angular/material';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
@@ -31,7 +31,6 @@ if (!environment.production) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatButtonModule,
     AppRouting,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(appEffects),

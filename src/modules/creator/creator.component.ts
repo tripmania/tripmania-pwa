@@ -1,19 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
-import {HideableComponent} from '@entities/HideableComponent.entity';
 import {Observable} from 'rxjs';
-import {AppState} from '@enums/AppState.enum';
+import {IStaticComponent} from '@interfaces/IComponent';
+import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 
 @Component({
   selector: 'creator',
   templateUrl: './creator.component.html',
   styleUrls: ['./creator.component.less']
 })
-export class CreatorComponent implements OnInit, HideableComponent {
-  constructor(private storeFacade: StoreFacadeService) { }
+export class CreatorComponent implements OnInit, IStaticComponent {
+  static ComponentName = 'CreatorComponent';
 
-  get isComponentHidden(): Observable<boolean> {
-    return this.storeFacade.isMainComponentHidden(AppState.CREATOR);
+  get isComponentHidden$(): Observable<boolean> {
+    return StaticLoaderService.isComponentHidden(CreatorComponent.ComponentName);
   }
 
   ngOnInit() {

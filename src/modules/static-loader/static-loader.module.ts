@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicLoaderComponent } from './dynamic-loader.component';
+import { StaticLoaderComponent } from './static-loader.component';
 import {DynamicContainerModule} from '@shared/directives/dynamic-container/dynamic-container.module';
 
 @NgModule({
-  declarations: [DynamicLoaderComponent],
+  declarations: [StaticLoaderComponent],
   imports: [
     CommonModule,
     DynamicContainerModule
   ],
-  exports: [DynamicLoaderComponent]
+  exports: [StaticLoaderComponent]
 })
-export class DynamicLoaderModule { }
+export class StaticLoaderModule { }

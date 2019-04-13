@@ -1,4 +1,3 @@
-import {APP_STATE} from '../states/app.state';
 import {ActionReducerMap} from '@ngrx/store';
 import {InjectionToken} from '@angular/core';
 import {appReducer} from '@store/reducers/app.reducer';

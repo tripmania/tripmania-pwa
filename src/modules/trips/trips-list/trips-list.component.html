@@ -1,6 +1,10 @@
-<cdk-virtual-scroll-viewport [class.isHidden]="(isComponentHidden | async)" class="trip-root" itemSize="5" minBufferPx="800" maxBufferPx="1000">
+<cdk-virtual-scroll-viewport class="trip-root"
+                             [class.isHidden]="(isComponentHidden$ | async)"
+                             itemSize="5"
+                             minBufferPx="800"
+                             maxBufferPx="1000">
   <div class="trip-card"
-       *cdkVirtualFor="let trip of trips; templateCacheSize: 0"
+       *cdkVirtualFor="let trip of trips; templateCacheSize: 0; trackBy: trackByFn"
        [scrollableContainer]="container"
        (deferLoad)="trip.isImageShown = true"
        (click)="openTrip(trip)">

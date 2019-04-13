@@ -1,10 +1,10 @@
 import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {DynamicLoaderDirective} from '@shared/directives/dynamic-loader.directive';
-import {DynamicComponent} from '@entities/DynamicComponent.entity';
+import {DynamicContainerDirective} from '@shared/directives/dynamic-container/dynamic-container.directive';
+import {IDynamicComponent} from '@interfaces/IComponent';
 import {DynamicLoaderService} from './dynamic-loader.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {DynamicItem} from '@models/dynamic-item.model';
+import {DynamicItem} from '@models/dynamic-item';
 
 @Component({
   selector: 'dynamic-loader',
@@ -12,14 +12,15 @@ import {DynamicItem} from '@models/dynamic-item.model';
   styleUrls: ['./dynamic-loader.component.less']
 })
 export class DynamicLoaderComponent implements OnInit, OnDestroy {
-  @ViewChild(DynamicLoaderDirective) adHost: DynamicLoaderDirective;
+  @ViewChild(DynamicContainerDirective) dynamicHost: DynamicContainerDirective;
+  isDynamicComponentsLoaded$ = DynamicLoaderService.isDynamicComponentLoaded();
   private destroy$ = new Subject<void>();
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private dynamicLoaderService: DynamicLoaderService) { }
 
   ngOnInit() {
-    this.adHost.viewContainerRef.clear();
+    this.dynamicHost.viewContainerRef.clear();
 
     this.initAddComponentSubscription();
     this.initRemoveComponentSubscription();
@@ -35,10 +36,10 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((item: DynamicItem) => {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(item.component);
-        const componentRef = this.adHost.viewContainerRef.createComponent(componentFactory);
+        const componentRef = this.dynamicHost.viewContainerRef.createComponent(componentFactory);
 
-        (<DynamicComponent>componentRef.instance).inputs = item.inputs;
-        (<DynamicComponent>componentRef.instance).componentIndex = item.componentIndex;
+        (<IDynamicComponent>componentRef.instance).inputs = item.inputs;
+        (<IDynamicComponent>componentRef.instance).componentIndex = item.componentIndex;
       });
   }
 
@@ -46,8 +47,8 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
     this.dynamicLoaderService.removeComponent$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        if (this.adHost.viewContainerRef.length) {
-          this.adHost.viewContainerRef.remove();
+        if (this.dynamicHost.viewContainerRef.length) {
+          this.dynamicHost.viewContainerRef.remove();
         }
       });
   }
@@ -56,8 +57,8 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
     this.dynamicLoaderService.removeAllComponents$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        if (this.adHost.viewContainerRef.length) {
-          this.adHost.viewContainerRef.clear();
+        if (this.dynamicHost.viewContainerRef.length) {
+          this.dynamicHost.viewContainerRef.clear();
         }
       });
   }
