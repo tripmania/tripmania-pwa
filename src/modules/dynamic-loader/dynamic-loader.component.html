@@ -1,1 +1,3 @@
-<ng-template dynamic-host></ng-template>
+<div class="dynamic-root" [class.isHidden]="!(isDynamicComponentsLoaded$ | async)">
+  <ng-template dynamicHost></ng-template>
+</div>

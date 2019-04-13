@@ -1,4 +1,4 @@
-import {ITrip} from '@interfaces/ITrip';
+import {ITrip} from '@interfaces/dto/ITrip';
 
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1504964148034-86ded740d1e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80';
 

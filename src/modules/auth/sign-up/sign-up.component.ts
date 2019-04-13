@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {passwordMatchValidator} from '@shared/helpers/passwordMatch.validator';
-import {AuthService} from '../auth.service';
+import {AuthService} from '@modules/auth/auth.service';
 
 const FORM_CONTROLS = {
   NAME: 'name',
@@ -14,7 +14,8 @@ const FORM_CONTROLS = {
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.less']
+  styleUrls: ['./sign-up.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent implements OnInit {
   form: FormGroup;

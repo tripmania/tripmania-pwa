@@ -1,4 +1,4 @@
-import {IUser} from '@interfaces/IUser';
+import {IUser} from '@interfaces/dto/IUser';
 
 export interface IPublication {
   id?: number;

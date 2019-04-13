@@ -4,17 +4,24 @@ import { AccountComponent } from './account.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptor} from '@shared/interceptors/auth.interceptor';
 import {ErrorInterceptor} from '@shared/interceptors/error.interceptor';
-import {TripDetailsModule} from '@modules/trips/trip-details/trip-details.module';
 import {BottomNavModule} from '@modules/bottom-nav/bottom-nav.module';
-import {HomeModule} from '@modules/home/home.module';
-import {SearchModule} from '@modules/search/search.module';
-import {SettingsModule} from '@modules/settings/settings.module';
-import {TripsListModule} from '@modules/trips/trips-list/trips-list.module';
-import {ProfileModule} from '@modules/profile/profile.module';
-import {CreatorModule} from '@modules/creator/creator.module';
 import {HeaderModule} from '@modules/header/header.module';
 import {DynamicLoaderModule} from '@modules/dynamic-loader/dynamic-loader.module';
+import {StaticLoaderModule} from '@modules/static-loader/static-loader.module';
+import {TripDetailsModule} from '@modules/trips/trip-details/trip-details.module';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
+import {TripsListModule} from '@modules/trips/trips-list/trips-list.module';
+import {ProfileModule} from '@modules/profile/profile.module';
+import {SearchModule} from '@modules/search/search.module';
+import {HomeModule} from '@modules/home/home.module';
+import {SettingsModule} from '@modules/settings/settings.module';
+import {CreatorModule} from '@modules/creator/creator.module';
+import {TripsListComponent} from '@modules/trips/trips-list/trips-list.component';
+import {ProfileComponent} from '@modules/profile/profile.component';
+import {SearchComponent} from '@modules/search/search.component';
+import {HomeComponent} from '@modules/home/home.component';
+import {SettingsComponent} from '@modules/settings/settings.component';
+import {CreatorComponent} from '@modules/creator/creator.component';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -27,22 +34,31 @@ const interceptors = [
   imports: [
     CommonModule,
     BottomNavModule,
-    HomeModule,
-    SearchModule,
-    SettingsModule,
-    TripsListModule,
-    ProfileModule,
-    CreatorModule,
     HeaderModule,
     HttpClientModule,
     DynamicLoaderModule,
-    TripDetailsModule
+    StaticLoaderModule,
+    TripDetailsModule,
+    TripsListModule,
+    ProfileModule,
+    SearchModule,
+    HomeModule,
+    SettingsModule,
+    CreatorModule
   ],
   exports: [AccountComponent],
+  entryComponents: [
+    TripDetailsComponent,
+    TripsListComponent,
+    ProfileComponent,
+    SearchComponent,
+    HomeComponent,
+    SettingsComponent,
+    CreatorComponent
+  ],
   providers: [
     ...interceptors
-  ],
-  entryComponents: [TripDetailsComponent]
+  ]
 })
 export class AccountModule {
 }

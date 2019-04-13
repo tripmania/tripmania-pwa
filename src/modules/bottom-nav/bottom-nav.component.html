@@ -1,49 +1,12 @@
 <div class="bottom-nav">
-  <!--<button mat-button-->
-          <!--mat-icon-button-->
-          <!--class="bottom-nav__button"-->
-          <!--[color]="(activeState$ | async) === 'search' ? 'primary': ''"-->
-          <!--(click)="changeAppState('search')">-->
-    <!--<mat-icon [class.bottom-nav__button-gray]="(activeState$ | async) !== 'search'">search</mat-icon>-->
-  <!--</button>-->
-
   <button mat-button
           mat-icon-button
           class="bottom-nav__button"
-          [color]="(isStateSelected('trips') | async) ? 'primary': ''"
-          (click)="changeAppState('trips')">
-    <mat-icon [class.bottom-nav__button-gray]="!(isStateSelected('trips') | async)">card_travel</mat-icon>
-  </button>
-
-  <button mat-button
-          mat-icon-button
-          class="bottom-nav__button"
-          [color]="(isStateSelected('creator') | async) ? 'primary': ''"
-          (click)="changeAppState('creator')">
-    <mat-icon [class.bottom-nav__button-gray]="!(isStateSelected('creator') | async)">add_circle_outline</mat-icon>
-  </button>
-
-  <!--<button mat-button-->
-          <!--mat-icon-button-->
-          <!--class="bottom-nav__button"-->
-          <!--[color]="(activeState$ | async) === 'home' ? 'primary': ''"-->
-          <!--(click)="changeAppState('home')">-->
-    <!--<mat-icon [class.bottom-nav__button-gray]="(activeState$ | async) !== 'home'">home</mat-icon>-->
-  <!--</button>-->
-
-  <button mat-button
-          mat-icon-button
-          class="bottom-nav__button"
-          [color]="(isStateSelected('profile') | async) ? 'primary': ''"
-          (click)="changeAppState('profile')">
-    <mat-icon [class.bottom-nav__button-gray]="!(isStateSelected('profile') | async)">account_circle</mat-icon>
-  </button>
-
-  <button mat-button
-          mat-icon-button
-          class="bottom-nav__button"
-          [color]="(isStateSelected('settings') | async) ? 'primary': ''"
-          (click)="changeAppState('settings')">
-    <mat-icon [class.bottom-nav__button-gray]="!(isStateSelected('settings') | async)">settings</mat-icon>
+          *ngFor="let view of bottomNavsViews"
+          [color]="(isComponentSelected(view.componentName) | async) ? 'primary': ''"
+          (click)="selectStaticView(view)">
+    <mat-icon [class.bottom-nav__button-gray]="!(isComponentSelected(view.componentName) | async)">
+      {{view.iconName}}
+    </mat-icon>
   </button>
 </div>

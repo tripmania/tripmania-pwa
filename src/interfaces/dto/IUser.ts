@@ -1,4 +1,4 @@
-import {IAchievement} from '@interfaces/IAchievement';
+import {IAchievement} from '@interfaces/dto/IAchievement';
 
 export interface IUser {
   id?: number;

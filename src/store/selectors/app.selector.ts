@@ -1,23 +1,17 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {APP_STATE, IAppState} from '@store/states/app.state';
-import {mainHeaderTitles} from '@consts/mainHeaderTitles.consts';
 
 export const selectAppState = createFeatureSelector<IAppState>(APP_STATE);
-
-export const selectStaticAppState = createSelector(
-  selectAppState,
-  (state: IAppState) => state.staticState
-);
 
 export const selectHeaderTitle = createSelector(
   selectAppState,
   (state: IAppState) => {
-    const titlesCount = state.headerTitles.length;
+    const dynamicsLen = state.dynamicStates.length;
 
-    if (titlesCount === 0) {
-      return mainHeaderTitles[state.staticState];
+    if (dynamicsLen !== 0 && !!state.activeDynamicState) {
+      return state.activeDynamicState.headerOptions.title;
     }
 
-    return state.headerTitles[titlesCount - 1];
+    return state.activeStaticState.headerOptions.title;
   }
 );

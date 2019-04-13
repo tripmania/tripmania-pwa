@@ -3,23 +3,99 @@ import {AppActions, AppActionTypes} from '@store/actions/app.actions';
 
 export function appReducer(state: IAppState = appStateInitial,
                            action: AppActions): IAppState {
+  let newDynamicState;
+  let newStaticState;
+  const dynamicStatesLen = state.dynamicStates.length;
+
   switch (action.type) {
-    case (AppActionTypes.CHANGE_STATIC_STATE):
+    case (AppActionTypes.OPEN_STATIC_VIEW):
       return {
         ...state,
-        staticState: action.staticState,
-        headerTitles: []
+        activeStaticState: action.view,
+        activeDynamicState: null,
+        dynamicStates: []
       };
-    case (AppActionTypes.ADD_DYNAMIC_COMPONENT):
+
+    case (AppActionTypes.OPEN_DYNAMIC_VIEW):
       return {
         ...state,
-        headerTitles: state.headerTitles.concat(action.headerTitle)
+        activeDynamicState: action.view,
+        dynamicStates: state.dynamicStates.concat(action.view)
       };
-    case (AppActionTypes.GO_TO_BACK_COMPONENT):
+
+    case (AppActionTypes.GO_TO_BACK_VIEW):
+      if (dynamicStatesLen === 0) {
+        return state;
+      }
+
       return {
         ...state,
-        headerTitles: state.headerTitles.slice(0, -1)
+        activeDynamicState: (dynamicStatesLen > 1 ? {...(state.dynamicStates[dynamicStatesLen - 2])} : null),
+        dynamicStates: state.dynamicStates.slice(0, -1)
       };
+
+    case (AppActionTypes.SET_HEADER_TITLE):
+      if (dynamicStatesLen > 0) {
+        newDynamicState = {
+          ...(state.activeDynamicState),
+          headerOptions: {
+            ...(state.activeDynamicState.headerOptions),
+            title: action.title
+          }
+        };
+
+        return {
+          ...state,
+          activeDynamicState: {...newDynamicState},
+          dynamicStates: state.dynamicStates.slice(0, -1).concat({...newDynamicState})
+        };
+      }
+
+      newStaticState = {
+        ...(state.activeStaticState),
+        headerOptions: {
+          ...(state.activeStaticState.headerOptions),
+          title: action.title
+        }
+      };
+
+      return {
+        ...state,
+        activeStaticState: {...newStaticState}
+      };
+
+    case (AppActionTypes.SET_HEADER_ACTION):
+      if (dynamicStatesLen > 0) {
+        newDynamicState = {
+          ...(state.activeDynamicState),
+          headerOptions: {
+            ...(state.activeDynamicState.headerOptions),
+            actionName: action.actionName,
+            action: action.action
+          }
+        };
+
+        return {
+          ...state,
+          activeDynamicState: {...newDynamicState},
+          dynamicStates: state.dynamicStates.slice(0, -1).concat({...newDynamicState})
+        };
+      }
+
+      newStaticState = {
+        ...(state.activeStaticState),
+        headerOptions: {
+          ...(state.activeStaticState.headerOptions),
+          actionName: action.actionName,
+          action: action.action
+        }
+      };
+
+      return {
+        ...state,
+        activeStaticState: {...newStaticState}
+      };
+
     default:
       return state;
   }

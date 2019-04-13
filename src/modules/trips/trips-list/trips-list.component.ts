@@ -1,12 +1,11 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {ITrip} from '@interfaces/ITrip';
+import {ITrip} from '@interfaces/dto/ITrip';
 import {getTrips} from '@mocks/trips.mock';
-import {HttpClient} from '@angular/common/http';
 import {StoreFacadeService} from '@shared/services/storeFacade.service';
-import {Observable} from 'rxjs';
-import {AppState} from '@enums/AppState.enum';
-import {IHideableComponent} from '@interfaces/IHideableComponent';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
+import {IStaticComponent} from '@interfaces/IComponent';
+import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'trips-list',
@@ -14,24 +13,20 @@ import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.com
   styleUrls: ['./trips-list.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TripsListComponent implements OnInit, AfterViewInit, IHideableComponent {
+export class TripsListComponent implements OnInit, AfterViewInit, IStaticComponent {
+  static ComponentName = 'TripsListComponent';
+
   container: any;
   trips: ITrip[] = getTrips();
 
-  constructor(private http: HttpClient,
-              private storeFacade: StoreFacadeService) {
+  get isComponentHidden$(): Observable<boolean> {
+    return StaticLoaderService.isComponentHidden(TripsListComponent.ComponentName);
   }
 
-  get isComponentHidden(): Observable<boolean> {
-    return this.storeFacade.isStaticComponentHidden(AppState.TRIPS);
+  constructor(private storeFacade: StoreFacadeService) {
   }
 
   ngOnInit() {
-    // this.http.get(apiUrls.TRIPS_URL)
-    //   .subscribe(
-    //     res => console.log('res: ', res),
-    //     error => console.log('error: ', error)
-    //   );
   }
 
   ngAfterViewInit() {
@@ -39,13 +34,21 @@ export class TripsListComponent implements OnInit, AfterViewInit, IHideableCompo
   }
 
   openTrip(trip: ITrip) {
-    this.storeFacade.openComponent(
+    this.storeFacade.openDynamicView(
       TripDetailsComponent,
       {
-        forTripCreation: false,
-        trip
-      },
-      trip.title
-    );
+          componentName: TripDetailsComponent.ComponentName,
+          inputs: {
+            forTripCreation: false,
+            trip
+          },
+          headerOptions: {
+            title: trip.title
+        }
+      });
+  }
+
+  trackByFn(item, index) {
+    return index;
   }
 }

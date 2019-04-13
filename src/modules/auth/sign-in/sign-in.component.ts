@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../auth.service';
+import {AuthService} from '@modules/auth/auth.service';
 
 const FORM_CONTROLS = {
   LOGIN: 'login',
@@ -10,7 +10,8 @@ const FORM_CONTROLS = {
 @Component({
   selector: 'sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.less']
+  styleUrls: ['./sign-in.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignInComponent implements OnInit {
   form: FormGroup;

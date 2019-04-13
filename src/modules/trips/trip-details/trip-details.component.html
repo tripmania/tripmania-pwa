@@ -1,4 +1,4 @@
-<div class="trip-detail-root">
+<div class="trip-detail-root" [class.isHidden]="isComponentHidden$ | async">
   <form [formGroup]="form">
     <mat-form-field class="detail-info detail-info__title" appearance="outline">
       <mat-label>Title</mat-label>

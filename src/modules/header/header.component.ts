@@ -22,4 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  goBack() {
+    this.storeFacade.goToBackView();
+  }
 }

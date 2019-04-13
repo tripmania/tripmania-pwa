@@ -1,0 +1,7 @@
+@import "global";
+
+.dynamic-root {
+  @root();
+  height: calc(~"100% - @{header-height}");
+  z-index: 100;
+}
