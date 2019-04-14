@@ -20,7 +20,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   @Input() hideAddButton = false;
 
   container: HTMLElement;
-  trips: ITrip[] = [];
+  trips: ITrip[] = getTrips();
   private addButton: HTMLButtonElement;
   private destroy$ = new Subject<void>();
 
