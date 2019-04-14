@@ -5,25 +5,26 @@
       <input matInput formControlName="title">
     </mat-form-field>
 
-    <mat-card class="detail-info detail-info__card">
+    <mat-card class="detail-info detail-info__card" *ngIf="!forTripCreation && trip.photoUrl || photoToUpload">
       <mat-card-header>
         <mat-card-title>Image</mat-card-title>
       </mat-card-header>
-      <img *ngIf="!forTripCreation && trip.photoUrl"
-           mat-card-image
+      <img mat-card-image
            class="detail-info__card-img"
-           [src]="trip.photoUrl"
+           [src]="(!!trip && !photoToUpload ? trip.photoUrl : photoToUpload) | safeHtml"
            alt="Trip image">
-      <div *ngIf="forTripCreation || (trip && !trip.photoUrl)"
-           class="detail-info__card-placeholder">
-        <mat-icon class="detail-info__card-placeholder-icon">add_a_photo</mat-icon>
+      <div class="detail-info__card-upload" (click)="uploadFile.click()">
+        <mat-icon class="detail-info__card-upload-icon">add_a_photo</mat-icon>
       </div>
-      <mat-card-actions>
-        <button mat-button
-                color="primary"
-                [textContent]="!forTripCreation && trip.photoUrl ? 'CHANGE' : 'ADD'"></button>
-      </mat-card-actions>
     </mat-card>
+
+    <mat-card class="detail-info detail-info__upload" matRipple *ngIf="(forTripCreation || (trip && !trip.photoUrl)) && !photoToUpload">
+      <div class="detail-info__upload-placeholder" (click)="uploadFile.click()">
+        <mat-icon class="detail-info__upload-placeholder-icon">add_a_photo</mat-icon>
+      </div>
+    </mat-card>
+
+    <input #uploadFile type="file" accept="image/*" [hidden]="true" (change)="onFileUpload($event)">
 
     <mat-card class="detail-info detail-info__dates">
       <mat-card-header>
@@ -96,4 +97,6 @@
       </mat-card-actions>
     </mat-card>
   </form>
+
+  <button *ngIf="!!trip" class="detail-info" mat-raised-button color="warn" (click)="onDeleteTrip()">DELETE TRIP</button>
 </div>

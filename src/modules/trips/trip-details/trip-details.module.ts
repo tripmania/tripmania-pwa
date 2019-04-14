@@ -5,18 +5,20 @@ import {
   DateAdapter, MAT_DATE_FORMATS,
   MatButtonModule,
   MatCardModule,
-  MatDatepickerModule,
+  MatDatepickerModule, MatDialogModule,
   MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatNativeDateModule
+  MatNativeDateModule, MatRippleModule
 } from '@angular/material';
 import {DatepickerSettings, MY_DATE_FORMATS} from '@shared/helpers/datepickerSettings';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SafeHtmlModule} from '@shared/pipes/safe-html/safe-html.module';
+import {DeleteTripDialogComponent} from '@modules/trips/delete-trip-dialog/delete-trip-dialog.component';
 
 @NgModule({
-  declarations: [TripDetailsComponent],
+  declarations: [TripDetailsComponent, DeleteTripDialogComponent],
   imports: [
     CommonModule,
     MatInputModule,
@@ -28,9 +30,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatButtonModule,
     MatDividerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatRippleModule,
+    SafeHtmlModule,
+    MatDialogModule
   ],
   exports: [TripDetailsComponent],
+  entryComponents: [DeleteTripDialogComponent],
   providers: [
     {provide: DateAdapter, useClass: DatepickerSettings},
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS}
