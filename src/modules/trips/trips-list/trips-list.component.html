@@ -47,6 +47,15 @@
           *ngIf="!hideAddButton"
           (click)="createTrip()"
           mat-fab color="warn">
-  <mat-icon>add</mat-icon>
+    <mat-icon>add</mat-icon>
   </button>
+  
+  <div *ngIf="!trips.length" class="trips-placeholder">
+    <img class="trips-placeholder__img" src="images/world.svg">
+    <p class="trips-placeholder__text">
+      You do&nbsp;not have trips yet.
+      <br>
+      Create an&nbsp;amazing trip now!
+    </p>
+  </div>
 </div>
