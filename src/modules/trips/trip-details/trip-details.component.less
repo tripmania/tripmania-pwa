@@ -12,15 +12,55 @@
   margin: @main-margin;
 
   &__card {
+    padding-bottom: 0 !important;
+
+    &::after {
+      display: block;
+      position: absolute;
+      background-image: linear-gradient(to top,rgba(0, 0, 0, 0.5) 0%,rgba(0, 0, 0, 0) 100%);
+      margin-top: -50px;
+      height: 50px;
+      width: 100%;
+      margin-left: -@main-margin;
+      border-radius: 4px;
+      content: '';
+    }
+
     &-img {
       height: 200px;
       object-fit: cover;
+      transform: translateY(3px);
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
     }
+
+    &-upload {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      width: 25px;
+      height: 25px;
+      bottom: @main-margin;
+      right: @main-margin;
+      z-index: 100;
+
+      &-icon {
+        position: relative;
+        width: 25px;
+        height: 25px;
+        font-size: 25px;
+        color: white;
+        pointer-events: none;
+      }
+    }
+  }
+
+  &__upload {
 
     &-placeholder {
       display: flex;
       align-items: center;
-      height: 70px;
+      height: 50px;
 
       &-icon {
         margin: auto;
@@ -28,6 +68,7 @@
         width: 40px;
         height: 40px;
         font-size: 40px;
+        pointer-events: none;
       }
     }
   }

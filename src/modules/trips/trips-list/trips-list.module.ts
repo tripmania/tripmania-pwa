@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TripsListComponent } from './trips-list.component';
-import {MatIconModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatIconModule
+} from '@angular/material';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {DeferLoadModule} from '@shared/directives/defer-load/defer-load.module';
 
@@ -11,7 +14,8 @@ import {DeferLoadModule} from '@shared/directives/defer-load/defer-load.module';
     CommonModule,
     MatIconModule,
     ScrollingModule,
-    DeferLoadModule
+    DeferLoadModule,
+    MatButtonModule
   ],
   exports: [TripsListComponent]
 })

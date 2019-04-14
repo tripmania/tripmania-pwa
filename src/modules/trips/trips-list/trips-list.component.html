@@ -1,44 +1,52 @@
-<cdk-virtual-scroll-viewport class="trip-root"
-                             [class.isHidden]="(isComponentHidden$ | async)"
-                             itemSize="50"
-                             minBufferPx="800"
-                             maxBufferPx="1000">
-  <div class="trip-card"
-       *cdkVirtualFor="let trip of trips; templateCacheSize: 0; trackBy: trackByFn"
-       [scrollableContainer]="container"
-       (deferLoad)="trip.isImageShown = true"
-       (click)="openTrip(trip)">
+<div class="trip-root"
+     [class.isHidden]="(isComponentHidden$ | async)">
+  <cdk-virtual-scroll-viewport class="trip-container" itemSize="50"
+                               minBufferPx="800"
+                               maxBufferPx="1000">
+    <div class="trip-card"
+         *cdkVirtualFor="let trip of trips; templateCacheSize: 0; trackBy: trackByFn"
+         [scrollableContainer]="container"
+         (deferLoad)="trip.isImageShown = true"
+         (click)="openTrip(trip)">
 
-    <img class="trip-card__img"
-         [src]="trip.isImageShown ? trip.photoUrl : ''"
-         (load)="loadedImage(trip)"
-         [hidden]="!trip.isImageLoaded">
+      <img class="trip-card__img"
+           [src]="trip.isImageShown ? trip.photoUrl : ''"
+           (load)="loadedImage(trip)"
+           [hidden]="!trip.isImageLoaded">
 
-    <div class="trip-card__content">
-      <p class="trip-card__title">{{trip.title}}</p>
+      <div class="trip-card__content">
+        <p class="trip-card__title">{{trip.title}}</p>
 
-      <div class="trip-card__info">
+        <div class="trip-card__info">
 
-        <div *ngIf="trip.startDate" class="trip-card__info-content">
-          <mat-icon class="trip-card__info-icon">flight_takeoff</mat-icon>
-          <p class="trip-card__info-text">{{trip.startDate | date: 'longDate'}}</p>
-        </div>
+          <div *ngIf="trip.startDate" class="trip-card__info-content">
+            <mat-icon class="trip-card__info-icon">flight_takeoff</mat-icon>
+            <p class="trip-card__info-text">{{trip.startDate | date: 'longDate'}}</p>
+          </div>
 
-        <div *ngIf="trip.endDate" class="trip-card__info-content">
-          <mat-icon class="trip-card__info-icon">flight_land</mat-icon>
-          <p class="trip-card__info-text">{{trip.endDate | date: 'longDate'}}</p>
-        </div>
+          <div *ngIf="trip.endDate" class="trip-card__info-content">
+            <mat-icon class="trip-card__info-icon">flight_land</mat-icon>
+            <p class="trip-card__info-text">{{trip.endDate | date: 'longDate'}}</p>
+          </div>
 
-        <div *ngIf="trip.path" class="trip-card__info-content">
-          <mat-icon class="trip-card__info-icon">place</mat-icon>
-          <div class="trip-card__info-places">
-            <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast; trackBy: trackByFn">
-              <p class="trip-card__places-text">{{place}}</p>
-              <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+          <div *ngIf="trip.path" class="trip-card__info-content">
+            <mat-icon class="trip-card__info-icon">place</mat-icon>
+            <div class="trip-card__info-places">
+              <div class="trip-card__places" *ngFor="let place of trip.path; last as isLast; trackBy: trackByFn">
+                <p class="trip-card__places-text">{{place}}</p>
+                <mat-icon *ngIf="!isLast" class="trip-card__places-icon">arrow_forward</mat-icon>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</cdk-virtual-scroll-viewport>
+  </cdk-virtual-scroll-viewport>
+
+  <button class="add-button"
+          *ngIf="!hideAddButton"
+          (click)="createTrip()"
+          mat-fab color="warn">
+  <mat-icon>add</mat-icon>
+  </button>
+</div>
