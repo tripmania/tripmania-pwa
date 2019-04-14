@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {PreventHistoryBackService} from '@shared/services/prevent-history-back.service';
+import {UserService} from '@shared/services/user.service';
 
 @Component({
   selector: 'account',
@@ -9,10 +10,12 @@ import {PreventHistoryBackService} from '@shared/services/prevent-history-back.s
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private preventHistoryBack: PreventHistoryBackService) {
+  constructor(private preventHistoryBack: PreventHistoryBackService,
+              private userService: UserService) {
   }
 
   ngOnInit() {
     this.preventHistoryBack.init();
+    this.userService.loadUser();
   }
 }

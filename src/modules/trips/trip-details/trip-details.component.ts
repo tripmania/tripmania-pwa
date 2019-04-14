@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IDynamicComponent} from '@interfaces/IComponent';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {Observable, Subject} from 'rxjs';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
+import {AppStateService} from '@shared/services/app-state.service';
 import {MatDialog} from '@angular/material';
 import {DeleteTripDialogComponent} from '@modules/trips/delete-trip-dialog/delete-trip-dialog.component';
 import {takeUntil} from 'rxjs/operators';
@@ -44,7 +44,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
   }
 
   constructor(private formBuilder: FormBuilder,
-              private storeFacade: StoreFacadeService,
+              private appStateService: AppStateService,
               private dialog: MatDialog,
               private changeDetector: ChangeDetectorRef) { }
 
@@ -99,7 +99,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
       .subscribe(destroy => {
         if (destroy) {
           console.log('удаляю трип');
-          this.storeFacade.goToBackView();
+          this.appStateService.goToBackView();
         }
       });
   }
@@ -141,7 +141,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
           this.changeDetector.markForCheck();
         } else {
           console.log('сохраняю трип');
-          this.storeFacade.goToBackView();
+          this.appStateService.goToBackView();
         }
       };
     } else {
@@ -151,11 +151,11 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
           this.changeDetector.markForCheck();
         } else {
           console.log('обновляю трип');
-          this.storeFacade.goToBackView();
+          this.appStateService.goToBackView();
         }
       };
     }
 
-    this.storeFacade.setHeaderAction('Save', this.headerAction);
+    this.appStateService.setHeaderAction('Save', this.headerAction);
   }
 }

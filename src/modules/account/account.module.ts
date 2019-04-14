@@ -23,12 +23,27 @@ import {HomeComponent} from '@modules/home/home.component';
 import {SettingsComponent} from '@modules/settings/settings.component';
 import {CreatorComponent} from '@modules/creator/creator.component';
 import {PreventHistoryBackService} from '@shared/services/prevent-history-back.service';
+import {StoreModule} from '@ngrx/store';
+import {reducers, reducersProvider} from '@store/reducers';
+import {EffectsModule} from '@ngrx/effects';
+import {appEffects} from '@store/effects';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../../environments/environment';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
+import {AppStateService} from '@shared/services/app-state.service';
+import {UserService} from '@shared/services/user.service';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   // Must be the last
   {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
 ];
+const storeDevTools = [];
+
+if (!environment.production) {
+  storeDevTools.push(StoreDevtoolsModule.instrument());
+}
 
 @NgModule({
   declarations: [AccountComponent],
@@ -36,7 +51,6 @@ const interceptors = [
     CommonModule,
     BottomNavModule,
     HeaderModule,
-    HttpClientModule,
     DynamicLoaderModule,
     StaticLoaderModule,
     TripDetailsModule,
@@ -45,7 +59,12 @@ const interceptors = [
     SearchModule,
     HomeModule,
     SettingsModule,
-    CreatorModule
+    CreatorModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(appEffects),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ...storeDevTools,
+    HttpClientModule
   ],
   exports: [AccountComponent],
   entryComponents: [
@@ -59,7 +78,11 @@ const interceptors = [
   ],
   providers: [
     ...interceptors,
-    PreventHistoryBackService
+    PreventHistoryBackService,
+    DynamicLoaderService,
+    reducersProvider,
+    AppStateService,
+    UserService,
   ]
 })
 export class AccountModule {

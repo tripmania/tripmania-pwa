@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
+import {AppStateService} from '@shared/services/app-state.service';
 import {IStaticViewState} from '@interfaces/IViewState';
 import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 import {staticViews} from '@consts/staticViews';
@@ -14,13 +14,13 @@ import {map} from 'rxjs/operators';
 })
 export class BottomNavComponent implements OnInit {
   bottomNavsViews: IStaticViewState[] = staticViews;
-  constructor(private storeFacade: StoreFacadeService) { }
+  constructor(private appStateService: AppStateService) { }
 
   ngOnInit() {
   }
 
   selectStaticView(view: IStaticViewState) {
-    this.storeFacade.openStaticView(view);
+    this.appStateService.openStaticView(view);
   }
 
   isComponentSelected(componentName: string): Observable<boolean> {

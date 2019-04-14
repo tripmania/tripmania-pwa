@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ITrip} from '@interfaces/dto/ITrip';
 import {getTrips} from '@mocks/trips.mock';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
+import {AppStateService} from '@shared/services/app-state.service';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 import {IStaticComponent} from '@interfaces/IComponent';
 import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
@@ -28,7 +28,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
     return StaticLoaderService.isComponentHidden(TripsListComponent.ComponentName);
   }
 
-  constructor(private storeFacade: StoreFacadeService) {
+  constructor(private appStateService: AppStateService) {
   }
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   }
 
   openTrip(trip: ITrip) {
-    this.storeFacade.openDynamicView(
+    this.appStateService.openDynamicView(
       TripDetailsComponent,
       {
           componentName: TripDetailsComponent.ComponentName,
@@ -59,7 +59,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   }
 
   createTrip() {
-    this.storeFacade.openDynamicView(
+    this.appStateService.openDynamicView(
       TripDetailsComponent,
       {
         componentName: TripDetailsComponent.ComponentName,
