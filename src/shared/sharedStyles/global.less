@@ -7,11 +7,14 @@
   width: 100%;
   max-width: 100%;
   margin: 0;
+  opacity: 1;
+  animation: fadeIn .2s ease-in-out;
   overflow-y: scroll;
   overflow-scrolling: touch;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   ::ng-deep .isHidden {
+    animation: fadeOut .2s ease-in-out;
     display: none;
   }
   ::-webkit-scrollbar {
@@ -48,11 +51,6 @@
 @main-margin: 10px;
 @keyframes fadeIn {
   0% {
-    display: none;
-    opacity: 0;
-  }
-  1% {
-    display: block;
     opacity: 0;
   }
   100% {
@@ -62,15 +60,9 @@
 }
 @keyframes fadeOut {
   0% {
-    display: block;
     opacity: 1;
   }
-  99% {
-    display: block;
-    opacity: 0;
-  }
   100% {
-    display: none !important;
     opacity: 0;
   }
 }

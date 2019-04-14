@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ITrip} from '@interfaces/dto/ITrip';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IDynamicComponent} from '@interfaces/IComponent';
@@ -8,6 +8,7 @@ import {StoreFacadeService} from '@shared/services/storeFacade.service';
 import {MatDialog} from '@angular/material';
 import {DeleteTripDialogComponent} from '@modules/trips/delete-trip-dialog/delete-trip-dialog.component';
 import {takeUntil} from 'rxjs/operators';
+import {markFormGroupTouched} from '@shared/helpers/markFormGroupTouched';
 
 interface DynamicInputs {
   forTripCreation: boolean;
@@ -32,6 +33,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
   photoToUpload = '';
   private _tripPaths = [{from: '', to: ''}];
   private destroy$ = new Subject<void>();
+  private headerAction: () => void;
 
   get tripPaths(): Array<{from: string, to: string}> {
     return this._tripPaths;
@@ -43,12 +45,14 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
 
   constructor(private formBuilder: FormBuilder,
               private storeFacade: StoreFacadeService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.initComponentInputs();
     this.initForm();
     this.initTripPaths();
+    this.initSaveAction();
   }
 
   ngOnDestroy(): void {
@@ -92,7 +96,12 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
       .pipe(
         takeUntil(this.destroy$)
       )
-      .subscribe();
+      .subscribe(destroy => {
+        if (destroy) {
+          console.log('удаляю трип');
+          this.storeFacade.goToBackView();
+        }
+      });
   }
 
   private initComponentInputs() {
@@ -122,5 +131,31 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
         this._tripPaths.push(path);
       }
     }
+  }
+
+  private initSaveAction() {
+    if (this.forTripCreation) {
+      this.headerAction = () => {
+        if (this.form.invalid) {
+          markFormGroupTouched(this.form);
+          this.changeDetector.markForCheck();
+        } else {
+          console.log('сохраняю трип');
+          this.storeFacade.goToBackView();
+        }
+      };
+    } else {
+      this.headerAction = () => {
+        if (this.form.invalid) {
+          markFormGroupTouched(this.form);
+          this.changeDetector.markForCheck();
+        } else {
+          console.log('обновляю трип');
+          this.storeFacade.goToBackView();
+        }
+      };
+    }
+
+    this.storeFacade.setHeaderAction('Save', this.headerAction);
   }
 }

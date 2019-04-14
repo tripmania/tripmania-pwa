@@ -1,3 +1,17 @@
-<div class="header" (click)="goBack()">
-  {{title | async}}
+<div class="header">
+  <button *ngIf="isBackButtonVisible$ | async"
+          class="header-back header-item"
+          mat-button mat-icon-button
+          (click)="goBack()">
+    <mat-icon class="header-back-icon">arrow_back</mat-icon>
+  </button>
+  <div class="header-title header-item">
+    {{title$ | async}}
+  </div>
+  <button *ngIf="isActionButtonVisible$ | async"
+          class="header-action"
+          mat-button mat-stroked-button
+          (click)="onActionClick()">
+    {{actionName$ | async}}
+  </button>
 </div>
