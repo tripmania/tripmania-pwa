@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {combineLatest, Observable, Subject} from 'rxjs';
@@ -7,8 +7,7 @@ import {filter, map, takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   title$ = this.appStateService.headerTitle$;

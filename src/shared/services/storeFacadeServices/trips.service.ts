@@ -6,7 +6,7 @@ import {IUser} from '@interfaces/dto/IUser';
 import {selectUser} from '@store/selectors/user.selectors';
 import {filter, switchMap, take} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {LoadTrips, ProcessAddTrip} from '@store/actions/trips.actions';
+import {LoadTrips, ProcessAddTrip, ProcessDeleteTrip} from '@store/actions/trips.actions';
 import {apiUrls} from '@consts/apiUrls.consts';
 import {HttpClient} from '@angular/common/http';
 
@@ -51,5 +51,6 @@ export class TripsService {
   }
 
   deleteTrip(tripId: number) {
+    this.store$.dispatch(new ProcessDeleteTrip(tripId));
   }
 }

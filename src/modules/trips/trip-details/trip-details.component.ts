@@ -7,7 +7,7 @@ import {Observable, Subject} from 'rxjs';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {MatDialog} from '@angular/material';
 import {DeleteTripDialogComponent} from '@modules/trips/delete-trip-dialog/delete-trip-dialog.component';
-import {take, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {markFormGroupTouched} from '@shared/helpers/markFormGroupTouched';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 import {FilesService} from '@shared/services/files.service';
@@ -104,8 +104,8 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
       )
       .subscribe(destroy => {
         if (destroy) {
-          console.log('удаляю трип');
           this.appStateService.goToBackView();
+          this.tripsService.deleteTrip(this.trip.id);
         }
       });
   }
@@ -120,6 +120,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
         takeUntil(this.destroy$)
       )
       .subscribe(url => {
+        this.changeDetector.markForCheck();
         this.trip.localPhotoUrl = url;
       });
   }
@@ -144,7 +145,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
   }
 
   private initTripPaths() {
-    if (!this.forTripCreation && this.trip.path) {
+    if (!this.forTripCreation && this.trip.path.length > 0) {
       this._tripPaths = [];
       for (let i = 0; i < this.trip.path.length - 1; i++) {
         const path = {from: this.trip.path[i], to: this.trip.path[i + 1]};

@@ -3,7 +3,14 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {FilesService} from '@shared/services/files.service';
 import {HttpClient} from '@angular/common/http';
-import {AddTrip, LoadTrips, ProcessAddTrip, SetTrips, TripsActionsTypes} from '@store/actions/trips.actions';
+import {
+  AddTrip, DeleteTrip,
+  LoadTrips,
+  ProcessAddTrip,
+  ProcessDeleteTrip,
+  SetTrips,
+  TripsActionsTypes
+} from '@store/actions/trips.actions';
 import {filter, map, switchMap, take} from 'rxjs/operators';
 import {selectUser} from '@store/selectors/user.selectors';
 import {IUser} from '@interfaces/dto/IUser';
@@ -40,7 +47,7 @@ export class TripsEffects {
 
         return zip(
           of(action.trip),
-          this.filesService.uploadFile(action.photoToUpload)
+          this.filesService.uploadFile(action.photoToUpload).pipe(take(1))
         );
       }),
       map(([trip, photoUrl]) => {
@@ -50,6 +57,17 @@ export class TripsEffects {
       }),
       switchMap(trip => this.http.post<ITrip>(`${apiUrls.TRIPS_URL}`, trip).pipe(take(1))),
       map(trip => new AddTrip(trip))
+    );
+
+  @Effect()
+  onDeleteTrip$ = this.actions$
+    .pipe(
+      ofType<ProcessDeleteTrip>(TripsActionsTypes.PROCESS_DELETE_TRIP),
+      switchMap(({tripId}) => zip(
+        of(tripId),
+        this.http.delete(`${apiUrls.TRIPS_URL}/${tripId}`).pipe(take(1)))
+      ),
+      map(([tripId, ]) => new DeleteTrip(tripId))
     );
 
   constructor(private actions$: Actions,

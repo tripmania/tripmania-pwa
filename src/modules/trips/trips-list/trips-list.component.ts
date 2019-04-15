@@ -1,4 +1,12 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {ITrip} from '@interfaces/dto/ITrip';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
@@ -33,7 +41,8 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
 
   constructor(private appStateService: AppStateService,
               private tripsService: TripsService,
-              private filesService: FilesService) {
+              private filesService: FilesService,
+              private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -90,6 +99,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
         takeUntil(this.destroy$)
       )
       .subscribe(url => {
+        this.changeDetector.markForCheck();
         (trip as any).isImageShown = true;
         trip.localPhotoUrl = url;
       });
