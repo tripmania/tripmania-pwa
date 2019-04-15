@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {apiUrls} from '@consts/apiUrls.consts';
 import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class UploadFilesService {
@@ -10,6 +10,10 @@ export class UploadFilesService {
   }
 
   uploadFile(file: File): Observable<string> {
+    if (!file) {
+      return of('');
+    }
+
     const formData = new FormData();
 
     formData.append('file', file, file.name);

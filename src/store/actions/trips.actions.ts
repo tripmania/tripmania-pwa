@@ -4,6 +4,7 @@ import {ITrip} from '@interfaces/dto/ITrip';
 export enum TripsActionsTypes {
   LOAD_TRIPS = '[Trips Action] Load trips',
   SET_TRIPS = '[Trips Action] Set trips',
+  PROCESS_ADD_TRIP = '[Trips Action] Process add trip',
   ADD_TRIP = '[Trips Action] Add trip',
   UPDATE_TRIP = '[Trips Action] Update trip',
   DELETE_TRIP = '[Trips Action] Delete trip'
@@ -23,11 +24,18 @@ export class SetTrips implements Action {
   }
 }
 
-export class AddTrip implements Action {
-  readonly type = TripsActionsTypes.ADD_TRIP;
+export class ProcessAddTrip implements Action {
+  readonly type = TripsActionsTypes.PROCESS_ADD_TRIP;
 
   constructor(public trip: ITrip,
               public photoToUpload: File) {
+  }
+}
+
+export class AddTrip implements Action {
+  readonly type = TripsActionsTypes.ADD_TRIP;
+
+  constructor(public trip: ITrip) {
   }
 }
 
@@ -47,6 +55,7 @@ export class DeleteTrip implements Action {
 }
 
 export type TripsAction = LoadTrips
+  | ProcessAddTrip
   | AddTrip
   | SetTrips
   | UpdateTrip

@@ -5,20 +5,23 @@
       <input matInput formControlName="title">
     </mat-form-field>
 
-    <mat-card class="detail-info detail-info__card" *ngIf="!forTripCreation && trip.photoUrl || photoToUpload">
+    <mat-card class="detail-info detail-info__card"
+              *ngIf="!forTripCreation && trip.photoUrl || photoUrlToUpload">
       <mat-card-header>
         <mat-card-title>Image</mat-card-title>
       </mat-card-header>
       <img mat-card-image
            class="detail-info__card-img"
-           [src]="(!!trip && !photoToUpload ? trip.photoUrl : photoToUpload) | safeHtml"
+           [src]="(!!trip && !photoUrlToUpload ? trip.photoUrl : photoUrlToUpload) | safeHtml"
            alt="Trip image">
       <div class="detail-info__card-upload" (click)="uploadFile.click()">
         <mat-icon class="detail-info__card-upload-icon">add_a_photo</mat-icon>
       </div>
     </mat-card>
 
-    <mat-card class="detail-info detail-info__upload" matRipple *ngIf="(forTripCreation || (trip && !trip.photoUrl)) && !photoToUpload">
+    <mat-card class="detail-info detail-info__upload"
+              matRipple
+              *ngIf="(forTripCreation || (trip && !trip.photoUrl)) && !photoUrlToUpload">
       <div class="detail-info__upload-placeholder" (click)="uploadFile.click()">
         <mat-icon class="detail-info__upload-placeholder-icon">add_a_photo</mat-icon>
       </div>

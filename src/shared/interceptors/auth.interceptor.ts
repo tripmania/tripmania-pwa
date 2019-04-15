@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.url === `${apiUrls.USER_URL}/refresh`) {
-      return this.doRequest(request, next);
+      return next.handle(request);
     }
 
     return this.doRequest(request, next)

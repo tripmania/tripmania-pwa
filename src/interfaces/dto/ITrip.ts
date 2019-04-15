@@ -1,6 +1,6 @@
 export interface ITrip {
   id?: number;
-  userId: number;
+  userId?: number;
   title: string;
   photoUrl?: string;
   startDate?: number;
