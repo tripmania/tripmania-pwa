@@ -3,6 +3,7 @@ export interface ITrip {
   userId?: number;
   title: string;
   photoUrl?: string;
+  localPhotoUrl?: string;
   startDate?: number;
   endDate?: number;
   path?: string[];

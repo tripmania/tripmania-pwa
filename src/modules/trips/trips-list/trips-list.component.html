@@ -7,11 +7,11 @@
       <div class="trip-card"
            *cdkVirtualFor="let trip of trips$ | async; templateCacheSize: 0; trackBy: trackByFn"
            [scrollableContainer]="container"
-           (deferLoad)="trip.isImageShown = true"
+           (deferLoad)="loadImage(trip)"
            (click)="openTrip(trip)">
 
         <img class="trip-card__img"
-             [src]="trip.isImageShown ? trip.photoUrl : ''"
+             [src]="trip.isImageShown ? (trip.localPhotoUrl | safeHtml) : ''"
              (load)="loadedImage(trip)"
              [hidden]="!trip.isImageLoaded">
 

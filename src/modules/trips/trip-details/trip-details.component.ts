@@ -7,9 +7,10 @@ import {Observable, Subject} from 'rxjs';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {MatDialog} from '@angular/material';
 import {DeleteTripDialogComponent} from '@modules/trips/delete-trip-dialog/delete-trip-dialog.component';
-import {takeUntil} from 'rxjs/operators';
+import {take, takeUntil} from 'rxjs/operators';
 import {markFormGroupTouched} from '@shared/helpers/markFormGroupTouched';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
+import {FilesService} from '@shared/services/files.service';
 
 interface DynamicInputs {
   forTripCreation: boolean;
@@ -49,13 +50,15 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
               private appStateService: AppStateService,
               private tripsService: TripsService,
               private dialog: MatDialog,
-              private changeDetector: ChangeDetectorRef) { }
+              private changeDetector: ChangeDetectorRef,
+              private filesService: FilesService) { }
 
   ngOnInit() {
     this.initComponentInputs();
     this.initForm();
     this.initTripPaths();
     this.initSaveAction();
+    this.initLocalPhoto();
   }
 
   ngOnDestroy(): void {
@@ -104,6 +107,20 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
           console.log('удаляю трип');
           this.appStateService.goToBackView();
         }
+      });
+  }
+
+  private initLocalPhoto() {
+    if (!this.trip) {
+      return;
+    }
+
+    this.filesService.loadFileToUrl(this.trip.photoUrl)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(url => {
+        this.trip.localPhotoUrl = url;
       });
   }
 

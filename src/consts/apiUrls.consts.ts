@@ -1,6 +1,7 @@
 import {environment} from '../environments/environment';
 
 export const apiUrls = {
+  BASE_URL: `${environment.baseUrl}`,
   USER_URL: `${environment.baseUrl}/users`,
   PUBLICATIONS_URL: `${environment.baseUrl}/publications`,
   COMMENTS_URL: `${environment.baseUrl}/comments`,

@@ -5,8 +5,9 @@ import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.com
 import {IStaticComponent} from '@interfaces/IComponent';
 import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 import {fromEvent, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime} from 'rxjs/operators';
+import {distinctUntilChanged, map, pairwise, take, takeUntil, tap, throttleTime} from 'rxjs/operators';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
+import {FilesService} from '@shared/services/files.service';
 
 @Component({
   selector: 'trips-list',
@@ -31,7 +32,8 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   }
 
   constructor(private appStateService: AppStateService,
-              private tripsService: TripsService) {
+              private tripsService: TripsService,
+              private filesService: FilesService) {
   }
 
   ngOnInit() {
@@ -77,8 +79,20 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
     );
   }
 
+
   trackByFn(index) {
     return index;
+  }
+
+  loadImage(trip: ITrip) {
+    this.filesService.loadFileToUrl(trip.photoUrl)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(url => {
+        (trip as any).isImageShown = true;
+        trip.localPhotoUrl = url;
+      });
   }
 
   loadedImage(trip: any) {

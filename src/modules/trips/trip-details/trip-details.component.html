@@ -12,7 +12,7 @@
       </mat-card-header>
       <img mat-card-image
            class="detail-info__card-img"
-           [src]="(!!trip && !photoUrlToUpload ? trip.photoUrl : photoUrlToUpload) | safeHtml"
+           [src]="(!!trip && !photoUrlToUpload ? trip.localPhotoUrl : photoUrlToUpload) | safeHtml"
            alt="Trip image">
       <div class="detail-info__card-upload" (click)="uploadFile.click()">
         <mat-icon class="detail-info__card-upload-icon">add_a_photo</mat-icon>

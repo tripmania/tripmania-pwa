@@ -31,7 +31,7 @@ import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.servi
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {UserService} from '@shared/services/storeFacadeServices/user.service';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
-import {UploadFilesService} from '@shared/services/upload-files.service';
+import {FilesService} from '@shared/services/files.service';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -76,7 +76,7 @@ const interceptors = [
     AppStateService,
     UserService,
     TripsService,
-    UploadFilesService
+    FilesService
   ]
 })
 export class AccountModule {

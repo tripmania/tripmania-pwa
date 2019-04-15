@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {UploadFilesService} from '@shared/services/upload-files.service';
+import {FilesService} from '@shared/services/files.service';
 import {HttpClient} from '@angular/common/http';
 import {AddTrip, LoadTrips, ProcessAddTrip, SetTrips, TripsActionsTypes} from '@store/actions/trips.actions';
 import {filter, map, switchMap, take} from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class TripsEffects {
 
         return zip(
           of(action.trip),
-          this.uploadFilesService.uploadFile(action.photoToUpload)
+          this.filesService.uploadFile(action.photoToUpload)
         );
       }),
       map(([trip, photoUrl]) => {
@@ -54,7 +54,7 @@ export class TripsEffects {
 
   constructor(private actions$: Actions,
               private store$: Store<any>,
-              private uploadFilesService: UploadFilesService,
+              private filesService: FilesService,
               private http: HttpClient) {
   }
 }
