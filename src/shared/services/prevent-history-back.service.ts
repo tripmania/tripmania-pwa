@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AppStateService} from '@shared/services/app-state.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {pairwise, tap} from 'rxjs/operators';
 

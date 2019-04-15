@@ -1,12 +1,12 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ITrip} from '@interfaces/dto/ITrip';
-import {getTrips} from '@mocks/trips.mock';
-import {AppStateService} from '@shared/services/app-state.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 import {IStaticComponent} from '@interfaces/IComponent';
 import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 import {fromEvent, Observable, Subject} from 'rxjs';
 import {distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime} from 'rxjs/operators';
+import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 
 @Component({
   selector: 'trips-list',
@@ -18,9 +18,11 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   static ComponentName = 'TripsListComponent';
 
   @Input() hideAddButton = false;
+  @Input() userId: number;
 
   container: HTMLElement;
-  trips: ITrip[] = getTrips();
+  trips$: Observable<ITrip[]> = null;
+  tripsLoaded$ = this.tripsService.tripsLoaded$;
   private addButton: HTMLButtonElement;
   private destroy$ = new Subject<void>();
 
@@ -28,10 +30,12 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
     return StaticLoaderService.isComponentHidden(TripsListComponent.ComponentName);
   }
 
-  constructor(private appStateService: AppStateService) {
+  constructor(private appStateService: AppStateService,
+              private tripsService: TripsService) {
   }
 
   ngOnInit() {
+    this.trips$ = this.tripsService.getTripsByUserId(this.userId);
   }
 
   ngAfterViewInit() {

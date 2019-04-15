@@ -27,23 +27,17 @@ import {StoreModule} from '@ngrx/store';
 import {reducers, reducersProvider} from '@store/reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {appEffects} from '@store/effects';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {environment} from '../../environments/environment';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
-import {AppStateService} from '@shared/services/app-state.service';
-import {UserService} from '@shared/services/user.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
+import {UserService} from '@shared/services/storeFacadeServices/user.service';
+import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
+import {UploadFilesService} from '@shared/services/upload-files.service';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
   // Must be the last
   {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
 ];
-const storeDevTools = [];
-
-if (!environment.production) {
-  storeDevTools.push(StoreDevtoolsModule.instrument());
-}
 
 @NgModule({
   declarations: [AccountComponent],
@@ -62,8 +56,6 @@ if (!environment.production) {
     CreatorModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(appEffects),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ...storeDevTools,
     HttpClientModule
   ],
   exports: [AccountComponent],
@@ -83,6 +75,8 @@ if (!environment.production) {
     reducersProvider,
     AppStateService,
     UserService,
+    TripsService,
+    UploadFilesService
   ]
 })
 export class AccountModule {

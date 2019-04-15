@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IDynamicComponent} from '@interfaces/IComponent';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {Observable, Subject} from 'rxjs';
-import {AppStateService} from '@shared/services/app-state.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {MatDialog} from '@angular/material';
 import {DeleteTripDialogComponent} from '@modules/trips/delete-trip-dialog/delete-trip-dialog.component';
 import {takeUntil} from 'rxjs/operators';

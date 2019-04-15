@@ -1,8 +1,8 @@
 import {IUserState, userStateInitial} from '@store/states/user.state';
-import {UserActions, UserActionsTypes} from '@store/actions/user.actions';
+import {UserAction, UserActionsTypes} from '@store/actions/user.actions';
 
 export function userReducer(state: IUserState = userStateInitial,
-                            action: UserActions): IUserState {
+                            action: UserAction): IUserState {
   switch (action.type) {
     case UserActionsTypes.SET_USER:
       return {

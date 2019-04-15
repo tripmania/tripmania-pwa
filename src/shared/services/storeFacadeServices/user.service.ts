@@ -3,7 +3,6 @@ import {Store} from '@ngrx/store';
 import {IUser} from '@interfaces/dto/IUser';
 import {HttpClient} from '@angular/common/http';
 import {apiUrls} from '@consts/apiUrls.consts';
-import {tap} from 'rxjs/operators';
 import {SetUser} from '@store/actions/user.actions';
 import {selectUser} from '@store/selectors/user.selectors';
 
@@ -17,15 +16,12 @@ export class UserService {
 
   loadUser() {
     this.http.get(`${apiUrls.USER_URL}`)
-      .pipe(
-        tap(user => console.log('user: ', user))
-      )
       .subscribe((user: IUser) => {
         this.store$.dispatch(new SetUser(user));
       });
   }
 
-  // getUserById(id: number): Observable<IUser> {
+  // getUserById(userId: number): Observable<IUser> {
   //   // получаю юзера по id
   // }
 

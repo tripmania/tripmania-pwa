@@ -25,6 +25,6 @@ export class UpdateUser implements Action {
   }
 }
 
-export type UserActions = LoadUser
+export type UserAction = LoadUser
   | SetUser
   | UpdateUser;

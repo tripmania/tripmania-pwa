@@ -8,6 +8,15 @@ import {MatSnackBarModule} from '@angular/material';
 import {ErrorService} from '@shared/services/error.service';
 import {AccountModule} from '@modules/account/account.module';
 import {AccountGuard} from '@modules/account/account.guard';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../../environments/environment';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+
+const storeDevTools = [];
+
+if (!environment.production) {
+  storeDevTools.push(StoreDevtoolsModule.instrument());
+}
 
 @NgModule({
   declarations: [
@@ -18,7 +27,9 @@ import {AccountGuard} from '@modules/account/account.guard';
     BrowserAnimationsModule,
     AppRouting,
     AccountModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ...storeDevTools,
   ],
   providers: [
     AccountGuard,

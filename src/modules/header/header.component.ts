@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {AppStateService} from '@shared/services/app-state.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {filter, map, takeUntil} from 'rxjs/operators';

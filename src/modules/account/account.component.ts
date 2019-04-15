@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {PreventHistoryBackService} from '@shared/services/prevent-history-back.service';
-import {UserService} from '@shared/services/user.service';
+import {UserService} from '@shared/services/storeFacadeServices/user.service';
+import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 
 @Component({
   selector: 'account',
@@ -11,11 +12,13 @@ import {UserService} from '@shared/services/user.service';
 export class AccountComponent implements OnInit {
 
   constructor(private preventHistoryBack: PreventHistoryBackService,
-              private userService: UserService) {
+              private userService: UserService,
+              private tripsService: TripsService) {
   }
 
   ngOnInit() {
     this.preventHistoryBack.init();
     this.userService.loadUser();
+    this.tripsService.loadTrips();
   }
 }

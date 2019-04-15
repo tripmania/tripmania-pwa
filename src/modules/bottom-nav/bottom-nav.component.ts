@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {AppStateService} from '@shared/services/app-state.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {IStaticViewState} from '@interfaces/IViewState';
 import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 import {staticViews} from '@consts/staticViews';
