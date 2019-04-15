@@ -4,11 +4,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IDynamicComponent} from '@interfaces/IComponent';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {Observable, Subject} from 'rxjs';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {MatDialog} from '@angular/material';
 import {DeleteTripDialogComponent} from '@modules/trips/delete-trip-dialog/delete-trip-dialog.component';
 import {takeUntil} from 'rxjs/operators';
 import {markFormGroupTouched} from '@shared/helpers/markFormGroupTouched';
+import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
+import {FilesService} from '@shared/services/files.service';
 
 interface DynamicInputs {
   forTripCreation: boolean;
@@ -30,7 +32,8 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
   @Input() forTripCreation: boolean;
   @Input() trip: ITrip;
   form: FormGroup;
-  photoToUpload = '';
+  photoToUpload: File;
+  photoUrlToUpload = '';
   private _tripPaths = [{from: '', to: ''}];
   private destroy$ = new Subject<void>();
   private headerAction: () => void;
@@ -44,15 +47,18 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
   }
 
   constructor(private formBuilder: FormBuilder,
-              private storeFacade: StoreFacadeService,
+              private appStateService: AppStateService,
+              private tripsService: TripsService,
               private dialog: MatDialog,
-              private changeDetector: ChangeDetectorRef) { }
+              private changeDetector: ChangeDetectorRef,
+              private filesService: FilesService) { }
 
   ngOnInit() {
     this.initComponentInputs();
     this.initForm();
     this.initTripPaths();
     this.initSaveAction();
+    this.initLocalPhoto();
   }
 
   ngOnDestroy(): void {
@@ -60,8 +66,8 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
   }
 
   onFileUpload(event) {
-    const selectedFile: File = event.target.files[0];
-    this.photoToUpload = window.URL.createObjectURL(selectedFile);
+    this.photoToUpload = event.target.files[0];
+    this.photoUrlToUpload = window.URL.createObjectURL(this.photoToUpload);
   }
 
   onAddPathRow() {
@@ -98,9 +104,24 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
       )
       .subscribe(destroy => {
         if (destroy) {
-          console.log('удаляю трип');
-          this.storeFacade.goToBackView();
+          this.appStateService.goToBackView();
+          this.tripsService.deleteTrip(this.trip.id);
         }
+      });
+  }
+
+  private initLocalPhoto() {
+    if (!this.trip) {
+      return;
+    }
+
+    this.filesService.loadFileToUrl(this.trip.photoUrl)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(url => {
+        this.changeDetector.markForCheck();
+        this.trip.localPhotoUrl = url;
       });
   }
 
@@ -118,13 +139,13 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
 
     this.form = this.formBuilder.group({
       title: [title, [Validators.required, Validators.maxLength(150)]],
-      startDate: [startDate],
-      endDate: [endDate]
+      startDate: [startDate, [Validators.required]],
+      endDate: [endDate, [Validators.required]]
     });
   }
 
   private initTripPaths() {
-    if (!this.forTripCreation && this.trip.path) {
+    if (!this.forTripCreation && this.trip.path.length > 0) {
       this._tripPaths = [];
       for (let i = 0; i < this.trip.path.length - 1; i++) {
         const path = {from: this.trip.path[i], to: this.trip.path[i + 1]};
@@ -140,8 +161,8 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
           markFormGroupTouched(this.form);
           this.changeDetector.markForCheck();
         } else {
-          console.log('сохраняю трип');
-          this.storeFacade.goToBackView();
+          this.tripsService.addTrip(this.createTripToSave(), this.photoToUpload);
+          this.appStateService.goToBackView();
         }
       };
     } else {
@@ -150,12 +171,50 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
           markFormGroupTouched(this.form);
           this.changeDetector.markForCheck();
         } else {
-          console.log('обновляю трип');
-          this.storeFacade.goToBackView();
+          this.tripsService.updateTrip(this.createTripToSave(), this.photoToUpload);
+          this.appStateService.goToBackView();
         }
       };
     }
 
-    this.storeFacade.setHeaderAction('Save', this.headerAction);
+    this.appStateService.setHeaderAction('Save', this.headerAction);
+  }
+
+  private createTripToSave(): ITrip {
+    const path = [];
+    let i = 0;
+
+    while (i < this._tripPaths.length && this._tripPaths[i].from !== '' && this._tripPaths[i].to !== '') {
+      if (i === 0) {
+        path.push(this._tripPaths[i].from);
+        if (this._tripPaths[i].from !== this._tripPaths[i].to) {
+          path.push(this._tripPaths[i].to);
+        }
+      } else {
+        if (path[path.length - 1] !== this._tripPaths[i].from) {
+          path.push(this._tripPaths[i].from);
+        }
+
+        if (path[path.length - 1] !== this._tripPaths[i].to) {
+          path.push(this._tripPaths[i].to);
+        }
+      }
+
+      i += 1;
+    }
+
+    const trip: ITrip = {
+      title: this.form.get('title').value,
+      startDate: Date.parse(this.form.get('startDate').value),
+      endDate: Date.parse(this.form.get('endDate').value),
+      path
+    };
+
+    if (!this.forTripCreation) {
+      trip.id = this.trip.id;
+      trip.photoUrl = this.trip.photoUrl;
+    }
+
+    return trip;
   }
 }

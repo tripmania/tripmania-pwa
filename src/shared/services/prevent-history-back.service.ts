@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {pairwise, tap} from 'rxjs/operators';
 
 @Injectable()
 export class PreventHistoryBackService {
-  constructor(private storeFacade: StoreFacadeService) {
+  constructor(private appStateService: AppStateService) {
   }
 
   init() {
@@ -16,7 +16,7 @@ export class PreventHistoryBackService {
   private listenPopState() {
     window.addEventListener('popstate', () => {
       if (DynamicLoaderService.isDynamicComponentLoadedSync()) {
-        this.storeFacade.goToBackView();
+        this.appStateService.goToBackView();
         history.replaceState(null, null, location.href);
       }
     });

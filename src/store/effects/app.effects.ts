@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Store} from '@ngrx/store';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {tap} from 'rxjs/operators';
 import {
@@ -37,7 +36,6 @@ export class AppEffects {
     );
 
   constructor(private actions$: Actions,
-              private store: Store<any>,
               private dynamicLoaderService: DynamicLoaderService) {
   }
 }

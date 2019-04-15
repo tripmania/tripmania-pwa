@@ -1,6 +1,6 @@
 import {Injectable, Type} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {selectHeaderActionFunc, selectHeaderActionName, selectHeaderTitle} from '@store/selectors/app.selector';
+import {selectHeaderActionFunc, selectHeaderActionName, selectHeaderTitle} from '@store/selectors/app.selectors';
 import {
   GoToBackView,
   OpenDynamicView,
@@ -12,7 +12,7 @@ import {IViewState, IStaticViewState} from '@interfaces/IViewState';
 import {IDynamicComponent} from '@interfaces/IComponent';
 
 @Injectable()
-export class StoreFacadeService {
+export class AppStateService {
   readonly headerTitle$ = this.store$.select<string>(selectHeaderTitle);
   readonly headerActionName$ = this.store$.select<string>(selectHeaderActionName);
   readonly headerActionFunc$ = this.store$.select<() => void>(selectHeaderActionFunc);

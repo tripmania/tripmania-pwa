@@ -7,6 +7,7 @@ import {
 } from '@angular/material';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {DeferLoadModule} from '@shared/directives/defer-load/defer-load.module';
+import {SafeHtmlModule} from '@shared/pipes/safe-html/safe-html.module';
 
 @NgModule({
   declarations: [TripsListComponent],
@@ -15,7 +16,8 @@ import {DeferLoadModule} from '@shared/directives/defer-load/defer-load.module';
     MatIconModule,
     ScrollingModule,
     DeferLoadModule,
-    MatButtonModule
+    MatButtonModule,
+    SafeHtmlModule
   ],
   exports: [TripsListComponent]
 })

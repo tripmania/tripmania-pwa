@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {filter, map, takeUntil} from 'rxjs/operators';
@@ -7,18 +7,17 @@ import {filter, map, takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  title$ = this.storeFacade.headerTitle$;
-  actionName$ = this.storeFacade.headerActionName$;
-  actionFunc$ = this.storeFacade.headerActionFunc$;
+  title$ = this.appStateService.headerTitle$;
+  actionName$ = this.appStateService.headerActionName$;
+  actionFunc$ = this.appStateService.headerActionFunc$;
 
   private _actionFunc: () => void;
   private destroy$ = new Subject<void>();
 
-  constructor(private storeFacade: StoreFacadeService) { }
+  constructor(private appStateService: AppStateService) { }
 
   get isBackButtonVisible$(): Observable<boolean> {
     return DynamicLoaderService.isDynamicComponentLoaded();
@@ -50,7 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.storeFacade.goToBackView();
+    this.appStateService.goToBackView();
   }
 
   onActionClick() {

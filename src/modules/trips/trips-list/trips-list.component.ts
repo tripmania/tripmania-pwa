@@ -1,12 +1,21 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {ITrip} from '@interfaces/dto/ITrip';
-import {getTrips} from '@mocks/trips.mock';
-import {StoreFacadeService} from '@shared/services/storeFacade.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 import {IStaticComponent} from '@interfaces/IComponent';
 import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 import {fromEvent, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime} from 'rxjs/operators';
+import {distinctUntilChanged, map, pairwise, take, takeUntil, tap, throttleTime} from 'rxjs/operators';
+import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
+import {FilesService} from '@shared/services/files.service';
 
 @Component({
   selector: 'trips-list',
@@ -18,9 +27,11 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   static ComponentName = 'TripsListComponent';
 
   @Input() hideAddButton = false;
+  @Input() userId: number;
 
   container: HTMLElement;
-  trips: ITrip[] = getTrips();
+  trips$: Observable<ITrip[]> = null;
+  tripsLoaded$ = this.tripsService.tripsLoaded$;
   private addButton: HTMLButtonElement;
   private destroy$ = new Subject<void>();
 
@@ -28,10 +39,14 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
     return StaticLoaderService.isComponentHidden(TripsListComponent.ComponentName);
   }
 
-  constructor(private storeFacade: StoreFacadeService) {
+  constructor(private appStateService: AppStateService,
+              private tripsService: TripsService,
+              private filesService: FilesService,
+              private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+    this.trips$ = this.tripsService.getTripsByUserId(this.userId);
   }
 
   ngAfterViewInit() {
@@ -44,7 +59,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   }
 
   openTrip(trip: ITrip) {
-    this.storeFacade.openDynamicView(
+    this.appStateService.openDynamicView(
       TripDetailsComponent,
       {
           componentName: TripDetailsComponent.ComponentName,
@@ -59,7 +74,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   }
 
   createTrip() {
-    this.storeFacade.openDynamicView(
+    this.appStateService.openDynamicView(
       TripDetailsComponent,
       {
         componentName: TripDetailsComponent.ComponentName,
@@ -73,8 +88,21 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
     );
   }
 
+
   trackByFn(index) {
     return index;
+  }
+
+  loadImage(trip: ITrip) {
+    this.filesService.loadFileToUrl(trip.photoUrl)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(url => {
+        this.changeDetector.markForCheck();
+        (trip as any).isImageShown = true;
+        trip.localPhotoUrl = url;
+      });
   }
 
   loadedImage(trip: any) {

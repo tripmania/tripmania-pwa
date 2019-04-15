@@ -23,6 +23,15 @@ import {HomeComponent} from '@modules/home/home.component';
 import {SettingsComponent} from '@modules/settings/settings.component';
 import {CreatorComponent} from '@modules/creator/creator.component';
 import {PreventHistoryBackService} from '@shared/services/prevent-history-back.service';
+import {StoreModule} from '@ngrx/store';
+import {reducers, reducersProvider} from '@store/reducers';
+import {EffectsModule} from '@ngrx/effects';
+import {appEffects} from '@store/effects';
+import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
+import {UserService} from '@shared/services/storeFacadeServices/user.service';
+import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
+import {FilesService} from '@shared/services/files.service';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -36,7 +45,6 @@ const interceptors = [
     CommonModule,
     BottomNavModule,
     HeaderModule,
-    HttpClientModule,
     DynamicLoaderModule,
     StaticLoaderModule,
     TripDetailsModule,
@@ -45,7 +53,10 @@ const interceptors = [
     SearchModule,
     HomeModule,
     SettingsModule,
-    CreatorModule
+    CreatorModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(appEffects),
+    HttpClientModule
   ],
   exports: [AccountComponent],
   entryComponents: [
@@ -59,7 +70,13 @@ const interceptors = [
   ],
   providers: [
     ...interceptors,
-    PreventHistoryBackService
+    PreventHistoryBackService,
+    DynamicLoaderService,
+    reducersProvider,
+    AppStateService,
+    UserService,
+    TripsService,
+    FilesService
   ]
 })
 export class AccountModule {
