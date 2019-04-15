@@ -7,9 +7,9 @@ import {
   AddTrip, DeleteTrip,
   LoadTrips,
   ProcessAddTrip,
-  ProcessDeleteTrip,
+  ProcessDeleteTrip, ProcessUpdateTrip,
   SetTrips,
-  TripsActionsTypes
+  TripsActionsTypes, UpdateTrip
 } from '@store/actions/trips.actions';
 import {filter, map, switchMap, take} from 'rxjs/operators';
 import {selectUser} from '@store/selectors/user.selectors';
@@ -57,6 +57,29 @@ export class TripsEffects {
       }),
       switchMap(trip => this.http.post<ITrip>(`${apiUrls.TRIPS_URL}`, trip).pipe(take(1))),
       map(trip => new AddTrip(trip))
+    );
+
+  @Effect()
+  onUpdateTrip$ = this.actions$
+    .pipe(
+      ofType<ProcessUpdateTrip>(TripsActionsTypes.PRCESS_UPDATE_TRIP),
+      switchMap(action => {
+        if (!action.photoToUpload) {
+          return zip(of(action.trip), of(action.trip.photoUrl));
+        }
+
+        return zip(
+          of(action.trip),
+          this.filesService.uploadFile(action.photoToUpload).pipe(take(1))
+        );
+      }),
+      map(([trip, photoUrl]) => {
+        trip.photoUrl = photoUrl;
+
+        return trip;
+      }),
+      switchMap(trip => this.http.put<ITrip>(`${apiUrls.TRIPS_URL}`, trip).pipe(take(1))),
+      map(trip => new UpdateTrip(trip))
     );
 
   @Effect()

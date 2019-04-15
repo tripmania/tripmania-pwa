@@ -6,6 +6,7 @@ export enum TripsActionsTypes {
   SET_TRIPS = '[Trips Action] Set trips',
   PROCESS_ADD_TRIP = '[Trips Action] Process add trip',
   ADD_TRIP = '[Trips Action] Add trip',
+  PRCESS_UPDATE_TRIP = '[Trips Action] Process update trip',
   UPDATE_TRIP = '[Trips Action] Update trip',
   PROCESS_DELETE_TRIP = '[Trips Action] Process delete trip',
   DELETE_TRIP = '[Trips Action] Delete trip'
@@ -40,11 +41,18 @@ export class AddTrip implements Action {
   }
 }
 
-export class UpdateTrip implements Action {
-  readonly type = TripsActionsTypes.UPDATE_TRIP;
+export class ProcessUpdateTrip implements Action {
+  readonly type = TripsActionsTypes.PRCESS_UPDATE_TRIP;
 
   constructor(public trip: ITrip,
               public photoToUpload: File) {
+  }
+}
+
+export class UpdateTrip implements Action {
+  readonly type = TripsActionsTypes.UPDATE_TRIP;
+
+  constructor(public trip: ITrip) {
   }
 }
 

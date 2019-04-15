@@ -6,7 +6,7 @@ import {IUser} from '@interfaces/dto/IUser';
 import {selectUser} from '@store/selectors/user.selectors';
 import {filter, switchMap, take} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {LoadTrips, ProcessAddTrip, ProcessDeleteTrip} from '@store/actions/trips.actions';
+import {LoadTrips, ProcessAddTrip, ProcessDeleteTrip, ProcessUpdateTrip} from '@store/actions/trips.actions';
 import {apiUrls} from '@consts/apiUrls.consts';
 import {HttpClient} from '@angular/common/http';
 
@@ -48,6 +48,7 @@ export class TripsService {
   }
 
   updateTrip(trip: ITrip, photoToUpload: File) {
+    this.store$.dispatch(new ProcessUpdateTrip(trip, photoToUpload));
   }
 
   deleteTrip(tripId: number) {

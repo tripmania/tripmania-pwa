@@ -10,7 +10,7 @@ export class FilesService {
   }
 
   loadFileToUrl(url: string): Observable<string> {
-    if (!url.startsWith(`${apiUrls.BASE_URL}/files`)) {
+    if (!url || !url.startsWith(`${apiUrls.BASE_URL}/files`)) {
       return of(url);
     }
 

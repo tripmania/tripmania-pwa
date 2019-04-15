@@ -171,7 +171,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
           markFormGroupTouched(this.form);
           this.changeDetector.markForCheck();
         } else {
-          console.log('обновляю трип');
+          this.tripsService.updateTrip(this.createTripToSave(), this.photoToUpload);
           this.appStateService.goToBackView();
         }
       };
@@ -203,11 +203,18 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
       i += 1;
     }
 
-    return {
+    const trip: ITrip = {
       title: this.form.get('title').value,
       startDate: Date.parse(this.form.get('startDate').value),
       endDate: Date.parse(this.form.get('endDate').value),
       path
     };
+
+    if (!this.forTripCreation) {
+      trip.id = this.trip.id;
+      trip.photoUrl = this.trip.photoUrl;
+    }
+
+    return trip;
   }
 }
