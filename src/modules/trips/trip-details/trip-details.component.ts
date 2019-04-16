@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {ITrip} from '@interfaces/dto/ITrip';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {IDynamicComponent} from '@interfaces/IComponent';
-import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {Observable, Subject} from 'rxjs';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {MatDialog} from '@angular/material';
@@ -43,7 +42,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
   }
 
   get isComponentHidden$(): Observable<boolean> {
-    return DynamicLoaderService.IsComponentHidden(this);
+    return this.appStateService.isDynamicComponentHidden(this);
   }
 
   constructor(private formBuilder: FormBuilder,

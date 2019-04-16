@@ -52,6 +52,11 @@ export const selectActiveStaticState = createSelector(
   (state: IAppState) => state.activeStaticState
 );
 
+export const selectAllDynamicStates = createSelector(
+  selectAppState,
+  (state: IAppState) => state.dynamicStates
+);
+
 export const selectIsDynamicLoaded = createSelector(
   selectAppState,
   (state: IAppState) => !!state.activeDynamicState

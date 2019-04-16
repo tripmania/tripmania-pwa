@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IStaticComponent} from '@interfaces/IComponent';
+import {IDynamicComponent, IStaticComponent} from '@interfaces/IComponent';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 
 @Component({
@@ -9,7 +9,7 @@ import {AppStateService} from '@shared/services/storeFacadeServices/app-state.se
   styleUrls: ['./profile.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileComponent implements OnInit, IStaticComponent {
+export class ProfileComponent implements OnInit, IStaticComponent, IDynamicComponent {
   static ComponentName = 'ProfileComponent';
 
   get isComponentHidden$(): Observable<boolean> {

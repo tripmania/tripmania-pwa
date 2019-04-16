@@ -27,7 +27,6 @@ import {StoreModule} from '@ngrx/store';
 import {reducers, reducersProvider} from '@store/reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {appEffects} from '@store/effects';
-import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {UserService} from '@shared/services/storeFacadeServices/user.service';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
@@ -71,7 +70,6 @@ const interceptors = [
   providers: [
     ...interceptors,
     PreventHistoryBackService,
-    DynamicLoaderService,
     reducersProvider,
     AppStateService,
     UserService,

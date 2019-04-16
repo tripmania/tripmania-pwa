@@ -2,7 +2,7 @@ import {Injectable, Type} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {
   selectActiveDynamicState,
-  selectActiveStaticState,
+  selectActiveStaticState, selectAllDynamicStates,
   selectHeaderActionFunc,
   selectHeaderActionName,
   selectHeaderTitle, selectIsDynamicLoaded
@@ -25,9 +25,9 @@ export class AppStateService {
   readonly headerActionName$ = this.store$.select<string>(selectHeaderActionName);
   readonly headerActionFunc$ = this.store$.select<() => void>(selectHeaderActionFunc);
   readonly isDynamicComponentLoaded$ = this.store$.select<boolean>(selectIsDynamicLoaded);
-
-  private readonly activeStaticState$ = this.store$.select<IStaticViewState>(selectActiveStaticState);
-  private readonly activeDynamicState$ = this.store$.select<IDynamicViewState>(selectActiveDynamicState);
+  readonly activeStaticState$ = this.store$.select<IStaticViewState>(selectActiveStaticState);
+  readonly activeDynamicState$ = this.store$.select<IDynamicViewState>(selectActiveDynamicState);
+  readonly allDynamicStates$ = this.store$.select<IDynamicViewState[]>(selectAllDynamicStates);
 
   constructor(private store$: Store<any>) {
   }

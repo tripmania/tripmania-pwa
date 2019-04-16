@@ -114,7 +114,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
     if (this.addButton) {
       fromEvent(this.container, 'scroll', {passive: true})
         .pipe(
-          throttleTime(100),
+          throttleTime(50),
           takeUntil(this.destroy$),
           map(event => (event.target as any).scrollTop),
           pairwise(),
