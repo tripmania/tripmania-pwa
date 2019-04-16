@@ -123,7 +123,7 @@ export class DeferLoadDirective implements AfterViewInit, OnDestroy {
     const scrollPosition = this.getScrollPosition();
     const elementOffset = this._element.nativeElement.offsetTop;
 
-    return elementOffset <= scrollPosition + 200;
+    return elementOffset !== 0 && elementOffset <= scrollPosition;
   }
 
   private getScrollPosition () {

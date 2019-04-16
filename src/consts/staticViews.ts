@@ -2,6 +2,14 @@ import {IStaticViewState} from '@interfaces/IViewState';
 
 export const staticViews: IStaticViewState[] = [
   {
+    componentName: 'ProfileComponent',
+    inputs: null,
+    headerOptions: {
+      title: 'Profile'
+    },
+    iconName: 'account_circle'
+  },
+  {
     componentName: 'TripsListComponent',
     inputs: null,
     headerOptions: {
@@ -16,14 +24,6 @@ export const staticViews: IStaticViewState[] = [
       title: 'Create publication'
     },
     iconName: 'add_circle_outline'
-  },
-  {
-    componentName: 'ProfileComponent',
-    inputs: null,
-    headerOptions: {
-      title: 'Profile'
-    },
-    iconName: 'account_circle'
   },
   {
     componentName: 'SettingsComponent',

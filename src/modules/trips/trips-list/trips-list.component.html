@@ -1,6 +1,7 @@
 <div class="trip-root"
      [class.isHidden]="(isComponentHidden$ | async)">
-  <cdk-virtual-scroll-viewport class="trip-container" itemSize="50"
+  <cdk-virtual-scroll-viewport #containerRef
+                               class="trip-container" itemSize="50"
                                minBufferPx="800"
                                maxBufferPx="1000">
     <ng-container *ngIf="tripsLoaded$ | async">
@@ -45,7 +46,8 @@
     </ng-container>
   </cdk-virtual-scroll-viewport>
 
-  <button class="add-button"
+  <button #addButtonRef
+          class="add-button"
           *ngIf="!hideAddButton"
           (click)="createTrip()"
           mat-fab color="warn">

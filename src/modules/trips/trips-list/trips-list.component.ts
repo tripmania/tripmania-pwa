@@ -3,15 +3,17 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {ITrip} from '@interfaces/dto/ITrip';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 import {IStaticComponent} from '@interfaces/IComponent';
-import {fromEvent, Observable, Subject} from 'rxjs';
+import {fromEvent, Observable, of, Subject} from 'rxjs';
 import {distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime} from 'rxjs/operators';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 import {FilesService} from '@shared/services/files.service';
@@ -25,8 +27,11 @@ import {FilesService} from '@shared/services/files.service';
 export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, IStaticComponent {
   static ComponentName = 'TripsListComponent';
 
+  @ViewChild('containerRef', {read: ElementRef}) containerRef: ElementRef;
+  @ViewChild('addButtonRef', {read: ElementRef}) addButtonRef: ElementRef;
   @Input() hideAddButton = false;
   @Input() userId: number;
+  @Input() mustBeVisible: boolean;
 
   container: HTMLElement;
   trips$: Observable<ITrip[]> = null;
@@ -35,6 +40,10 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   private destroy$ = new Subject<void>();
 
   get isComponentHidden$(): Observable<boolean> {
+    if (this.mustBeVisible) {
+      return of(false);
+    }
+
     return this.appStateService.isStaticComponentHidden(TripsListComponent.ComponentName);
   }
 
@@ -49,7 +58,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   }
 
   ngAfterViewInit() {
-    this.container = document.querySelector('cdk-virtual-scroll-viewport');
+    this.container = this.containerRef.nativeElement;
     this.initAddButtonOnScrollBehavior();
   }
 
@@ -109,9 +118,9 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   }
 
   private initAddButtonOnScrollBehavior() {
-    this.addButton = document.querySelector('.add-button');
+    if (this.addButtonRef) {
+      this.addButton = this.addButtonRef.nativeElement;
 
-    if (this.addButton) {
       fromEvent(this.container, 'scroll', {passive: true})
         .pipe(
           throttleTime(50),
