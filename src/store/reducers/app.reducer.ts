@@ -17,6 +17,8 @@ export function appReducer(state: IAppState = appStateInitial,
       };
 
     case (AppActionTypes.OPEN_DYNAMIC_VIEW):
+      action.view.componentIndex = !!state.activeDynamicState ? state.activeDynamicState.componentIndex + 1 : 1;
+
       return {
         ...state,
         activeDynamicState: action.view,

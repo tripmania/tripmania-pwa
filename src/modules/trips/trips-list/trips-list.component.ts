@@ -11,9 +11,8 @@ import {ITrip} from '@interfaces/dto/ITrip';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 import {IStaticComponent} from '@interfaces/IComponent';
-import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 import {fromEvent, Observable, Subject} from 'rxjs';
-import {distinctUntilChanged, map, pairwise, take, takeUntil, tap, throttleTime} from 'rxjs/operators';
+import {distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime} from 'rxjs/operators';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 import {FilesService} from '@shared/services/files.service';
 
@@ -36,7 +35,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   private destroy$ = new Subject<void>();
 
   get isComponentHidden$(): Observable<boolean> {
-    return StaticLoaderService.isComponentHidden(TripsListComponent.ComponentName);
+    return this.appStateService.isStaticComponentHidden(TripsListComponent.ComponentName);
   }
 
   constructor(private appStateService: AppStateService,

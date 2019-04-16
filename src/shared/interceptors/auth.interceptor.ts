@@ -56,7 +56,7 @@ export class AuthInterceptor implements HttpInterceptor {
       .pipe(
         catchError(() => {
           removeTokens();
-          this.router.navigate(['/auth/sign-in']);
+          this.router.navigate(['/auth/sign-in'], {replaceUrl: true});
 
           return of(null);
         }),

@@ -1,12 +1,12 @@
 import {Component, ComponentFactoryResolver, OnInit, Type, ViewChild} from '@angular/core';
 import {DynamicContainerDirective} from '@shared/directives/dynamic-container/dynamic-container.directive';
-import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {IStaticComponent} from '@interfaces/IComponent';
 import {TripsListComponent} from '@modules/trips/trips-list/trips-list.component';
 import {CreatorComponent} from '@modules/creator/creator.component';
 import {ProfileComponent} from '@modules/profile/profile.component';
 import {SettingsComponent} from '@modules/settings/settings.component';
 import {staticViews} from '@consts/staticViews';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 
 const componentByName = {
   TripsListComponent: TripsListComponent,
@@ -22,9 +22,10 @@ const componentByName = {
 })
 export class StaticLoaderComponent implements OnInit {
   @ViewChild(DynamicContainerDirective) staticHost: DynamicContainerDirective;
-  isStaticComponentsHidden$ = DynamicLoaderService.isDynamicComponentLoaded();
+  isStaticComponentsHidden$ = this.appStateService.isDynamicComponentLoaded$;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,
+              private appStateService: AppStateService) { }
 
   ngOnInit() {
     this.initStaticViews();

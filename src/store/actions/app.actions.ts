@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {IViewState, IStaticViewState} from '@interfaces/IViewState';
+import {IStaticViewState, IDynamicViewState} from '@interfaces/IViewState';
 import {IDynamicComponent} from '@interfaces/IComponent';
 import {Type} from '@angular/core';
 
@@ -22,7 +22,7 @@ export class OpenDynamicView implements Action {
   readonly type = AppActionTypes.OPEN_DYNAMIC_VIEW;
 
   constructor(public component: Type<IDynamicComponent>,
-              public view: IViewState) {
+              public view: IDynamicViewState) {
   }
 }
 

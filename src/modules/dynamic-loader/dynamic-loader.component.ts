@@ -5,6 +5,7 @@ import {DynamicLoaderService} from './dynamic-loader.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicItem} from '@models/dynamic-item';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 
 @Component({
   selector: 'dynamic-loader',
@@ -13,11 +14,12 @@ import {DynamicItem} from '@models/dynamic-item';
 })
 export class DynamicLoaderComponent implements OnInit, OnDestroy {
   @ViewChild(DynamicContainerDirective) dynamicHost: DynamicContainerDirective;
-  isDynamicComponentsLoaded$ = DynamicLoaderService.isDynamicComponentLoaded();
+  isDynamicComponentsLoaded$ = this.appStateService.isDynamicComponentLoaded$;
   private destroy$ = new Subject<void>();
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
-              private dynamicLoaderService: DynamicLoaderService) { }
+              private dynamicLoaderService: DynamicLoaderService,
+              private appStateService: AppStateService) { }
 
   ngOnInit() {
     this.dynamicHost.viewContainerRef.clear();

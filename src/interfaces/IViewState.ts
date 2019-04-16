@@ -1,6 +1,6 @@
 import {IHeaderOptions} from '@interfaces/IHeaderOptions';
 
-export interface IViewState {
+interface IViewState {
   componentName: string;
   inputs: any;
   headerOptions: IHeaderOptions;
@@ -8,4 +8,8 @@ export interface IViewState {
 
 export interface IStaticViewState extends IViewState {
   iconName: string;
+}
+
+export interface IDynamicViewState extends IViewState {
+  componentIndex?: number;
 }

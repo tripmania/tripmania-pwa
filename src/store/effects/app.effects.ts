@@ -7,7 +7,6 @@ import {
   OpenDynamicView,
   OpenStaticView
 } from '@store/actions/app.actions';
-import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 
 @Injectable()
 export class AppEffects {
@@ -15,10 +14,7 @@ export class AppEffects {
   onChangeActiveState$ = this.actions$
     .pipe(
       ofType<OpenStaticView>(AppActionTypes.OPEN_STATIC_VIEW),
-      tap(action => {
-        StaticLoaderService.SetCurrentComponentName(action.view.componentName);
-        this.dynamicLoaderService.removeAllDynamicComponents();
-      })
+      tap(() => this.dynamicLoaderService.removeAllDynamicComponents())
     );
 
   @Effect({dispatch: false})

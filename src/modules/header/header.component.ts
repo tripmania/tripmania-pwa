@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
-import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {filter, map, takeUntil} from 'rxjs/operators';
 
@@ -13,15 +12,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   title$ = this.appStateService.headerTitle$;
   actionName$ = this.appStateService.headerActionName$;
   actionFunc$ = this.appStateService.headerActionFunc$;
+  isBackButtonVisible$ = this.appStateService.isDynamicComponentLoaded$;
 
   private _actionFunc: () => void;
   private destroy$ = new Subject<void>();
 
   constructor(private appStateService: AppStateService) { }
-
-  get isBackButtonVisible$(): Observable<boolean> {
-    return DynamicLoaderService.isDynamicComponentLoaded();
-  }
 
   get isActionButtonVisible$(): Observable<boolean> {
     return combineLatest(

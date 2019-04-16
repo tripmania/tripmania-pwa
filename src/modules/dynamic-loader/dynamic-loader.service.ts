@@ -24,13 +24,6 @@ export class DynamicLoaderService {
     return DynamicLoaderService._currentDynamicComponentIndex > 0;
   }
 
-  static isDynamicComponentLoaded(): Observable<boolean> {
-    return DynamicLoaderService._currentDynamicComponentIndex$.asObservable()
-      .pipe(
-        map(currentIndex => currentIndex > 0)
-      );
-  }
-
   addDynamicComponent(component: Type<IDynamicComponent>, inputs: any) {
     DynamicLoaderService._currentDynamicComponentIndex += 1;
 

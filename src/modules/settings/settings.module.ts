@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SettingsComponent } from './settings.component';
+import {MatButtonModule} from '@angular/material';
 
 @NgModule({
   declarations: [SettingsComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    MatButtonModule
   ],
   exports: [SettingsComponent]
 })
