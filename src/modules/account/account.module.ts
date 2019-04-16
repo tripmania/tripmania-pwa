@@ -31,6 +31,7 @@ import {AppStateService} from '@shared/services/storeFacadeServices/app-state.se
 import {UserService} from '@shared/services/storeFacadeServices/user.service';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 import {FilesService} from '@shared/services/files.service';
+import {clearStates} from '@shared/helpers/clearStates';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -53,7 +54,7 @@ const interceptors = [
     HomeModule,
     SettingsModule,
     CreatorModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {metaReducers: [clearStates]}),
     EffectsModule.forRoot(appEffects),
     HttpClientModule
   ],

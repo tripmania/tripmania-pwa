@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IStaticComponent} from '@interfaces/IComponent';
-import {Router} from '@angular/router';
-import {removeTokens} from '@shared/helpers/tokens.helpers';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
+import {UserService} from '@shared/services/storeFacadeServices/user.service';
 
 @Component({
   selector: 'settings',
@@ -18,16 +17,15 @@ export class SettingsComponent implements OnInit, IStaticComponent {
     return this.appStateService.isStaticComponentHidden(SettingsComponent.ComponentName);
   }
 
-  constructor(private router: Router,
-              private appStateService: AppStateService) {
+  constructor(private appStateService: AppStateService,
+              private userService: UserService) {
   }
 
   ngOnInit() {
   }
 
   logout() {
-    removeTokens();
-    this.router.navigate(['/auth/sign-in'], {replaceUrl: true});
+    this.userService.logout();
   }
 
 }
