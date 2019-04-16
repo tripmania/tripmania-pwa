@@ -4,7 +4,8 @@ import {IUser} from '@interfaces/dto/IUser';
 export enum UserActionsTypes {
   LOAD_USER = '[User Action] Load user',
   SET_USER = '[User Action] Set user',
-  UPDATE_USER = '[User Action] Update user'
+  UPDATE_USER = '[User Action] Update user',
+  LOGOUT = '[User Action] Logout'
 }
 
 export class LoadUser implements Action {
@@ -25,6 +26,11 @@ export class UpdateUser implements Action {
   }
 }
 
+export class Logout implements Action {
+  readonly type = UserActionsTypes.LOGOUT;
+}
+
 export type UserAction = LoadUser
   | SetUser
-  | UpdateUser;
+  | UpdateUser
+  | Logout;

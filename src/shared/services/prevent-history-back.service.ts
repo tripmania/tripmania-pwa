@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
-import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
-import {pairwise, tap} from 'rxjs/operators';
+import {filter, map, pairwise, take, tap} from 'rxjs/operators';
 
 @Injectable()
 export class PreventHistoryBackService {
@@ -15,16 +14,28 @@ export class PreventHistoryBackService {
 
   private listenPopState() {
     window.addEventListener('popstate', () => {
-      if (DynamicLoaderService.isDynamicComponentLoadedSync()) {
-        this.appStateService.goToBackView();
-        history.replaceState(null, null, location.href);
-      }
+      this.appStateService.isDynamicComponentLoaded$
+        .pipe(
+          take(1),
+          filter(isLoaded => isLoaded)
+        )
+        .subscribe(() => {
+          this.appStateService.goToBackView();
+          history.replaceState(null, null, location.href);
+        });
     });
   }
 
   private pushStateOnDynamicOpen() {
-    DynamicLoaderService._currentDynamicComponentIndex$
+    this.appStateService.activeDynamicState$
       .pipe(
+        map(dynamicState => {
+          if (!dynamicState) {
+            return 0;
+          }
+
+          return dynamicState.componentIndex;
+        }),
         pairwise(),
         tap(([first, second]) => {
           if (second > first) {

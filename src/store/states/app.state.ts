@@ -1,10 +1,10 @@
-import {IViewState, IStaticViewState} from '@interfaces/IViewState';
+import {IStaticViewState, IDynamicViewState} from '@interfaces/IViewState';
 import {staticViews} from '@consts/staticViews';
 
 export interface IAppState {
   activeStaticState: IStaticViewState;
-  activeDynamicState: IViewState;
-  dynamicStates: IViewState[];
+  activeDynamicState: IDynamicViewState;
+  dynamicStates: IDynamicViewState[];
 }
 
 export const APP_STATE = 'appState';

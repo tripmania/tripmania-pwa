@@ -41,3 +41,23 @@ export const selectHeaderActionFunc = createSelector(
     return state.activeStaticState.headerOptions.action;
   }
 );
+
+export const selectActiveDynamicState = createSelector(
+  selectAppState,
+  (state: IAppState) => state.activeDynamicState
+);
+
+export const selectActiveStaticState = createSelector(
+  selectAppState,
+  (state: IAppState) => state.activeStaticState
+);
+
+export const selectAllDynamicStates = createSelector(
+  selectAppState,
+  (state: IAppState) => state.dynamicStates
+);
+
+export const selectIsDynamicLoaded = createSelector(
+  selectAppState,
+  (state: IAppState) => !!state.activeDynamicState
+);

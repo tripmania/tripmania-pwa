@@ -3,15 +3,18 @@ import {Store} from '@ngrx/store';
 import {IUser} from '@interfaces/dto/IUser';
 import {HttpClient} from '@angular/common/http';
 import {apiUrls} from '@consts/apiUrls.consts';
-import {SetUser} from '@store/actions/user.actions';
+import {Logout, SetUser} from '@store/actions/user.actions';
 import {selectUser} from '@store/selectors/user.selectors';
+import {Router} from '@angular/router';
+import {removeTokens} from '@shared/helpers/tokens.helpers';
 
 @Injectable()
 export class UserService {
   readonly user$ = this.store$.select<IUser>(selectUser);
 
   constructor(private store$: Store<any>,
-              private http: HttpClient) {
+              private http: HttpClient,
+              private router: Router) {
   }
 
   loadUser() {
@@ -26,5 +29,13 @@ export class UserService {
   // }
 
   updateUser(user: IUser, photoToUpload?: File) {
+  }
+
+  logout() {
+    removeTokens();
+    setTimeout(() => {
+      this.store$.dispatch(new Logout());
+    }, 100);
+    this.router.navigate(['/auth/sign-in'], {replaceUrl: true});
   }
 }

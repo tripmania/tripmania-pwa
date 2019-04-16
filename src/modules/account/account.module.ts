@@ -27,11 +27,11 @@ import {StoreModule} from '@ngrx/store';
 import {reducers, reducersProvider} from '@store/reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {appEffects} from '@store/effects';
-import {DynamicLoaderService} from '@modules/dynamic-loader/dynamic-loader.service';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {UserService} from '@shared/services/storeFacadeServices/user.service';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 import {FilesService} from '@shared/services/files.service';
+import {clearStates} from '@shared/helpers/clearStates';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -54,7 +54,7 @@ const interceptors = [
     HomeModule,
     SettingsModule,
     CreatorModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {metaReducers: [clearStates]}),
     EffectsModule.forRoot(appEffects),
     HttpClientModule
   ],
@@ -71,7 +71,6 @@ const interceptors = [
   providers: [
     ...interceptors,
     PreventHistoryBackService,
-    DynamicLoaderService,
     reducersProvider,
     AppStateService,
     UserService,

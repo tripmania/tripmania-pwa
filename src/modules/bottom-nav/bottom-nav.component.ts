@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {IStaticViewState} from '@interfaces/IViewState';
-import {StaticLoaderService} from '@modules/static-loader/static-loader.service';
 import {staticViews} from '@consts/staticViews';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -24,7 +23,7 @@ export class BottomNavComponent implements OnInit {
   }
 
   isComponentSelected(componentName: string): Observable<boolean> {
-    return StaticLoaderService.isComponentHidden(componentName)
+    return this.appStateService.isStaticComponentHidden(componentName)
       .pipe(
         map(hidden => !hidden)
       );

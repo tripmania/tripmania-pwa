@@ -1,10 +1,11 @@
 import {Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DynamicContainerDirective} from '@shared/directives/dynamic-container/dynamic-container.directive';
 import {IDynamicComponent} from '@interfaces/IComponent';
-import {DynamicLoaderService} from './dynamic-loader.service';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {DynamicItem} from '@models/dynamic-item';
+import {filter, map, pairwise, takeUntil} from 'rxjs/operators';
+import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
+import {dynamicComponentNameToComponent} from '@consts/componentNameToComponent';
+import {IDynamicViewState} from '@interfaces/IViewState';
 
 @Component({
   selector: 'dynamic-loader',
@@ -13,11 +14,11 @@ import {DynamicItem} from '@models/dynamic-item';
 })
 export class DynamicLoaderComponent implements OnInit, OnDestroy {
   @ViewChild(DynamicContainerDirective) dynamicHost: DynamicContainerDirective;
-  isDynamicComponentsLoaded$ = DynamicLoaderService.isDynamicComponentLoaded();
+  isDynamicComponentsLoaded$ = this.appStateService.isDynamicComponentLoaded$;
   private destroy$ = new Subject<void>();
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
-              private dynamicLoaderService: DynamicLoaderService) { }
+              private appStateService: AppStateService) { }
 
   ngOnInit() {
     this.dynamicHost.viewContainerRef.clear();
@@ -32,20 +33,32 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
   }
 
   initAddComponentSubscription() {
-    this.dynamicLoaderService.addComponent$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((item: DynamicItem) => {
-        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(item.component);
+    this.appStateService.allDynamicStates$
+      .pipe(
+        takeUntil(this.destroy$),
+        pairwise(),
+        filter(([firstDynamicStates, secondDynamicStates]) => secondDynamicStates.length > firstDynamicStates.length),
+        map(([firstDynamicStates, secondDynamicStates]) => secondDynamicStates[secondDynamicStates.length - 1])
+      )
+      .subscribe((dynamicState: IDynamicViewState) => {
+        const componentFactory = this.componentFactoryResolver
+          .resolveComponentFactory(dynamicComponentNameToComponent[dynamicState.componentName]);
         const componentRef = this.dynamicHost.viewContainerRef.createComponent(componentFactory);
 
-        (<IDynamicComponent>componentRef.instance).inputs = item.inputs;
-        (<IDynamicComponent>componentRef.instance).componentIndex = item.componentIndex;
+        (<IDynamicComponent>componentRef.instance).inputs = dynamicState.inputs;
+        (<IDynamicComponent>componentRef.instance).componentIndex = dynamicState.componentIndex;
       });
   }
 
   initRemoveComponentSubscription() {
-    this.dynamicLoaderService.removeComponent$
-      .pipe(takeUntil(this.destroy$))
+    this.appStateService.allDynamicStates$
+      .pipe(
+        takeUntil(this.destroy$),
+        pairwise(),
+        filter(([firstDynamicStates, secondDynamicStates]) =>
+          secondDynamicStates.length === firstDynamicStates.length - 1
+          && secondDynamicStates.length !== 0),
+      )
       .subscribe(() => {
         if (this.dynamicHost.viewContainerRef.length) {
           this.dynamicHost.viewContainerRef.remove();
@@ -54,8 +67,11 @@ export class DynamicLoaderComponent implements OnInit, OnDestroy {
   }
 
   initRemoveAllSubscription() {
-    this.dynamicLoaderService.removeAllComponents$
-      .pipe(takeUntil(this.destroy$))
+    this.appStateService.activeDynamicState$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(dynamicState => !dynamicState)
+      )
       .subscribe(() => {
         if (this.dynamicHost.viewContainerRef.length) {
           this.dynamicHost.viewContainerRef.clear();

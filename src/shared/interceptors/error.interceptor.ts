@@ -13,7 +13,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          if (error.status !== 401 && error.status !== 403) {
+          if (error.status !== 401 && error.status !== 500) {
             this.errorService.showErrorMessage(error);
           }
 
