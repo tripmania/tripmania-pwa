@@ -70,16 +70,16 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
           filter(([i, loaded]) => !loaded),
           takeUntil(this.destroy$),
           map(() => {
-            const containerRect = this.container.getBoundingClientRect();
-
-            return containerRect.top === 50;
+            return this.container.getBoundingClientRect().top;
           }),
+          filter(top => top !== 0),
+          map(top => top === 50),
           distinctUntilChanged()
         )
         .subscribe(onTop => {
           if (onTop) {
             this.appStateService.setHeaderTitle('Trips');
-            this.appStateService.setHeaderAction('add', () => this.createTrip, true);
+            this.appStateService.setHeaderAction('add', () => this.createTrip(), true);
             this.container.classList.remove('overflow-hidden');
           } else {
             this.appStateService.setHeaderTitle('Profile');
