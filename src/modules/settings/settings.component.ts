@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IStaticComponent} from '@interfaces/IComponent';
+import {IDynamicComponent} from '@interfaces/IComponent';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {UserService} from '@shared/services/storeFacadeServices/user.service';
 
@@ -10,11 +10,14 @@ import {UserService} from '@shared/services/storeFacadeServices/user.service';
   styleUrls: ['./settings.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsComponent implements OnInit, IStaticComponent {
+export class SettingsComponent implements OnInit, IDynamicComponent {
   static ComponentName = 'SettingsComponent';
 
+  @Input() inputs: any;
+  @Input() componentIndex: number;
+
   get isComponentHidden$(): Observable<boolean> {
-    return this.appStateService.isStaticComponentHidden(SettingsComponent.ComponentName);
+    return this.appStateService.isDynamicComponentHidden(this);
   }
 
   constructor(private appStateService: AppStateService,

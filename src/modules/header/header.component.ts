@@ -1,22 +1,25 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
-import {combineLatest, Observable, Subject} from 'rxjs';
-import {filter, map, takeUntil} from 'rxjs/operators';
+import {combineLatest, fromEvent, Observable, Subject} from 'rxjs';
+import {filter, map, skip, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.less']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  title$ = this.appStateService.headerTitle$;
-  actionName$ = this.appStateService.headerActionName$;
-  actionFunc$ = this.appStateService.headerActionFunc$;
+export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
+  title$ = this.appStateService.headerOptions$.pipe(map(options => options.title));
+  actionName$ = this.appStateService.headerOptions$.pipe(map(options => options.actionName));
+  actionFunc$ = this.appStateService.headerOptions$.pipe(map(options => options.action));
+  isTransparent$ = this.appStateService.headerOptions$.pipe(map(options => options.isTransparent));
+  actionIsIcon$ = this.appStateService.headerOptions$.pipe(map(options => options.isIcon));
+
   isBackButtonVisible$ = this.appStateService.isDynamicComponentLoaded$;
 
   private _actionFunc: () => void;
   private destroy$ = new Subject<void>();
-
+  private color = 'rgba(2, 119, 189, 1)';
   constructor(private appStateService: AppStateService) { }
 
   get isActionButtonVisible$(): Observable<boolean> {
@@ -40,6 +43,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.colorOnTransparent();
+  }
+
   ngOnDestroy() {
     this.destroy$.next();
   }
@@ -52,5 +59,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (!!this._actionFunc) {
       this._actionFunc();
     }
+  }
+
+  private colorOnTransparent() {
+    fromEvent(document.querySelector('.profile-root'), 'scroll')
+      .pipe(
+        takeUntil(this.destroy$),
+        map(event => `rgba(2, 119, 189, ${Math.min(event.srcElement.scrollTop, 50) / 50})`)
+      )
+      .subscribe(color => {
+        (document.querySelector('.header') as HTMLElement).style.backgroundColor = color;
+        this.color = color;
+      });
+
+    this.appStateService.isDynamicComponentLoaded$
+      .pipe(
+        takeUntil(this.destroy$),
+        skip(1)
+      )
+      .subscribe(loaded => {
+        if (loaded) {
+          (document.querySelector('.header') as HTMLElement).style.backgroundColor = 'rgba(2, 119, 189, 1)';
+        } else {
+          (document.querySelector('.header') as HTMLElement).style.backgroundColor = this.color;
+        }
+      });
   }
 }

@@ -73,7 +73,8 @@ export function appReducer(state: IAppState = appStateInitial,
           headerOptions: {
             ...(state.activeDynamicState.headerOptions),
             actionName: action.actionName,
-            action: action.action
+            action: action.action,
+            isIcon: action.isIcon
           }
         };
 
@@ -89,7 +90,38 @@ export function appReducer(state: IAppState = appStateInitial,
         headerOptions: {
           ...(state.activeStaticState.headerOptions),
           actionName: action.actionName,
-          action: action.action
+          action: action.action,
+          isIcon: action.isIcon
+        }
+      };
+
+      return {
+        ...state,
+        activeStaticState: {...newStaticState}
+      };
+
+    case (AppActionTypes.SET_HEADER_TRANSPARENT):
+      if (dynamicStatesLen > 0) {
+        newDynamicState = {
+          ...(state.activeDynamicState),
+          headerOptions: {
+            ...(state.activeDynamicState.headerOptions),
+            isTransparent: true
+          }
+        };
+
+        return {
+          ...state,
+          activeDynamicState: {...newDynamicState},
+          dynamicStates: state.dynamicStates.slice(0, -1).concat({...newDynamicState})
+        };
+      }
+
+      newStaticState = {
+        ...(state.activeStaticState),
+        headerOptions: {
+          ...(state.activeStaticState.headerOptions),
+          isTransparent: true
         }
       };
 

@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header" [class.isTransparent]="isTransparent$ | async">
   <button *ngIf="isBackButtonVisible$ | async"
           class="header-back header-item"
           mat-button mat-icon-button
@@ -8,10 +8,18 @@
   <div class="header-title header-item">
     {{title$ | async}}
   </div>
-  <button *ngIf="isActionButtonVisible$ | async"
+  <button *ngIf="(isActionButtonVisible$ | async) && !(actionIsIcon$ | async)"
           class="header-action"
           mat-button mat-stroked-button
           (click)="onActionClick()">
     {{actionName$ | async}}
+  </button>
+
+  <button *ngIf="(isActionButtonVisible$ | async) && (actionIsIcon$ | async)"
+          class="header-action-icon"
+          mat-button
+          mat-icon-button
+          (click)="onActionClick()">
+    <mat-icon class="header-action-icon__icon">{{actionName$ | async}}</mat-icon>
   </button>
 </div>

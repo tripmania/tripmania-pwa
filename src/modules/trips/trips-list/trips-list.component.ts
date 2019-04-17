@@ -13,10 +13,11 @@ import {ITrip} from '@interfaces/dto/ITrip';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripDetailsComponent} from '@modules/trips/trip-details/trip-details.component';
 import {IStaticComponent} from '@interfaces/IComponent';
-import {fromEvent, Observable, of, Subject} from 'rxjs';
-import {distinctUntilChanged, map, pairwise, takeUntil, tap, throttleTime} from 'rxjs/operators';
+import {combineLatest, fromEvent, interval, Observable, of, Subject} from 'rxjs';
+import {distinctUntilChanged, filter, map, pairwise, switchMap, takeUntil, tap, throttleTime} from 'rxjs/operators';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 import {FilesService} from '@shared/services/files.service';
+import {SettingsComponent} from '@modules/settings/settings.component';
 
 @Component({
   selector: 'trips-list',
@@ -32,6 +33,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
   @Input() hideAddButton = false;
   @Input() userId: number;
   @Input() mustBeVisible: boolean;
+  @Input() containerHeight = '100%';
 
   container: HTMLElement;
   trips$: Observable<ITrip[]> = null;
@@ -59,6 +61,48 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
 
   ngAfterViewInit() {
     this.container = this.containerRef.nativeElement;
+    if (this.mustBeVisible) {
+      combineLatest(
+        interval(300),
+        this.appStateService.isDynamicComponentLoaded$
+      )
+        .pipe(
+          filter(([i, loaded]) => !loaded),
+          takeUntil(this.destroy$),
+          map(() => {
+            const containerRect = this.container.getBoundingClientRect();
+
+            return containerRect.top === 50;
+          }),
+          distinctUntilChanged()
+        )
+        .subscribe(onTop => {
+          if (onTop) {
+            this.appStateService.setHeaderTitle('Trips');
+            this.appStateService.setHeaderAction('add', () => this.createTrip, true);
+            this.container.classList.remove('overflow-hidden');
+          } else {
+            this.appStateService.setHeaderTitle('Profile');
+            this.appStateService.setHeaderAction(
+              'settings',
+              () => {
+                this.appStateService.openDynamicView(
+                  SettingsComponent,
+                  {
+                    componentName: 'SettingsComponent',
+                    inputs: null,
+                    headerOptions: {
+                      title: 'Settings'
+                    }
+                  }
+                );
+              },
+              true
+            );
+            this.container.classList.add('overflow-hidden');
+          }
+        });
+    }
     this.initAddButtonOnScrollBehavior();
   }
 

@@ -24,13 +24,5 @@ export const staticViews: IStaticViewState[] = [
       title: 'Create publication'
     },
     iconName: 'add_circle_outline'
-  },
-  {
-    componentName: 'SettingsComponent',
-    inputs: null,
-    headerOptions: {
-      title: 'Settings'
-    },
-    iconName: 'settings'
   }
 ];

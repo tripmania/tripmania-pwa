@@ -13,7 +13,7 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class TripsService {
   readonly tripsLoaded$ = this.store$.select<boolean>(selectTripsLoaded);
-  private readonly trips$ = this.store$.select<ITrip[]>(selectTrips);
+  readonly trips$ = this.store$.select<ITrip[]>(selectTrips);
 
   constructor(private store$: Store<any>,
               private http: HttpClient) {

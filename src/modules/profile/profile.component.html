@@ -1,29 +1,31 @@
 <div class="profile-root" [class.isHidden]="(isComponentHidden$ | async)">
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  profile works!
-  <br>
-  <trips-list [mustBeVisible]="true" [hideAddButton]="true"></trips-list>
+  <div style="display: block">
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+    profile works!
+    <br>
+  </div>
+  <trips-list [mustBeVisible]="true" [hideAddButton]="true" [containerHeight]="tripsContainerHeight$ | async"></trips-list>
 </div>

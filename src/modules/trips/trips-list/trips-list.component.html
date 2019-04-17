@@ -1,5 +1,18 @@
 <div class="trip-root"
-     [class.isHidden]="(isComponentHidden$ | async)">
+     [class.isHidden]="(isComponentHidden$ | async)"
+     [style.height]="containerHeight">
+  <div class="header">
+    <div class="header-title header-item">
+      Trips
+    </div>
+    <button class="header-action-icon"
+            mat-button
+            mat-icon-button
+            (click)="createTrip()">
+      <mat-icon class="header-action-icon__icon">add</mat-icon>
+    </button>
+  </div>
+
   <cdk-virtual-scroll-viewport #containerRef
                                class="trip-container" itemSize="50"
                                minBufferPx="800"

@@ -9,7 +9,7 @@
   align-items: center;
   width: 100vw;
   height: @header-height;
-  background-color: @main-color;
+  background-color: rgba(2, 119, 189, 0);
   will-change: top;
   color: white;
   padding: 0 @main-margin;
@@ -36,8 +36,23 @@
     right: @main-margin;
   }
 
+  &-action-icon {
+    position: absolute;
+    right: 0;
+    width: 40px;
+    height: 40px;
+
+    &__icon {
+      color: white;
+    }
+  }
+
   &-item {
     margin-right: 5px;
   }
 }
 
+.isTransparent {
+  position: absolute;
+  transition: background-color;
+}
