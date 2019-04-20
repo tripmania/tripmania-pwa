@@ -1,0 +1,16 @@
+<form [formGroup]="form" class="profile-editor-root" [class.isHidden]="isComponentHidden$ | async">
+  <mat-form-field class="item" appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field class="item" appearance="outline">
+    <mat-label>Status</mat-label>
+    <textarea matInput
+              formControlName="status"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="2"
+              #autosize="cdkTextareaAutosize"></textarea>
+  </mat-form-field>
+</form>
+

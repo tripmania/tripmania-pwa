@@ -1,19 +1,23 @@
 <div class="profile-root" [class.isHidden]="(isComponentHidden$ | async)">
   <div class="user-info">
-    <div class="user-info__img" [class.user-info__img-exist]="!!(userPhoto$ | async)">
-      <img *ngIf="!!(userPhoto$ | async)"
+    <div class="user-info__img" [class.user-info__img-exist]="!!userPhoto">
+      <img *ngIf="!!userPhoto"
            class="user-info__img-photo"
-           src="https://pp.userapi.com/c831109/v831109354/1b827f/wtx2T7wbQ38.jpg">
-      <mat-icon class="user-info__img-placeholder"
-                (click)="uploadPhoto.click()"
-                *ngIf="!(userPhoto$ | async)">add_a_photo</mat-icon>
+           [src]="userPhoto | safeHtml">
+      <mat-icon [class.user-info__img-placeholder]="!userPhoto"
+                [class.user-info__img-add]="!!userPhoto"
+                (click)="uploadPhoto.click()">add_a_photo</mat-icon>
       <div class="user-info__img-name">{{userName$ | async}}</div>
     </div>
 
     <input #uploadPhoto type="file" accept="image/*" [hidden]="true" (change)="onPhotoUpload($event)">
 
     <div class="user-info__edit">
-      <button mat-button mat-flat-button class="user-info__edit-btn" color="primary">Edit profile</button>
+      <button mat-button
+              mat-flat-button
+              class="user-info__edit-btn"
+              color="primary"
+              (click)="editProfile()">Edit profile</button>
     </div>
     <div class="user-info__content">
       <div class="user-info__content-item">
@@ -30,7 +34,7 @@
       </div>
       <div class="user-info__content-item">
         <mat-icon class="content-item__icon">place</mat-icon>
-        <div class="content-item__text">17 places</div>
+        <div class="content-item__text">{{userPlaces$ | async}} places</div>
       </div>
     </div>
   </div>

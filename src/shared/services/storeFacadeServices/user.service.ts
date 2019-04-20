@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {IUser} from '@interfaces/dto/IUser';
 import {HttpClient} from '@angular/common/http';
 import {apiUrls} from '@consts/apiUrls.consts';
-import {Logout, SetUser} from '@store/actions/user.actions';
+import {Logout, SetUser, UpdateUserInfo, UpdateUserPhoto} from '@store/actions/user.actions';
 import {selectUser} from '@store/selectors/user.selectors';
 import {Router} from '@angular/router';
 import {removeTokens} from '@shared/helpers/tokens.helpers';
@@ -28,7 +28,12 @@ export class UserService {
   //   // получаю юзера по id
   // }
 
-  updateUser(user: IUser, photoToUpload?: File) {
+  updateUserInfo(name: string, status: string) {
+    this.store$.dispatch(new UpdateUserInfo(name, status));
+  }
+
+  updateUserPhoto(photo: File) {
+    this.store$.dispatch(new UpdateUserPhoto(photo));
   }
 
   logout() {

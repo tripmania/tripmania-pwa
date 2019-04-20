@@ -63,7 +63,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
     this.container = this.containerRef.nativeElement;
     if (this.mustBeVisible) {
       combineLatest(
-        interval(300),
+        interval(100),
         this.appStateService.isDynamicComponentLoaded$
       )
         .pipe(
@@ -101,7 +101,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
             );
             setTimeout(() => {
               this.container.classList.add('overflow-hidden');
-            }, 200);
+            }, 50);
           }
         });
     }

@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IDynamicComponent, IStaticComponent} from '@interfaces/IComponent';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
-import {filter, map} from 'rxjs/operators';
+import {filter, map, switchMap} from 'rxjs/operators';
 import {SettingsComponent} from '@modules/settings/settings.component';
 import {UserService} from '@shared/services/storeFacadeServices/user.service';
+import {ProfileEditorComponent} from '@modules/profile/profile-editor/profile-editor.component';
+import {FilesService} from '@shared/services/files.service';
 
 @Component({
   selector: 'profile',
@@ -15,6 +17,7 @@ import {UserService} from '@shared/services/storeFacadeServices/user.service';
 })
 export class ProfileComponent implements OnInit, IStaticComponent, IDynamicComponent {
   static ComponentName = 'ProfileComponent';
+  userPhoto = '';
   userName$ = this.userService.user$.pipe(
     filter(user => !!user),
     map(user => user.name)
@@ -22,10 +25,6 @@ export class ProfileComponent implements OnInit, IStaticComponent, IDynamicCompo
   userStatus$ = this.userService.user$.pipe(
     filter(user => !!user),
     map(user => user.status)
-  );
-  userPhoto$ = this.userService.user$.pipe(
-    filter(user => !!user),
-    map(user => user.photoUrl)
   );
   userTrips$ = this.tripsService.trips$.pipe(
     map(trips => trips.length)
@@ -40,6 +39,19 @@ export class ProfileComponent implements OnInit, IStaticComponent, IDynamicCompo
         return `${trips.length * 210 + 60}px`;
       })
     );
+  userPlaces$ = this.tripsService.trips$
+    .pipe(
+      filter(trips => !!trips),
+      map(trips => {
+        const unique = new Set();
+
+        trips.forEach(trip => {
+          trip.path.forEach(path => unique.add(path));
+        });
+
+        return unique.size;
+      })
+    );
 
   get isComponentHidden$(): Observable<boolean> {
     return this.appStateService.isStaticComponentHidden(ProfileComponent.ComponentName);
@@ -47,7 +59,9 @@ export class ProfileComponent implements OnInit, IStaticComponent, IDynamicCompo
 
   constructor(private appStateService: AppStateService,
               private tripsService: TripsService,
-              private userService: UserService) {
+              private userService: UserService,
+              private filesService: FilesService,
+              private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -68,9 +82,40 @@ export class ProfileComponent implements OnInit, IStaticComponent, IDynamicCompo
       },
       true
     );
+
+    this.userService.user$
+      .pipe(
+        filter(user => !!user),
+        map(user => user.photoUrl),
+        switchMap(photoUrl => this.filesService.loadFileToUrl(photoUrl))
+      )
+      .subscribe(photo => {
+        this.changeDetector.markForCheck();
+        this.userPhoto = photo;
+      });
   }
 
   onPhotoUpload(event) {
-    console.log('kek: ', event);
+    const photo = event.target.files[0];
+
+    this.changeDetector.markForCheck();
+    this.userPhoto = window.URL.createObjectURL(photo);
+    this.userService.updateUserPhoto(photo);
+  }
+
+  editProfile() {
+    this.appStateService.openDynamicView(
+      ProfileEditorComponent,
+      {
+        componentName: ProfileEditorComponent.ComponentName,
+        inputs: null,
+        headerOptions: {
+          title: 'Edit profile',
+          action: () => {},
+          actionName: 'done',
+          isIcon: true
+        }
+      }
+    );
   }
 }

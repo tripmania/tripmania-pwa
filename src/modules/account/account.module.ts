@@ -32,6 +32,8 @@ import {UserService} from '@shared/services/storeFacadeServices/user.service';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
 import {FilesService} from '@shared/services/files.service';
 import {clearStates} from '@shared/helpers/clearStates';
+import {ProfileEditorModule} from '@modules/profile/profile-editor/profile-editor.module';
+import {ProfileEditorComponent} from '@modules/profile/profile-editor/profile-editor.component';
 
 const interceptors = [
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
@@ -52,6 +54,7 @@ const interceptors = [
     ProfileModule,
     SearchModule,
     HomeModule,
+    ProfileEditorModule,
     SettingsModule,
     CreatorModule,
     StoreModule.forRoot(reducers, {metaReducers: [clearStates]}),
@@ -66,7 +69,8 @@ const interceptors = [
     SearchComponent,
     HomeComponent,
     SettingsComponent,
-    CreatorComponent
+    CreatorComponent,
+    ProfileEditorComponent
   ],
   providers: [
     ...interceptors,

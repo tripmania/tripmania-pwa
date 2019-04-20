@@ -5,7 +5,9 @@ export enum UserActionsTypes {
   LOAD_USER = '[User Action] Load user',
   SET_USER = '[User Action] Set user',
   UPDATE_USER = '[User Action] Update user',
-  LOGOUT = '[User Action] Logout'
+  LOGOUT = '[User Action] Logout',
+  UPDATE_USER_PHOTO = '[User Action] Update user photo',
+  UPDATE_USER_INFO = '[User Action] Update user info'
 }
 
 export class LoadUser implements Action {
@@ -26,11 +28,27 @@ export class UpdateUser implements Action {
   }
 }
 
+export class UpdateUserPhoto implements Action {
+  readonly type = UserActionsTypes.UPDATE_USER_PHOTO;
+
+  constructor(public photoToUpload: File) {
+  }
+}
+
+export class UpdateUserInfo implements Action {
+  readonly type = UserActionsTypes.UPDATE_USER_INFO;
+
+  constructor(public name: string, public status: string) {
+  }
+}
+
 export class Logout implements Action {
   readonly type = UserActionsTypes.LOGOUT;
 }
 
 export type UserAction = LoadUser
   | SetUser
+  | UpdateUserPhoto
+  | UpdateUserInfo
   | UpdateUser
   | Logout;
