@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, OnInit, Type, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ComponentFactoryResolver, OnInit, Type, ViewChild} from '@angular/core';
 import {DynamicContainerDirective} from '@shared/directives/dynamic-container/dynamic-container.directive';
 import {IStaticComponent} from '@interfaces/IComponent';
 import {TripsListComponent} from '@modules/trips/trips-list/trips-list.component';
@@ -18,7 +18,8 @@ const componentByName = {
 @Component({
   selector: 'static-loader',
   templateUrl: './static-loader.component.html',
-  styleUrls: ['./static-loader.component.less']
+  styleUrls: ['./static-loader.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaticLoaderComponent implements OnInit {
   @ViewChild(DynamicContainerDirective) staticHost: DynamicContainerDirective;

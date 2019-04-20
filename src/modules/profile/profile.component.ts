@@ -3,8 +3,9 @@ import {Observable} from 'rxjs';
 import {IDynamicComponent, IStaticComponent} from '@interfaces/IComponent';
 import {AppStateService} from '@shared/services/storeFacadeServices/app-state.service';
 import {TripsService} from '@shared/services/storeFacadeServices/trips.service';
-import {map, tap} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {SettingsComponent} from '@modules/settings/settings.component';
+import {UserService} from '@shared/services/storeFacadeServices/user.service';
 
 @Component({
   selector: 'profile',
@@ -14,26 +15,39 @@ import {SettingsComponent} from '@modules/settings/settings.component';
 })
 export class ProfileComponent implements OnInit, IStaticComponent, IDynamicComponent {
   static ComponentName = 'ProfileComponent';
+  userName$ = this.userService.user$.pipe(
+    filter(user => !!user),
+    map(user => user.name)
+  );
+  userStatus$ = this.userService.user$.pipe(
+    filter(user => !!user),
+    map(user => user.status)
+  );
+  userPhoto$ = this.userService.user$.pipe(
+    filter(user => !!user),
+    map(user => user.photoUrl)
+  );
+  userTrips$ = this.tripsService.trips$.pipe(
+    map(trips => trips.length)
+  );
+  tripsContainerHeight$ = this.tripsService.trips$
+    .pipe(
+      map((trips: any[]) => {
+        if (trips.length === 0) {
+          return '400px';
+        }
+
+        return `${trips.length * 210 + 60}px`;
+      })
+    );
 
   get isComponentHidden$(): Observable<boolean> {
     return this.appStateService.isStaticComponentHidden(ProfileComponent.ComponentName);
   }
 
-  get tripsContainerHeight$(): Observable<string> {
-    return this.tripsService.trips$
-      .pipe(
-        map((trips: any[]) => {
-          if (trips.length === 0) {
-            return '300px';
-          }
-
-          return `${trips.length * 210 + 60}px`;
-        })
-      );
-  }
-
   constructor(private appStateService: AppStateService,
-              private tripsService: TripsService) {
+              private tripsService: TripsService,
+              private userService: UserService) {
   }
 
   ngOnInit() {
@@ -56,4 +70,7 @@ export class ProfileComponent implements OnInit, IStaticComponent, IDynamicCompo
     );
   }
 
+  onPhotoUpload(event) {
+    console.log('kek: ', event);
+  }
 }

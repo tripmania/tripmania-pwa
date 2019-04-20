@@ -176,7 +176,7 @@ export class TripDetailsComponent implements OnInit, OnDestroy, IDynamicComponen
       };
     }
 
-    this.appStateService.setHeaderAction('Save', this.headerAction);
+    this.appStateService.setHeaderAction('done', this.headerAction, true);
   }
 
   private createTripToSave(): ITrip {

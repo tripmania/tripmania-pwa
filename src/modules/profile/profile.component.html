@@ -1,31 +1,38 @@
 <div class="profile-root" [class.isHidden]="(isComponentHidden$ | async)">
-  <div style="display: block">
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
-    profile works!
-    <br>
+  <div class="user-info">
+    <div class="user-info__img" [class.user-info__img-exist]="!!(userPhoto$ | async)">
+      <img *ngIf="!!(userPhoto$ | async)"
+           class="user-info__img-photo"
+           src="https://pp.userapi.com/c831109/v831109354/1b827f/wtx2T7wbQ38.jpg">
+      <mat-icon class="user-info__img-placeholder"
+                (click)="uploadPhoto.click()"
+                *ngIf="!(userPhoto$ | async)">add_a_photo</mat-icon>
+      <div class="user-info__img-name">{{userName$ | async}}</div>
+    </div>
+
+    <input #uploadPhoto type="file" accept="image/*" [hidden]="true" (change)="onPhotoUpload($event)">
+
+    <div class="user-info__edit">
+      <button mat-button mat-flat-button class="user-info__edit-btn" color="primary">Edit profile</button>
+    </div>
+    <div class="user-info__content">
+      <div class="user-info__content-item">
+        <mat-icon class="content-item__icon">message</mat-icon>
+        <div class="content-item__text">{{(userStatus$ | async) || 'Change status'}}</div>
+      </div>
+      <div class="user-info__content-item">
+        <mat-icon class="content-item__icon">email</mat-icon>
+        <div class="content-item__text">avvakhrushin@gmail.com</div>
+      </div>
+      <div class="user-info__content-item">
+        <mat-icon class="content-item__icon">map</mat-icon>
+        <div class="content-item__text">{{userTrips$ | async}} trips</div>
+      </div>
+      <div class="user-info__content-item">
+        <mat-icon class="content-item__icon">place</mat-icon>
+        <div class="content-item__text">17 places</div>
+      </div>
+    </div>
   </div>
   <trips-list [mustBeVisible]="true" [hideAddButton]="true" [containerHeight]="tripsContainerHeight$ | async"></trips-list>
 </div>

@@ -15,11 +15,11 @@
 
   <cdk-virtual-scroll-viewport #containerRef
                                class="trip-container" itemSize="50"
-                               minBufferPx="800"
-                               maxBufferPx="1000">
+                               minBufferPx="1200"
+                               maxBufferPx="1600">
     <ng-container *ngIf="tripsLoaded$ | async">
       <div class="trip-card"
-           *cdkVirtualFor="let trip of trips$ | async; templateCacheSize: 0; trackBy: trackByFn"
+           *cdkVirtualFor="let trip of trips$ | async; templateCacheSize: 200; trackBy: trackByFn"
            [scrollableContainer]="container"
            (deferLoad)="loadImage(trip)"
            (click)="openTrip(trip)">

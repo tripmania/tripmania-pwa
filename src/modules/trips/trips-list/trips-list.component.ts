@@ -73,7 +73,7 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
             return this.container.getBoundingClientRect().top;
           }),
           filter(top => top !== 0),
-          map(top => top === 50),
+          map(top => top - 50 < 0.5),
           distinctUntilChanged()
         )
         .subscribe(onTop => {
@@ -99,7 +99,9 @@ export class TripsListComponent implements OnInit, OnDestroy, AfterViewInit, ISt
               },
               true
             );
-            this.container.classList.add('overflow-hidden');
+            setTimeout(() => {
+              this.container.classList.add('overflow-hidden');
+            }, 200);
           }
         });
     }

@@ -13,7 +13,7 @@ export function tripsReducer(state: ITripsState = tripsStateInitial,
     case TripsActionsTypes.ADD_TRIP:
       return {
         ...state,
-        trips: state.trips.concat(action.trip)
+        trips: [action.trip].concat(state.trips)
       };
     case TripsActionsTypes.UPDATE_TRIP:
       return {

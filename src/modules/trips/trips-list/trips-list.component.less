@@ -7,6 +7,7 @@
   transform: translateZ(0);
   will-change: transform;
   scroll-behavior: smooth;
+  background-color: @block-color;
 }
 
 .trip-container {
@@ -159,10 +160,9 @@
   align-items: center;
   width: 100vw;
   height: @header-height;
-  border-top: 1px solid dimgray;
-  border-bottom: 1px solid dimgray;
+  border-top: 1px solid lightgrey;
   will-change: top;
-  color: dimgray;
+  color: @main-color;
   padding: 0 @main-margin;
   box-sizing: border-box;
 
@@ -178,7 +178,7 @@
     height: 40px;
 
     &__icon {
-      color: dimgray;
+      color: @main-color;
     }
   }
 }
